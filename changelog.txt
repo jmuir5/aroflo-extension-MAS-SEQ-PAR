@@ -187,3 +187,4 @@
 1.0883
 -updated gee's, sandy's calendar numbers
 - took leo out of tech locations due to holidays
+- chganged ozgurs tech locations
