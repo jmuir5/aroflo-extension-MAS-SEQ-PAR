@@ -98,6 +98,9 @@ importBtn.addEventListener("click", async () => {
 });
 
 function importData(techLocations, index23) {
+    console.log("started successfully")
+    console.log(techLocations)
+
     var dict = {
         "Clothes Dryers": "258",
         "Cooktops": "-1",
@@ -111,7 +114,8 @@ function importData(techLocations, index23) {
         "": "271"
     }
     chrome.storage.sync.get("inputtag", async ({ inputtag }) => {
-        console.log(index23)
+        console.log("index = "+index23)
+        console.log(inputtag)
         if (index23 != -1) {
             inputtag = inputtag[index23]
         }
@@ -139,7 +143,9 @@ function importData(techLocations, index23) {
         for (let i = 12; i < inputtag.length; i++) {
             description += "\<p\>" + inputtag[i] + "\<\/p\>"
         }
+        console.log(description)
         document.getElementById("description").value = description
+        await new Promise(r => setTimeout(r, 10));
         document.getElementById("tdRich").click()
         document.getElementById("tdRich").checked = true
 
@@ -157,13 +163,7 @@ function importData(techLocations, index23) {
         document.getElementById("surname").value = inputtag[1]
         document.getElementById("mobile").value = inputtag[4]
         document.getElementById("Email").value = inputtag[2]
-
-        var listOfTechs = []
-        for (const tech in techLocations) {
-            if (techLocations[tech].includes(inputtag[7])) listOfTechs.push(tech)
-        }
-        if (listOfTechs.length == 0) alert("postcode " + postcode + " not assigned to any technicians, may be out of area")
-
+        searchPostcode2(inputtag[7])
         await new Promise(r => setTimeout(r, 300));
         document.getElementById("address2").focus()
         document.getElementById("address2").value = inputtag[5] + " " + inputtag[6]
@@ -277,7 +277,6 @@ function importData(techLocations, index23) {
                 if(node)node.parentElement.classList.add("ui-state-highlight")
                 document.getElementsByClassName("btnAddUsers")[0].click()
                 var listOfTechs = []
-                var flag = 0
                 for (const tech in techLocations) {
                     if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
                 }
@@ -290,19 +289,18 @@ function importData(techLocations, index23) {
                             console.log(":p")
                         }
                         break
-                        
                     }
 
                     console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
-                    if (document.getElementsByClassName("afCard")[4].childNodes[1].textContent == " Record not entered, it may already exist") flag = 1
+                    
                 }
-                console.log(flag)
-                while (document.getElementsByClassName("ui-jqgrid-btable")[flag].children[0].children.length <= 1) {
+                var tables = document.getElementsByClassName("ui-jqgrid-btable")
+
+                while (tables[tables.length-1].children[0].children.length <= 1) {
                     await new Promise(r => setTimeout(r, 10));
                     console.log("waiting for asign to load")
                 }
-                var table = document.getElementsByClassName("ui-jqgrid-btable")[flag].children[0].children
-                
+                var table = tables[tables.length-1].children[0].children
                 if (listOfTechs.length == 1) {
                     console.log("one techs found")
                     for (let i = 0; i < table.length; i++) {
@@ -315,8 +313,6 @@ function importData(techLocations, index23) {
                             break
                         }
                     }
-
-                    
                 } else if (listOfTechs.length > 1) {
                     console.log("multiple techs found")
                     var index = 1
@@ -324,15 +320,11 @@ function importData(techLocations, index23) {
                     console.log(table.length)
                     console.log(listOfTechs.length + 1)
 
-
                     while (table.length > listOfTechs.length + 1) {
-                        console.log("in")
                         if (listOfTechs.includes(table[index].children[4].innerText)) {
                             index += 1
-                            console.log("found")
                         } else {
                             table[index].remove()
-                            console.log("removed")
                         }
                     }
                     //map popup code block
@@ -365,15 +357,14 @@ function importData(techLocations, index23) {
                             console.log("waiting for technician entry")
                         }
                         mapButtons = mapButtons.children[0]
-
                     }
                     //var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children
-                    console.log(mapButtons)
-                    while (mapButtons.length < 13) {
+                    while (mapButtons.length < 16) {
                         await new Promise(r => setTimeout(r, 10));
                         console.log("waiting for technician entry")
                     }
                     document.getElementsByClassName("gm-style-iw-a")[0].remove()
+                    await new Promise(r => setTimeout(r, 100));
                     var minusButton = mapButtons.children[13]
                     for ( i=0; i<4; i++){
                         while(true){
@@ -400,7 +391,6 @@ function importData(techLocations, index23) {
                     for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
                     
                     //end map popup code block
-
                 }
                 else { 
                     console.log("no techs found") 
@@ -438,12 +428,14 @@ function importData(techLocations, index23) {
                     }
                     //var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children
                     console.log(mapButtons)
-                    while (mapButtons.length < 13) {
+                    while (mapButtons.length < 16) {
                         await new Promise(r => setTimeout(r, 10));
                         console.log("waiting for technician entry")
                     }
                     document.getElementsByClassName("gm-style-iw-a")[0].remove()
                     var minusButton = mapButtons.children[13]
+                    console.log(minusButton)
+                    console.log(minusButton.children)
                     for ( i=0; i<4; i++){
                         while(true){
                             try{
@@ -465,7 +457,6 @@ function importData(techLocations, index23) {
                         minusButton = minusButton.children[(i%2)*2]
 
                     }
-
 
                     for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
                     

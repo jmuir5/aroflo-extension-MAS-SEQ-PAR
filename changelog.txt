@@ -189,3 +189,6 @@
 - took leo out of tech locations due to holidays
 - chganged ozgurs tech locations
 - reworked email selection in quick emails
+
+1.0884
+- imporved map display code in import job - improved consistancy, needs work

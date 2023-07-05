@@ -214,7 +214,6 @@ function importData(techLocations, index23) {
                 if(node)node.parentElement.classList.add("ui-state-highlight")
                 document.getElementsByClassName("btnAddUsers")[0].click()
                 var listOfTechs = []
-                var flag = 0
                 for (const tech in techLocations) {
                     if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
                 }
@@ -230,16 +229,15 @@ function importData(techLocations, index23) {
                     }
 
                     console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
-                    if (document.getElementsByClassName("afCard")[4].childNodes[1].textContent == " Record not entered, it may already exist") flag = 1
                     
                 }
-                console.log(flag)
+                var tables = document.getElementsByClassName("ui-jqgrid-btable")
 
-                while (document.getElementsByClassName("ui-jqgrid-btable")[flag].children[0].children.length <= 1) {
+                while (tables[tables.length-1].children[0].children.length <= 1) {
                     await new Promise(r => setTimeout(r, 10));
                     console.log("waiting for asign to load")
                 }
-                var table = document.getElementsByClassName("ui-jqgrid-btable")[flag].children[0].children
+                var table = tables[tables.length-1].children[0].children
                 if (listOfTechs.length == 1) {
                     console.log("one techs found")
                     for (let i = 0; i < table.length; i++) {
@@ -260,13 +258,10 @@ function importData(techLocations, index23) {
                     console.log(listOfTechs.length + 1)
 
                     while (table.length > listOfTechs.length + 1) {
-                        console.log("in")
                         if (listOfTechs.includes(table[index].children[4].innerText)) {
                             index += 1
-                            console.log("found")
                         } else {
                             table[index].remove()
-                            console.log("removed")
                         }
                     }
                     //map popup code block
