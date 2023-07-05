@@ -617,7 +617,33 @@ function sendEmail() {
         document.getElementById("TrackEmailYesNo").click()
         document.getElementById("btnSearchEmailTemplates").click()
 
-        while (!document.getElementById("1015")) {
+        var table =document.getElementsByClassName("ui-jqgrid-btable")
+
+        while(true){
+            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for templates to load")
+            }
+            if(document.getElementById(emailTag)){
+                document.getElementById(emailTag).click()
+                document.getElementById("btnSelect").click()
+                if (emailTag == "1051") return
+                break
+            }
+            else {
+                if(document.getElementById("1051")){
+                    document.getElementById("1051").click()
+                    document.getElementById("btnSelect").click()
+                    return
+                }
+                else document.getElementsByClassName("af-pg-button")[2].click()
+                
+            }
+
+            await new Promise(r => setTimeout(r, 10))
+        }
+        /* old code
+        while (!document.getElementsByClassName("ui-jqgrid-btable").children[0].children[1]) {
             await new Promise(r => setTimeout(r, 10));
             console.log("waiting for templates")
         }
@@ -636,6 +662,7 @@ function sendEmail() {
         document.getElementById("btnSelect").click()
         console.log("done 1")
         if (emailTag == "1051") return
+        */
 
         while (!document.getElementById("ToSubject").value.includes("Service Booking")) {
             await new Promise(r => setTimeout(r, 10));
