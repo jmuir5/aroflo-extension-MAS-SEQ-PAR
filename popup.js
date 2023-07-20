@@ -434,8 +434,6 @@ function importData(techLocations, index23) {
                     }
                     document.getElementsByClassName("gm-style-iw-a")[0].remove()
                     var minusButton = mapButtons.children[13]
-                    console.log(minusButton)
-                    console.log(minusButton.children)
                     for ( i=0; i<4; i++){
                         while(true){
                             try{
