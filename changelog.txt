@@ -191,4 +191,4 @@
 - reworked email selection in quick emails
 
 1.0884
-- imporved map display code in import job - improved consistancy, needs work
+- imporved map display code in import job - improved consistancy, may need further work
