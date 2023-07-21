@@ -22,7 +22,7 @@ window.addEventListener("load", async()=>{
         }
 
         var frame = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
-        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 0, 0, -1]/*(3,3)*/, ["John Sleap", 8, 0, -1], 
+        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 8, 0, -1], 
                     ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 4, 4, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 3, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
                     dart, matt ]
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
