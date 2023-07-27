@@ -101,6 +101,15 @@ function importData(techLocations, index23) {
     console.log("started successfully")
     console.log(techLocations)
 
+    var searchPostcode2 = async function (postcode) {
+        while (techBox.childNodes.length > 0) { techBox.childNodes[0].remove() }
+        var listOfTechs = []
+        for (const tech in techLocations) {
+            if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
+        }
+        if (listOfTechs.length == 0) alert("postcode " + postcode + " not assigned to any technicians, may be out of area")
+    }
+
     var dict = {
         "Clothes Dryers": "258",
         "Cooktops": "-1",

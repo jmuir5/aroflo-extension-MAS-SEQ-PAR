@@ -194,3 +194,6 @@
 - imporved map display code in import job - improved consistancy, may need further work
 - reverted changes in eds abscence
 - reverted changes due to leos abscence
+
+1.0885
+- import email calendar screen bugfix
