@@ -14,17 +14,14 @@ window.addEventListener("load", async()=>{
             //console.log("nothing to do")
         }
         var day =document.getElementsByTagName("h2")[4].childNodes[0].textContent.split(",")[0]//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973")[0].parentElement.childNodes[0].textContent.split(",")[0]        
-        var dart = ["Dart Carvalho", 0, 0, -1]//2,2
-        var matt = ["Matt Gillard", 4, 4, -1]
         if(day == "Friday"){
-            dart = ["Dart Carvalho", 0, 0, -1]//3,3
-            matt = ["Matt Gillard", 0, 0, -1]
+           
         }
 
         var frame = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
         var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 8, 0, -1], 
                     ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 4, 4, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 3, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
-                    dart, matt ]
+                    ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 4, 4, -1] ]
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
 
         var ccol = 0
