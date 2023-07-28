@@ -197,3 +197,6 @@
 
 1.0885
 - import email calendar screen bugfix
+
+1.0886
+added sms to client and sms+email to client, renamed quick email to quick contact

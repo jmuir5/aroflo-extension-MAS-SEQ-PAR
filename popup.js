@@ -4,7 +4,7 @@ import techLocations from "./techTable.js"
 let importBtn = document.getElementById("importBtn")
 var emailSmsBtn = document.getElementById("emailSmsBtn")
 var emailBtn = document.getElementById("emailBtn")
-var smsBtn = document.getElementById("smsBtn")
+var smsBtn = document.getElementById("smsClientBtn")
 var smsBtn1 = document.getElementById("smsBtn1")
 var smsBtn2 = document.getElementById("smsBtn2")
 var invoiceBtn = document.getElementById("invoiceBtn")
@@ -527,11 +527,65 @@ smsBtn.addEventListener("click", function(){emailSmsPasser(2)})
 
 //export default importData;
 
-function ContactClient(flag) {
+async function ContactClient(flag) {
     if (flag==0||flag==2){
+        var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
+        var branchNumber = ""
+        switch(branch){
+            case "Master Appliace Service":
+                branchNumber = "(02) 8445 4000"
+                break
+            case "Premium Appliance Repair": 
+                branchNumber = "1300 614 730"
+                break
+            case "SEQ Appliance Repair": 
+                branchNumber = "(07) 3096 0580"
+                break
+            default: "error"
+        }
+
+        document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[0].click()
+        while (!document.getElementById("btnEmailTemplate")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for sms template button")
+        }
+        document.getElementById("btnEmailTemplate").click()
         
+        var table =document.getElementsByClassName("ui-jqgrid-btable")
+        while(true){
+            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for templates to load")
+            }
+            if(document.getElementById("1232")){
+                document.getElementById("1232").click()
+                document.getElementById("btnSelect").click()
+                break
+            }
+            else {
+                if(document.getElementById("1233")){
+                    document.getElementById("1233").click()
+                    document.getElementById("btnSelect").click()
+                    return
+                }
+                else document.getElementsByClassName("af-pg-button")[2].click()
+                
+            }
+
+            await new Promise(r => setTimeout(r, 10))
+        }
+        while (document.getElementById("message_value").value.length<100) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for sms template to load")
+        }
+        document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch*', branch)
+        document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch number*', branchNumber)
+
+        document.getElementById("btnSendSMSmessage").click()
+        document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
+
     }
-    if (flag==0||flag==1){
+    if (flag==0||flag==1){//email code
         chrome.storage.sync.get("emailTag", async ({ emailTag }) => {
             var time = document.getElementsByClassName("schedule-item-date")[0].innerText
             var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
