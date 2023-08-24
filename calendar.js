@@ -1,10 +1,11 @@
 //calendar quick info 
 window.addEventListener("load", async()=>{
-    //var dict = [["Peter Traish (8)", 4, 4, -1], ["Leo Oh (8)", 4, 4, -1], ["Sandy Adhikari", 3, 3, -1], ["Eduardo Chiovato (6)", 3, 3, -1], ["John Sleap (8)", 8, 0, -1], ["Otavio Palharini (6)", 3, 3, -1],
-      //              ["Gee Cruz (6)", 4, 2, -1], ["Leonardo Freitas (6)", 4, 2, -1], ["Tulio Pereira", 3, 3, -1], ["Ozgur Aytemur (6)", 3, 3, -1], ["Phill Poustie (6)", 3, 3, -1], 
-        //            ["Dart Carvalho (6)", 2, 2, -1], ["Matt Gillard (6)", 3, 3, -1] ]
     var jobs = []
     var columns = []
+
+    var currentDay = ""
+    var baseDayString = ""
+    var currentTotal = 0
     
     
     while(true){
@@ -154,19 +155,21 @@ window.addEventListener("load", async()=>{
                     container.appendChild(totalText)
 
                     if(!frame[i][3]==0)bigBox.appendChild(container)
-                    //console.log("technician: "+dict[j][0])
-                    //console.log(frame[i][4])
                     
                     break
                 }
             }
-
-
-            //techlist[i+techlist.length/2].childNodes[1].childNodes[3].innerText = "testing\ntesting\ntesting\ntesting\n"
-            //techlist[i+techlist.length/2].setAttribute("height", 100)
         }
-        //console.log("finished")
 
+        if(day!=currentDay){
+            currentDay = day
+            baseDayString = document.getElementsByTagName("h2")[4].childNodes[0].textContent
+            currentTotal = 0
+        } 
+        if (currentTotal!= totalJobs){
+            document.getElementsByTagName("h2")[4].childNodes[0].textContent =baseDayString+", Total: "+totalJobs.toString()
+            currentTotal = totalJobs
+        }
         
         
     }

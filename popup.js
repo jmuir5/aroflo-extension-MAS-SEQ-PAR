@@ -532,7 +532,7 @@ async function ContactClient(flag) {
         var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
         var branchNumber = ""
         switch(branch){
-            case "Master Appliace Service":
+            case "Master Appliance Service":
                 branchNumber = "(02) 8445 4000"
                 break
             case "Premium Appliance Repair": 
@@ -597,11 +597,6 @@ async function ContactClient(flag) {
             else if (time.includes("12:30 PM")) time = "PM"
             else time = "Any"
             emailTag = "1051"
-
-            //console.log(branch)
-            //console.log(time)
-            //console.log(source)
-
 
 
             switch (true) {
@@ -701,34 +696,18 @@ async function ContactClient(flag) {
 
                 await new Promise(r => setTimeout(r, 10))
             }
-            /* old code
-            while (!document.getElementsByClassName("ui-jqgrid-btable").children[0].children[1]) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for templates")
-            }
-            
-            
-            //document.getElementsByClassName("af-pg-selbox afTextfield__input afTextfield__input--small")[0].va
-            
-            
-            document.getElementsByClassName("af-pg-button")[3].click()
-            console.log("passed 1")
-            while (!document.getElementById(emailTag)) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for template: " + emailTag)
-            }
-            document.getElementById(emailTag).click()
-            document.getElementById("btnSelect").click()
-            console.log("done 1")
-            if (emailTag == "1051") return
-            */
 
             while (!document.getElementById("ToSubject").value.includes("Service Booking")) {
                 await new Promise(r => setTimeout(r, 10));
                 console.log("waiting for load")
             }
+
             await new Promise(r => setTimeout(r, 500));
-            document.getElementById("sendEmail_button").click()
+            if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
+            if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
+            if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
+            if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
+            await new Promise(r => setTimeout(r, 10));
             console.log("done2")
             while (!document.getElementsByClassName("emlSendResult")[0]) {
                 await new Promise(r => setTimeout(r, 10));
@@ -744,15 +723,8 @@ async function ContactClient(flag) {
                 }
                 else window.location = "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK"
             })
-
-
-
-
-
-
         });
     }
-
 }
 
 

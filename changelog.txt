@@ -199,4 +199,8 @@
 - import email calendar screen bugfix
 
 1.0886
-added sms to client and sms+email to client, renamed quick email to quick contact
+-added sms to client and sms+email to client, renamed quick email to quick contact
+
+1.0887
+- added day total jobs text
+- did sometheing else, promptly forgot
