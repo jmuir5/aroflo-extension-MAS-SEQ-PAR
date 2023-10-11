@@ -66,26 +66,27 @@ window.addEventListener('load', async() => {
                     }
                     selectedTechs[i].children[4].children[0].value=status
                 }
-
-                document.getElementById("btnAssignResources").click()
-                while(document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children.length<=1){
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for asign to load")
-                }
-                var assignList = document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children
-                var counter = 0
-                console.log(assignList.length)
-                
-                
-                
-                for(let i = 0; i < assignList.length; i++){
-                    if(counter==techlist.length)break
-                    if(techlist.includes(assignList[i].children[3].innerText)){
-                        assignList[i].click()
-                        counter+=1
+                if(document.getElementById("btnAssignResources")){
+                    document.getElementById("btnAssignResources").click()
+                    while(document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children.length<=1){
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for asign to load")
                     }
-                }
-                document.getElementById("btnSelect").click()
+                    var assignList = document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children
+                    var counter = 0
+                    console.log(assignList.length)
+                    
+                    
+                    
+                    for(let i = 0; i < assignList.length; i++){
+                        if(counter==techlist.length)break
+                        if(techlist.includes(assignList[i].children[3].innerText)){
+                            assignList[i].click()
+                            counter+=1
+                        }
+                    }
+                    document.getElementById("btnSelect").click()
+                }   
             })
         
             pmButton.addEventListener("click", async function(event){
@@ -117,23 +118,24 @@ window.addEventListener('load', async() => {
                     }
                     selectedTechs[i].children[4].children[0].value=status
                 }
-
-                document.getElementById("btnAssignResources").click()
-                while(document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children.length<=1){
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for asign to load")
-                }
-                var assignList = document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children
-                var closeButton = document.getElementsByClassName("ui-jqgrid-btable")[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].children[0].children[0]
-
-                var counter = 0
-                for(let i = 0; i < assignList.length; i++){
-                    if(counter==techlist.length)break
-                    if(techlist.includes(assignList[i].children[3].innerText)){
-                        assignList[i].click()
-                        counter+=1
+                if(document.getElementById("btnAssignResources")){
+                    document.getElementById("btnAssignResources").click()
+                    while(document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children.length<=1){
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for asign to load")
                     }
-                }closeButton.click()
+                    var assignList = document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children
+                    var closeButton = document.getElementsByClassName("ui-jqgrid-btable")[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].children[0].children[0]
+
+                    var counter = 0
+                    for(let i = 0; i < assignList.length; i++){
+                        if(counter==techlist.length)break
+                        if(techlist.includes(assignList[i].children[3].innerText)){
+                            assignList[i].click()
+                            counter+=1
+                        }
+                    }closeButton.click()
+                }   
             })
         
             anyButton.addEventListener("click", async function(event){
@@ -166,22 +168,24 @@ window.addEventListener('load', async() => {
                     selectedTechs[i].children[4].children[0].value=status
                 }
 
-                document.getElementById("btnAssignResources").click()
-                while(document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children.length<=1){
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for asign to load")
-                }
-                var assignList = document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children
-                //var closeButton = document.getElementsByClassName("ui-jqgrid-btable")[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].children[0].children[0]
-                var counter = 0
-                for(let i = 0; i < assignList.length; i++){
-                    if(counter==techlist.length)break
-                    if(techlist.includes(assignList[i].children[3].innerText)){
-                        assignList[i].click()
-                        counter+=1
+                if(document.getElementById("btnAssignResources")){
+                    document.getElementById("btnAssignResources").click()
+                    while(document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children.length<=1){
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for asign to load")
                     }
+                    var assignList = document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children
+                    //var closeButton = document.getElementsByClassName("ui-jqgrid-btable")[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].children[0].children[0]
+                    var counter = 0
+                    for(let i = 0; i < assignList.length; i++){
+                        if(counter==techlist.length)break
+                        if(techlist.includes(assignList[i].children[3].innerText)){
+                            assignList[i].click()
+                            counter+=1
+                        }
+                    }
+                    document.getElementById("btnSelect").click()
                 }
-                document.getElementById("btnSelect").click()
                 //closeButton.click()
             })
             

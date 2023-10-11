@@ -204,3 +204,20 @@
 1.0887
 - added day total jobs text
 - did sometheing else, promptly forgot
+- changed tech daily jobs
+
+1.0888
+- improved quick cancel consistancy
+- changed tech daily jobs (matt 8->6)
+
+1.0889
+- changed bulk import to do one job at a time
+
+1.0900
+- added all parts recieved button to jobs
+
+1.0900
+- made all parts recieved button more robust - selects technicians first availability in 2+ days, and 
+    selects the correct time if only one is available
+- cleaned up some code in popup relating to highlighting the requested day
+- changed BAAG so that information is stored in the class

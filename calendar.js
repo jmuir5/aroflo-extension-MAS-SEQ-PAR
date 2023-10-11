@@ -21,8 +21,8 @@ window.addEventListener("load", async()=>{
 
         var frame = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
         var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 8, 0, -1], 
-                    ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 4, 4, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 3, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
-                    ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 4, 4, -1] ]
+                    ["Otavio Palharini", 3, 3, -1], ["Gee Cruz", 3, 3, -1], ["Tulio Pereira", 3, 3, -1], ["Vini Moura", 3, 3, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
+                    ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 3, 3, -1] ]
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
 
         var ccol = 0
@@ -106,9 +106,13 @@ window.addEventListener("load", async()=>{
         
         
         var bigBox = jobs[0].parentNode.parentNode
+        var totalJobs = 0
         for (let i = 0; i < techlist.length/2; i++) {
             for (let j = 0; j < dict.length; j++) {
                 if(i==dict[j][3]){
+
+                    totalJobs += frame[i][0]
+
                     var container=document.createElement('div')
                     var amText = document.createElement("p")
                     var pmText = document.createElement("p")
@@ -148,6 +152,8 @@ window.addEventListener("load", async()=>{
                     container.style.left = frame[i][4]+"px"
 
                     container.id = "aagBox"
+                    container.classList.add("aagBox")
+                    container.classList.add(dict[j][0].replace(" ","."))
 
                     container.appendChild(amText)
                     container.appendChild(pmText)

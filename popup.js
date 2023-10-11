@@ -270,8 +270,6 @@ function importData(techLocations, index23) {
         }
         else {
             if (!document.getElementById("boxUseCalendarViews")) {
-                var node = document.querySelector('[title="'+inputtag[10]+'"]');
-                if(node)node.classList.add("ui-state-highlight")
                 switch(inputtag[11]){
                     case "AM":
                         document.getElementById("amButton").style.background='#FFFF00'
@@ -1088,14 +1086,14 @@ bulkImportBtn.addEventListener("click", async () => {
     }
     chrome.storage.sync.set({ inputtag: bulkInputs });
     chrome.storage.sync.set({ bulkTag: bulkInputs.length - 1 });
-    chrome.storage.sync.set({ createTag: bulkInputs.length - 1 });
+    //chrome.storage.sync.set({ createTag: bulkInputs.length - 1 });
     alert(outputText)
 
-    
-    for (const entries in bulkInputs) {
-        window.open("https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK", '_blank')
+    window.open("https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK", '_blank')
 
-    }
+    //for (const entries in bulkInputs) {
+        
+    //}
 
 });
 

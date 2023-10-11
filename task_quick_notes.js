@@ -24,6 +24,13 @@ window.addEventListener('load', async() => {
     custReschedButton.type="button"
     custReschedButton.id="custReschedButton"
     custReschedButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
+
+    var allPtsRcvdButton = document.createElement('BUTTON')
+    allPtsRcvdButton.appendChild(document.createTextNode("Parts recieved"))
+    allPtsRcvdButton.type="button"
+    allPtsRcvdButton.id="allPtsRcvdButton"
+    allPtsRcvdButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
+    
     
     //confContainerDiv.after(custContainerDiv)
     noteBar.children[0].after(custContainerDiv)
@@ -31,6 +38,7 @@ window.addEventListener('load', async() => {
     custContainerDiv.appendChild(custEtaButton)
     custContainerDiv.appendChild(custCompButton)
     custContainerDiv.appendChild(custReschedButton)
+    custContainerDiv.appendChild(allPtsRcvdButton)
     
     const custText = "customer called "
 
@@ -41,11 +49,24 @@ window.addEventListener('load', async() => {
         //document.getElementById("btnAddNote").click()
     }
 
+    var partsFunction = function(){
+        document.getElementById("btnAddNoteText").click()
+        document.getElementById("thisnote").value = "Parts recieved, sent to tech"
+        document.getElementsByClassName("afDataTable__cell--center af-warn")[0].children[0].children[0].click()
+        document.getElementsByClassName("afDataTable__cell--center af-warn")[3].children[0].children[0].click()
+        document.getElementById("selectedTaskSubstatus").value = 352
+        var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
+        chrome.storage.sync.set({ PartsTag: currentTech})
+        window.open(document.getElementsByClassName("afBtn afBtn--small af-info all-schedules")[0].href)
+        //document.getElementById("update_btn").click()
+    }
+
     custEtaButton.addEventListener("click", function(){custFunction("for part ETA, email sent to supplier/forwarded to spare parts/forwarded to technician/cust was informed of"+
         " expected delivery date")})
     custCompButton.addEventListener("click", function(){custFunction("to complain, customer had valid problems/rambled incoherently/had their expectations adjusted/should be "+
         "relegated to the mental asylum")})
     custReschedButton.addEventListener("click", function(){custFunction("to reschedule from XXX to XXX. Reason: XXX")})
+    allPtsRcvdButton.addEventListener("click", function(){partsFunction()})
 
     //cancellation buttons
     const cancelSpace = document.getElementsByClassName("pageViewTask__signature")[0]
@@ -161,5 +182,6 @@ window.addEventListener('load', async() => {
         document.getElementById("btnSelect").click()
         document.getElementsByName("update_btn")[0].click()
     })
+
     
 })
