@@ -216,8 +216,17 @@
 1.0900
 - added all parts recieved button to jobs
 
-1.0900
+1.0901
 - made all parts recieved button more robust - selects technicians first availability in 2+ days, and 
     selects the correct time if only one is available
 - cleaned up some code in popup relating to highlighting the requested day
 - changed BAAG so that information is stored in the class
+
+1.0902
+- parts recieved - ask user if a date has been selected before saving jobsheet changes
+
+1.0903
+-  parts recieved - fixed bugs, typo
+
+1.0904
+-more minor bug fixes

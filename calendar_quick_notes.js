@@ -136,10 +136,10 @@ async function getFirstAvailable(technician){
         for(let i=0;i<boxes.length;i++){
             console.log(boxes[i].children[3].style.color)
             if(boxes[i].classList.contains(technician.replace(" ","."))){
-                if(boxes[i].children[3].style.color==blue){
+                if(boxes[i].children[3].style.color=="blue"){
                     var indicator = 0
-                    if(boxes[i].children[0].style.color==blue)indicator+=1
-                    if(boxes[i].children[0].style.color==blue)indicator+=2
+                    if(boxes[i].children[0].style.color=="blue")indicator+=1
+                    if(boxes[i].children[1].style.color=="blue")indicator+=2
                     switch(indicator){
                         case 1:
                             indicator = "AM"

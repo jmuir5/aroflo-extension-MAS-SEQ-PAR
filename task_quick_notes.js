@@ -51,13 +51,17 @@ window.addEventListener('load', async() => {
 
     var partsFunction = function(){
         document.getElementById("btnAddNoteText").click()
-        document.getElementById("thisnote").value = "Parts recieved, sent to tech"
+        document.getElementById("thisnote").value = "Parts received, sent to tech"
         document.getElementsByClassName("afDataTable__cell--center af-warn")[0].children[0].children[0].click()
         document.getElementsByClassName("afDataTable__cell--center af-warn")[3].children[0].children[0].click()
         document.getElementById("selectedTaskSubstatus").value = 352
         var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
         chrome.storage.sync.set({ PartsTag: currentTech})
+        
+        window.addEventListener("focus", schedConfirm)
+
         window.open(document.getElementsByClassName("afBtn afBtn--small af-info all-schedules")[0].href)
+          
         //document.getElementById("update_btn").click()
     }
 
@@ -185,3 +189,11 @@ window.addEventListener('load', async() => {
 
     
 })
+
+function schedConfirm(){
+    window.removeEventListener("focus", schedConfirm)
+    if (confirm("Was a date selected?") == true) {
+        document.getElementById("update_btn").click()
+    } else {    
+    }
+}

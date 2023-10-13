@@ -760,7 +760,7 @@ smsBtn2.addEventListener("click", async () => {
 function sendTexts() {
     chrome.storage.sync.get("smsTag", async ({ smsTag }) => {
         var when = "tommorow"
-        if (smsTag == 1) when = "Monday"
+        if (document.getElementsByTagName("h2")[4].innerText.split(",")[0] == "Monday") when = "Monday"
         var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
         var branchNumber = 0
         var jobNumbers = []
