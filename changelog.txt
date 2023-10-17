@@ -230,3 +230,6 @@
 
 1.0904
 -more minor bug fixes
+
+1.0905
+-removed second text message button, mate text message button work out if its monday programatically

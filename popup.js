@@ -6,7 +6,6 @@ var emailSmsBtn = document.getElementById("emailSmsBtn")
 var emailBtn = document.getElementById("emailBtn")
 var smsBtn = document.getElementById("smsClientBtn")
 var smsBtn1 = document.getElementById("smsBtn1")
-var smsBtn2 = document.getElementById("smsBtn2")
 var invoiceBtn = document.getElementById("invoiceBtn")
 var invoiceBtn2 = document.getElementById("invoiceBtn2")
 var invoiceBtn3 = document.getElementById("invoiceBtn3")
@@ -727,9 +726,6 @@ async function ContactClient(flag) {
 
 
 smsBtn1.addEventListener("click", async () => {
-    var smsTag = 0
-    chrome.storage.sync.set({ smsTag: smsTag });
-
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     window.close()
@@ -737,137 +733,118 @@ smsBtn1.addEventListener("click", async () => {
         target: { tabId: tab.id },
         function: sendTexts,
     });
-
-
-});
-
-smsBtn2.addEventListener("click", async () => {
-    var smsTag = 1
-    chrome.storage.sync.set({ smsTag: smsTag });
-
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    window.close()
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: sendTexts,
-    });
-
-
 });
 
 
-function sendTexts() {
-    chrome.storage.sync.get("smsTag", async ({ smsTag }) => {
-        var when = "tommorow"
-        if (document.getElementsByTagName("h2")[4].innerText.split(",")[0] == "Monday") when = "Monday"
-        var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
-        var branchNumber = 0
-        var jobNumbers = []
-        var names = []
-        var phoneNumbers = []
-        var problems = []
-        var status = []
-        var index = 0
-        var jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
-        if (branch.includes("Master")) branchNumber = "8445 4000"
-        if (branch.includes("Premium")) branchNumber = "1300 614 730"
-        if (branch.includes("SEQ")) branchNumber = "3096 0580"
-        console.log(jobs)
-        for (let i = 0; i < jobs.length; i++) {
-            var temp = jobs[i].title.split(" ")
-            jobNumbers[index] = temp[0]
-            phoneNumbers[index] = temp[1]
-            names[index] = temp[2] + " " + temp[3]
-            index += 1
-            if (jobs[i].title.includes("unconfirmed")) {
-                status[index] = 0
-            }
-            else status[index] = 1
+
+async function sendTexts() {
+    var when = "tommorow"
+    if (document.getElementsByTagName("h2")[4].innerText.split(",")[0] == "Monday") when = "Monday"
+    var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
+    var branchNumber = 0
+    var jobNumbers = []
+    var names = []
+    var phoneNumbers = []
+    var problems = []
+    var status = []
+    var index = 0
+    var jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
+    if (branch.includes("Master")) branchNumber = "8445 4000"
+    if (branch.includes("Premium")) branchNumber = "1300 614 730"
+    if (branch.includes("SEQ")) branchNumber = "3096 0580"
+    console.log(jobs)
+    for (let i = 0; i < jobs.length; i++) {
+        var temp = jobs[i].title.split(" ")
+        jobNumbers[index] = temp[0]
+        phoneNumbers[index] = temp[1]
+        names[index] = temp[2] + " " + temp[3]
+        index += 1
+        if (jobs[i].title.includes("unconfirmed")) {
+            status[index] = 0
         }
+        else status[index] = 1
+    }
 
-        console.log(jobNumbers)
-        console.log(names)
-        console.log(phoneNumbers)
+    console.log(jobNumbers)
+    console.log(names)
+    console.log(phoneNumbers)
 
-        for (let i = 0; i < phoneNumbers.length; i++) {
-            if (phoneNumbers[i].startsWith("+61")) {
-                phoneNumbers[i] = phoneNumbers[i].replace('+61', '0');
-            }
-            if (phoneNumbers[i].startsWith("61")) {
-                phoneNumbers[i] = phoneNumbers[i].replace('61', '0');
-            }
-            while (phoneNumbers[i].includes(" ")) {
-                phoneNumbers[i] = phoneNumbers[i].replace(' ', '');
-            }
-            while (phoneNumbers[i].includes(",")) {
-                phoneNumbers[i] = phoneNumbers[i].replace(',', '');
-            }
-            if (!/^[0-9]+$/.test(phoneNumbers[i])) {
-                console.log(jobNumbers[i] + "failed: NaN")
-                console.log(phoneNumbers[i])
-                problems.push(jobNumbers[i])
-                names.splice(i, 1)
-                jobNumbers.splice(i, 1)
-                phoneNumbers.splice(i, 1)
-                i -= 1
-                console.log()
-                continue
-
-            }
-            if (phoneNumbers[i].length != 10) {
-                console.log(jobNumbers[i] + "failed: wrong length")
-                problems.push(jobNumbers[i])
-                names.splice(i, 1)
-                jobNumbers.splice(i, 1)
-                phoneNumbers.splice(i, 1)
-                i -= 1
-                continue
-            }
+    for (let i = 0; i < phoneNumbers.length; i++) {
+        if (phoneNumbers[i].startsWith("+61")) {
+            phoneNumbers[i] = phoneNumbers[i].replace('+61', '0');
+        }
+        if (phoneNumbers[i].startsWith("61")) {
+            phoneNumbers[i] = phoneNumbers[i].replace('61', '0');
+        }
+        while (phoneNumbers[i].includes(" ")) {
+            phoneNumbers[i] = phoneNumbers[i].replace(' ', '');
+        }
+        while (phoneNumbers[i].includes(",")) {
+            phoneNumbers[i] = phoneNumbers[i].replace(',', '');
+        }
+        if (!/^[0-9]+$/.test(phoneNumbers[i])) {
+            console.log(jobNumbers[i] + "failed: NaN")
+            console.log(phoneNumbers[i])
+            problems.push(jobNumbers[i])
+            names.splice(i, 1)
+            jobNumbers.splice(i, 1)
+            phoneNumbers.splice(i, 1)
+            i -= 1
+            console.log()
+            continue
 
         }
+        if (phoneNumbers[i].length != 10) {
+            console.log(jobNumbers[i] + "failed: wrong length")
+            problems.push(jobNumbers[i])
+            names.splice(i, 1)
+            jobNumbers.splice(i, 1)
+            phoneNumbers.splice(i, 1)
+            i -= 1
+            continue
+        }
 
-        var container = document.createElement('div')
-        var classList = container.classList
-        classList.add("afBtn", "afBtn__fill", "af-primary", "afBtn--small", "btnSendSMS", "qbNoClose", "handCursor")
-        jobs[0].parentElement.parentElement.appendChild(container)
-        container.click()
+    }
 
-        while (!document.getElementById("to_value")) {
+    var container = document.createElement('div')
+    var classList = container.classList
+    classList.add("afBtn", "afBtn__fill", "af-primary", "afBtn--small", "btnSendSMS", "qbNoClose", "handCursor")
+    jobs[0].parentElement.parentElement.appendChild(container)
+    container.click()
+
+    while (!document.getElementById("to_value")) {
+        await new Promise(r => setTimeout(r, 10));
+        console.log("waiting for message to send")
+    }
+    var phoneEntry = document.getElementById("to_value")
+    var textEntry = document.getElementById("message_value")
+    var sendBtn = document.getElementById("btnSendSMSmessage")
+
+    for (let i = 0; i < jobNumbers.length; i++) {
+        phoneEntry.value = phoneNumbers[i]
+        //textEntry.value = "To " + names[i]+"\n"+branch+" JN "+jobNumbers[i]+ ". Pls call "+branchNumber+" to CONFIRM or CANCEL the time of your booking for "+when+". Do not reply via sms, thanks."
+        textEntry.value = "To " + names[i] + ",\nThis is your reminder that you have a " + branch + " technician attending " + when + ". \nPls call " + branchNumber + " with ref: " + jobNumbers[i] + " to cancel if the service is no longer required. \nDo not reply via sms, thanks."
+        sendBtn.click()
+        while (!document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0]) {
             await new Promise(r => setTimeout(r, 10));
             console.log("waiting for message to send")
         }
-        var phoneEntry = document.getElementById("to_value")
-        var textEntry = document.getElementById("message_value")
-        var sendBtn = document.getElementById("btnSendSMSmessage")
+        document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0].click()
+    }
+    //container.parentElement.remove(container)
 
-        for (let i = 0; i < jobNumbers.length; i++) {
-            phoneEntry.value = phoneNumbers[i]
-            //textEntry.value = "To " + names[i]+"\n"+branch+" JN "+jobNumbers[i]+ ". Pls call "+branchNumber+" to CONFIRM or CANCEL the time of your booking for "+when+". Do not reply via sms, thanks."
-            textEntry.value = "To " + names[i] + ",\nThis is your reminder that you have a " + branch + " technician attending " + when + ". \nPls call " + branchNumber + " with ref: " + jobNumbers[i] + " to cancel if the service is no longer required. \nDo not reply via sms, thanks."
-            sendBtn.click()
-            while (!document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0]) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for message to send")
-            }
-            document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0].click()
-        }
-        //container.parentElement.remove(container)
+    if (problems.length != 0) {
+        var constructedMessage = "the following messages failed to send:\n"
+        for (let i = 0; i < problems.length; i++) constructedMessage += problems[i] + "\n"
+        constructedMessage += "all other messages sent correctly"
+        textEntry.value = constructedMessage
+        console.log(constructedMessage)
+    } else {
+        textEntry.value = "all confirmation messages sent correctly"
+        console.log("all confirmation messages sent correctly")
 
-        if (problems.length != 0) {
-            var constructedMessage = "the following messages failed to send:\n"
-            for (let i = 0; i < problems.length; i++) constructedMessage += problems[i] + "\n"
-            constructedMessage += "all other messages sent correctly"
-            textEntry.value = constructedMessage
-            console.log(constructedMessage)
-        } else {
-            textEntry.value = "all confirmation messages sent correctly"
-            console.log("all confirmation messages sent correctly")
-
-        }
-        sendBtn.remove()
-
-    });
+    }
+    sendBtn.remove()
 }
 
 //approve invoices 
