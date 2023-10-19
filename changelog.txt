@@ -233,3 +233,6 @@
 
 1.0905
 -removed second text message button, mate text message button work out if its monday programatically
+
+1.0906
+- fixed bug in calendar job creation

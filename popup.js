@@ -264,7 +264,7 @@ function importData(techLocations, index23) {
                 //var link = "https://office.aroflo.com"+document.getElementsByClassName("afBtn afBtn__fill afBtn--small af-primary btnViewDetails")[0].getAttribute("href")
                 chrome.storage.sync.set({ createTag: 1 });
                 //window.open(link, '_blank')})
-                document.getElementsByClassName("afBtn afBtn__fill afBtn--small af-primary btnViewDetails")[0].click()
+                document.getElementsByClassName("afBtn afBtn__fill afBtn--small af-primary btnViewDetails")[1].click()
             })
         }
         else {
