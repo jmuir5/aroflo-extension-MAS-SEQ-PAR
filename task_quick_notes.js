@@ -190,9 +190,46 @@ window.addEventListener('load', async() => {
     
 })
 
-function schedConfirm(){
+async function schedConfirm(){
     window.removeEventListener("focus", schedConfirm)
     if (confirm("Was a date selected?") == true) {
+        document.getElementById("btnSendSms-0").click()
+        while (!document.getElementById("btnEmailTemplate")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for sms template button")
+        }
+        document.getElementById("btnEmailTemplate").click()
+        
+        var table =document.getElementsByClassName("ui-jqgrid-btable")
+        while(true){
+            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for templates to load")
+            }
+            if(document.getElementById("775")){
+                document.getElementById("775").click()
+                document.getElementById("btnSelect").click()
+                break
+            }
+            else {
+                if(document.getElementById("1233")){
+                    document.getElementById("1233").click()
+                    document.getElementById("btnSelect").click()
+                    return
+                }
+                else document.getElementsByClassName("af-pg-button")[2].click()
+                
+            }
+
+            await new Promise(r => setTimeout(r, 10))
+        }
+        while (document.getElementById("message_value").value.length<100) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for sms template to load")
+        }
+
+        document.getElementById("btnSendSMSmessage").click()
+
         document.getElementById("update_btn").click()
     } else {    
     }

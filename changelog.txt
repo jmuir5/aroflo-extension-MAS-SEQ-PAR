@@ -236,3 +236,6 @@
 
 1.0906
 - fixed bug in calendar job creation
+
+1.0907
+- parts recieved button sends text message after setting date
