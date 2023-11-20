@@ -239,3 +239,20 @@
 
 1.0907
 - parts recieved button sends text message after setting date
+
+1.0908 
+- technicians who have their parts sent to them are given an extra days lead time when scheduling via parts recieved button
+- updated contact client function to correctly determine booking source, send appropriate email
+
+1.0909
+- added parts % to BAAG
+- parts recieved- now corectly checks if day is full and goes to next day
+- parts received - checks parts % rather than total bookings 
+- updated tech location table to include gee, and moves tulio to his correct area
+
+1.0910 
+- removed sandy from suburb table
+- set sandy's jobs to 0
+
+1.0911
+- updated vini, tulio and otavio's jobs to 4/4

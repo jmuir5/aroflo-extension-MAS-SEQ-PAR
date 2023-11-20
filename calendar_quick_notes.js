@@ -124,7 +124,12 @@ window.addEventListener('load', async() => {
 })
 
 async function getFirstAvailable(technician){
+    var sendTechs = ["John Sleap","Otavio Palharini","Gee Cruz","Tulio Pereira","Vini Moura"]
     document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-next ui")[0].click()
+    if(sendTechs.includes(technician)){
+        document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-next ui")[0].click()
+    }
+    dayloop:
     while(true){
         document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-next ui")[0].click()
         while(!document.getElementsByClassName("walkme-icon-image-div walkme-launcher-image-div")[0]){
@@ -134,29 +139,37 @@ async function getFirstAvailable(technician){
         var boxes = document.getElementsByClassName("aagBox")
         var today = document.getElementsByTagName("h2")[4].innerText.split(",")[0]
         for(let i=0;i<boxes.length;i++){
+            console.log(boxes[i].children[3].classList)
+
             console.log(boxes[i].children[3].style.color)
             if(boxes[i].classList.contains(technician.replace(" ","."))){
-                if(boxes[i].children[3].style.color=="blue"){
-                    var indicator = 0
-                    if(boxes[i].children[0].style.color=="blue")indicator+=1
-                    if(boxes[i].children[1].style.color=="blue")indicator+=2
-                    switch(indicator){
-                        case 1:
-                            indicator = "AM"
-                            break
-                        case 2:
-                            indicator = "PM"
-                            break
-                        case 3:
-                            indicator = "Any"
-                            break
+                console.log("box found")
+                console.log(boxes[i].children[3].style.color)
+                if(boxes[i].children[4].style.color=="blue"){
+                    if(boxes[i].children[3].style.color=="blue"){
+                        var indicator = 0
+                        if(boxes[i].children[0].style.color=="blue")indicator+=1
+                        if(boxes[i].children[1].style.color=="blue")indicator+=2
+                        switch(indicator){
+                            case 1:
+                                indicator = "AM"
+                                break
+                            case 2:
+                                indicator = "PM"
+                                break
+                            case 3:
+                                indicator = "Any"
+                                break
+                        }
+                        return today+" "+indicator
                     }
-                    return today+" "+indicator
+                    else continue dayloop
                 }
-                else continue
+                else continue dayloop
             }
             else continue
         }
+        console.log("no box found")
         return today+" Any"
 
     }

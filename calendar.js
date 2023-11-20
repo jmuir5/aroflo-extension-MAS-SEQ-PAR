@@ -19,9 +19,9 @@ window.addEventListener("load", async()=>{
            
         }
 
-        var frame = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
-        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 8, 0, -1], 
-                    ["Otavio Palharini", 3, 3, -1], ["Gee Cruz", 3, 3, -1], ["Tulio Pereira", 3, 3, -1], ["Vini Moura", 3, 3, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
+        var frame = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
+        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 0, 0, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 8, 0, -1], 
+                    ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 3, 3, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 4, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
                     ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 3, 3, -1] ]
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
 
@@ -39,6 +39,10 @@ window.addEventListener("load", async()=>{
 
 
             }
+            if(jobs[i].innerText.includes("Parts Received")){
+                frame[index0][5]+=1
+                
+            }
             if(jobs[i].innerText.includes("8:30a")){
                 frame[index0][0]+=1
                 
@@ -51,7 +55,7 @@ window.addEventListener("load", async()=>{
                 frame[index0][2]+=1
                 
             }
-            jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 60+"px"
+            jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
             
             
         }
@@ -117,6 +121,7 @@ window.addEventListener("load", async()=>{
                     var amText = document.createElement("p")
                     var pmText = document.createElement("p")
                     var anyText = document.createElement("p")
+                    var partsText = document.createElement("p")
                     var totalText = document.createElement("p")
                     
 
@@ -138,6 +143,15 @@ window.addEventListener("load", async()=>{
                     anyText.style.marginTop = "0px"
                     anyText.style.marginBottom = "0px"
                     anyText.style.color = "#DAA520"
+                    
+                    var partsPercent = (frame[i][5]/(dict[j][1]+dict[j][2]))*100
+                    partsPercent = parseFloat(partsPercent.toFixed(2))
+                    partsText.innerText = "Parts:\xa0"+partsPercent+"%"
+                    partsText.style.marginTop = "0px"
+                    partsText.style.marginBottom = "0px"
+                    if (partsPercent>49&&partsPercent<58)partsText.style.color ="green"
+                    else if(partsPercent<50)partsText.style.color ="blue"
+                    else partsText.style.color ="red"
 
                     totalText.innerText= "TOTAL:"+(frame[i][0]+frame[i][1]+frame[i][2])+"/"+(dict[j][1]+dict[j][2])
                     totalText.style.marginTop = "0px"
@@ -158,6 +172,7 @@ window.addEventListener("load", async()=>{
                     container.appendChild(amText)
                     container.appendChild(pmText)
                     container.appendChild(anyText)
+                    container.appendChild(partsText)
                     container.appendChild(totalText)
 
                     if(!frame[i][3]==0)bigBox.appendChild(container)

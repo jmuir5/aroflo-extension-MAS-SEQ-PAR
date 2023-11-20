@@ -26,7 +26,7 @@ window.addEventListener('load', async() => {
     custReschedButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
 
     var allPtsRcvdButton = document.createElement('BUTTON')
-    allPtsRcvdButton.appendChild(document.createTextNode("Parts recieved"))
+    allPtsRcvdButton.appendChild(document.createTextNode("Parts received"))
     allPtsRcvdButton.type="button"
     allPtsRcvdButton.id="allPtsRcvdButton"
     allPtsRcvdButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
@@ -38,7 +38,9 @@ window.addEventListener('load', async() => {
     custContainerDiv.appendChild(custEtaButton)
     custContainerDiv.appendChild(custCompButton)
     custContainerDiv.appendChild(custReschedButton)
-    custContainerDiv.appendChild(allPtsRcvdButton)
+    if(document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText.includes("Fit Parts")){
+        custContainerDiv.appendChild(allPtsRcvdButton)
+    }
     
     const custText = "customer called "
 
@@ -51,11 +53,16 @@ window.addEventListener('load', async() => {
 
     var partsFunction = function(){
         document.getElementById("btnAddNoteText").click()
-        document.getElementById("thisnote").value = "Parts received, sent to tech"
+        var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
+        var suffix = "put in techs box"
+        var sendTechs = ["John Sleap","Otavio Palharini","Gee Cruz","Tulio Pereira","Vini Moura"]
+        if(sendTechs.includes(currentTech)){
+            suffix = "sent to tech"
+        }
+        document.getElementById("thisnote").value = "Parts received, "+suffix
         document.getElementsByClassName("afDataTable__cell--center af-warn")[0].children[0].children[0].click()
         document.getElementsByClassName("afDataTable__cell--center af-warn")[3].children[0].children[0].click()
         document.getElementById("selectedTaskSubstatus").value = 352
-        var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
         chrome.storage.sync.set({ PartsTag: currentTech})
         
         window.addEventListener("focus", schedConfirm)

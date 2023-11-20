@@ -587,8 +587,8 @@ async function ContactClient(flag) {
             var time = document.getElementsByClassName("schedule-item-date")[0].innerText
             var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
             var source = "Online Booking"
-            var branchIndex = 2
-            if (branch == "Master Appliance Service") branchIndex = 3
+            var branchIndex = 1
+            if (branch == "Master Appliance Service") branchIndex = 2
             if (document.getElementsByTagName("Select")[branchIndex]) source = document.getElementsByTagName("Select")[branchIndex].children[document.getElementsByTagName("Select")[branchIndex].selectedIndex].value
             if (time.includes("8:30 AM")) time = "AM"
             else if (time.includes("12:30 PM")) time = "PM"
