@@ -256,3 +256,15 @@
 
 1.0911
 - updated vini, tulio and otavio's jobs to 4/4
+
+1.0912
+- added dynamic changing of baag numbers, 
+- stopped ad hoc events counting towards "any" count on baag
+
+1.0913
+- added "day off" to dynamic baag changing
+- tried to fix parts next avaiolable
+- updated johns jobs to 10/0 and 3 max fit parts per day
+
+1.0914
+- fixed part percentage colours

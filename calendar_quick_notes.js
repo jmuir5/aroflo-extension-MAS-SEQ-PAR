@@ -145,25 +145,23 @@ async function getFirstAvailable(technician){
             if(boxes[i].classList.contains(technician.replace(" ","."))){
                 console.log("box found")
                 console.log(boxes[i].children[3].style.color)
-                if(boxes[i].children[4].style.color=="blue"){
-                    if(boxes[i].children[3].style.color=="blue"){
-                        var indicator = 0
-                        if(boxes[i].children[0].style.color=="blue")indicator+=1
-                        if(boxes[i].children[1].style.color=="blue")indicator+=2
-                        switch(indicator){
-                            case 1:
-                                indicator = "AM"
-                                break
-                            case 2:
-                                indicator = "PM"
-                                break
-                            case 3:
-                                indicator = "Any"
-                                break
-                        }
-                        return today+" "+indicator
+                if(boxes[i].children[4].style.color=="blue"&&boxes[i].children[3].style.color=="blue"){
+                    var indicator = 0
+                    if(boxes[i].children[0].style.color=="blue")indicator+=1
+                    if(boxes[i].children[1].style.color=="blue")indicator+=2
+                    switch(indicator){
+                        case 1:
+                            indicator = "AM"
+                            break
+                        case 2:
+                            indicator = "PM"
+                            break
+                        case 3:
+                            indicator = "Any"
+                            break
                     }
-                    else continue dayloop
+                    return today+" "+indicator
+                
                 }
                 else continue dayloop
             }

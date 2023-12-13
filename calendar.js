@@ -18,16 +18,19 @@ window.addEventListener("load", async()=>{
         if(day == "Friday"){
            
         }
+        var frame = [[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1]]
 
-        var frame = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
-        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 0, 0, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 8, 0, -1], 
+        console.log(frame)
+        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 0, 0, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 10, 0, -1], 
                     ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 3, 3, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 4, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
                     ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 3, 3, -1] ]
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
 
         var ccol = 0
         var index0 = -1
+        searchLoop:
         for (let i = 0; i < jobs.length; i++) {
+            
             
             if(ccol!=jobs[i].getBoundingClientRect().x){
                 
@@ -39,6 +42,7 @@ window.addEventListener("load", async()=>{
 
 
             }
+            jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
             if(jobs[i].innerText.includes("Parts Received")){
                 frame[index0][5]+=1
                 
@@ -52,14 +56,37 @@ window.addEventListener("load", async()=>{
                 
             }
             else{
+                for (let j = 0; j < jobs[i].childNodes.length; j++) {
+                    console.log(jobs[i].childNodes[j].style.backgroundColor)
+                    if(jobs[i].childNodes[j].style.backgroundColor == "rgb(255, 153, 0)" ){
+                        if(jobs[i].childNodes[j].innerText.includes("@@@:")){
+                            frame[index0][6] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[0])
+                            frame[index0][7] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[1][0])
+                        }
+                        if(jobs[i].childNodes[j].innerText.includes("Holidays:")){
+                            frame[index0][6] = 0
+                            frame[index0][7] = 0
+                        }
+                        if(jobs[i].childNodes[j].innerText.includes("Day Off:")){
+                            frame[index0][6] = 0
+                            frame[index0][7] = 0
+                        }
+                        //jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
+                        continue searchLoop
+                    }
+                    
+                }
+                
                 frame[index0][2]+=1
                 
+                
             }
-            jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
+            //jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
+            
             
             
         }
-        //console.log(frame)
+        console.log(frame)
 
         var techlist = document.getElementsByClassName("fc-resourceName fc-col-res ui-widget-header")
         if (techlist.length==0) {
@@ -123,41 +150,56 @@ window.addEventListener("load", async()=>{
                     var anyText = document.createElement("p")
                     var partsText = document.createElement("p")
                     var totalText = document.createElement("p")
+
+                    var amJobs = dict[j][1]
+                    if(frame[i][6]>=0) amJobs = frame[i][6]
+
+                    var pmJobs = dict[j][2]
+                    if(frame[i][7]>=0) pmJobs = frame[i][7]
                     
 
-                    amText.innerText = "AM: "+frame[i][0]+"/"+dict[j][1]
+                    amText.innerText = "AM: "+frame[i][0]+"/"+amJobs
                     amText.style.marginTop = "0px"
                     amText.style.marginBottom = "0px"
-                    if(frame[i][0]<dict[j][1])amText.style.color ="blue"
-                    else if(frame[i][0]==dict[j][1])amText.style.color ="green"
+                    if(frame[i][0]<amJobs)amText.style.color ="blue"
+                    else if(frame[i][0]==amJobs)amText.style.color ="green"
                     else amText.style.color ="red"
-                    
-                    pmText.innerText = "PM: "+frame[i][1]+"/"+dict[j][2]
+
+                    pmText.innerText = "PM: "+frame[i][1]+"/"+pmJobs
                     pmText.style.marginTop = "0px"
                     pmText.style.marginBottom = "0px"
-                    if(frame[i][1]<dict[j][2])pmText.style.color ="blue"
-                    else if(frame[i][1]==dict[j][2])pmText.style.color ="green"
+                    if(frame[i][1]<pmJobs)pmText.style.color ="blue"
+                    else if(frame[i][1]==pmJobs)pmText.style.color ="green"
                     else pmText.style.color ="red"
 
                     anyText.innerText = "ANY: "+frame[i][2]
                     anyText.style.marginTop = "0px"
                     anyText.style.marginBottom = "0px"
                     anyText.style.color = "#DAA520"
+
+                    var totalJobs = amJobs+pmJobs
                     
-                    var partsPercent = (frame[i][5]/(dict[j][1]+dict[j][2]))*100
+                    var partsPercent = (frame[i][5]/totalJobs)*100
+                    
+                    var partsTarget = 50
+                    if(j==1) partsTarget = parseFloat(((4/7)*100).toFixed(2)) //leo
+                    else if(j==4) partsTarget = (3/10)*100 //john
+
                     partsPercent = parseFloat(partsPercent.toFixed(2))
                     partsText.innerText = "Parts:\xa0"+partsPercent+"%"
                     partsText.style.marginTop = "0px"
                     partsText.style.marginBottom = "0px"
-                    if (partsPercent>49&&partsPercent<58)partsText.style.color ="green"
-                    else if(partsPercent<50)partsText.style.color ="blue"
+                    if (partsPercent==partsTarget)partsText.style.color ="green"
+                    else if(partsPercent<partsTarget)partsText.style.color ="blue"
                     else partsText.style.color ="red"
+                    console.log("percent = "+partsPercent.toString())
+                    console.log("target = "+partsTarget.toString())
 
-                    totalText.innerText= "TOTAL:"+(frame[i][0]+frame[i][1]+frame[i][2])+"/"+(dict[j][1]+dict[j][2])
+                    totalText.innerText= "TOTAL:"+(frame[i][0]+frame[i][1]+frame[i][2])+"/"+totalJobs
                     totalText.style.marginTop = "0px"
                     totalText.style.marginBottom = "0px"
-                    if((frame[i][0]+frame[i][1]+frame[i][2])<(dict[j][1]+dict[j][2]))totalText.style.color ="blue"
-                    else if((frame[i][0]+frame[i][1]+frame[i][2])==(dict[j][1]+dict[j][2]))totalText.style.color ="green"
+                    if((frame[i][0]+frame[i][1]+frame[i][2])<(totalJobs))totalText.style.color ="blue"
+                    else if((frame[i][0]+frame[i][1]+frame[i][2])==(totalJobs))totalText.style.color ="green"
                     else totalText.style.color ="red"
 
                     
