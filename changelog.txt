@@ -272,3 +272,11 @@
 1.0915
 - added benji to tech list calendar
 - set sandys jobs to 3/3
+
+1.0916
+- reactivated sandy in tech area table
+- adjusted vini and tulio areas due to gee being on leave
+- changed phil's jobs to 6 as per his request
+
+1.0917
+- fixed error relating to benji's name on calendar BAAG
