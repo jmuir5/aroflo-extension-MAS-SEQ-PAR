@@ -21,8 +21,8 @@ window.addEventListener("load", async()=>{
         var frame = [[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1]]
 
         console.log(frame)
-        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 3, 3, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 10, 0, -1], ["Benji Le Hur", 3, 3, -1],
-                    ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 3, 3, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 4, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 4, 4, -1], 
+        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 3, 3, -1], ["Eduardo Chiovato", 3, 3, -1], ["John Sleap", 10, 0, -1], ["Benji Le Her", 3, 3, -1],
+                    ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 3, 3, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 4, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 3, 3, -1], 
                     ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 3, 3, -1] ]
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
 
@@ -209,7 +209,7 @@ window.addEventListener("load", async()=>{
 
                     container.id = "aagBox"
                     container.classList.add("aagBox")
-                    container.classList.add(dict[j][0].replace(" ","."))
+                    container.classList.add(dict[j][0].replaceAll(" ","."))
 
                     container.appendChild(amText)
                     container.appendChild(pmText)
