@@ -38,8 +38,6 @@ var dict = {
     "": "271"
 }
 
-
-
 textArea.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault()
@@ -110,6 +108,18 @@ function importData(techLocations, index23) {
         }
         if (listOfTechs.length == 0) alert("postcode " + postcode + " not assigned to any technicians, may be out of area")
     }
+
+    function simulateMouseClick(targetNode) {
+        function triggerMouseEvent(targetNode, eventType) {
+            var clickEvent = document.createEvent('MouseEvents');
+            clickEvent.initEvent(eventType, true, true);
+            targetNode.dispatchEvent(clickEvent);
+        }
+        ["mouseover", "mousedown", "mouseup", "click"].forEach(function(eventType) { 
+            triggerMouseEvent(targetNode, eventType);
+        });
+    }
+
 
     var dict = {
         "Clothes Dryers": "258",
@@ -356,24 +366,18 @@ function importData(techLocations, index23) {
                     mapBox.style.top = techTableBox.style.top
                     techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
                     mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
-                    
-                    await new Promise(r => setTimeout(r, 100));
-                    var mapButtons = mapBox.children[1]
-                    for ( i=0; i<9; i++){
-                        while (!mapButtons.children) {
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for technician entry")
+                    while(true){
+                        try{
+                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0]
+                            var minusButton = mapButtons.children[13]
+                            break
                         }
-                        mapButtons = mapButtons.children[0]
-                    }
-                    //var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children
-                    while (mapButtons.length < 16) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for technician entry")
+                        catch(error){
+                            await new Promise(r => setTimeout(r, 10));
+                            console.log("failed to set map buttons")
+                        }
                     }
                     document.getElementsByClassName("gm-style-iw-a")[0].remove()
-                    await new Promise(r => setTimeout(r, 100));
-                    var minusButton = mapButtons.children[13]
                     for ( i=0; i<4; i++){
                         while(true){
                             try{
@@ -381,14 +385,14 @@ function importData(techLocations, index23) {
                                 break
                             }
                             catch (error){
-                                console.log(error)
+                                console.log("minus button has no children, reseting minus button")
                                 await new Promise(r => setTimeout(r, 10));
                                 minusButton = mapButtons.children[13]
                             }
                         }
                         while (!minusButton.children) {
                             await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for technician entry")
+                            console.log("waiting for minus button children  ")
                         }
                         console.log("minusButton.children")
                         console.log(minusButton.children)
@@ -423,25 +427,18 @@ function importData(techLocations, index23) {
                     mapBox.style.top = techTableBox.style.top
                     techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
                     mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
-                    
-                    await new Promise(r => setTimeout(r, 100));
-                    var mapButtons = mapBox.children[1]
-                    for ( i=0; i<9; i++){
-                        while (!mapButtons.children) {
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for technician entry")
+                    while(true){
+                        try{
+                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0]
+                            var minusButton = mapButtons.children[13]
+                            break
                         }
-                        mapButtons = mapButtons.children[0]
-
-                    }
-                    //var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children
-                    console.log(mapButtons)
-                    while (mapButtons.length < 16) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for technician entry")
+                        catch(error){
+                            await new Promise(r => setTimeout(r, 10));
+                            console.log("failed to set map buttons")
+                        }
                     }
                     document.getElementsByClassName("gm-style-iw-a")[0].remove()
-                    var minusButton = mapButtons.children[13]
                     for ( i=0; i<4; i++){
                         while(true){
                             try{
@@ -449,14 +446,14 @@ function importData(techLocations, index23) {
                                 break
                             }
                             catch (error){
-                                console.log(error)
+                                console.log("minus button has no children, reseting minus button")
                                 await new Promise(r => setTimeout(r, 10));
                                 minusButton = mapButtons.children[13]
                             }
                         }
                         while (!minusButton.children) {
                             await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for technician entry")
+                            console.log("waiting for minus button children  ")
                         }
                         console.log("minusButton.children")
                         console.log(minusButton.children)
@@ -481,24 +478,32 @@ function importData(techLocations, index23) {
             while (document.getElementById("btnSelect")) {
                 await new Promise(r => setTimeout(r, 10));
             }
+            var sundayLabel = document.getElementsByClassName("ui-datepicker-week-end")[0]
+            simulateMouseClick(sundayLabel)
             schedLoop:
             while (true) {
-                while (document.getElementsByClassName("schedStartTime vd_required vd_time  afTextfield__input afTextfield__input--small ui-timepicker-input").length == 0 || !document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("sleeping")
-                    if (document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-today ui") && !document.getElementById("ui-dialog-title-dlgSchedDetails")) return
-                }
-                if (document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
-                    switch (inputtag[11]) {
-                        case "AM":
-                            document.getElementById("amButton").click()
-                            break
-                        case "PM":
-                            document.getElementById("pmButton").click()
-                            break
-                        default:
-                            document.getElementById("anyButton").click()
+                try{
+                    while (document.getElementsByClassName("schedStartTime vd_required vd_time  afTextfield__input afTextfield__input--small ui-timepicker-input").length == 0 || !document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("sleeping")
+                        if (document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-today ui") && !document.getElementById("ui-dialog-title-dlgSchedDetails")) return
                     }
+                    if (document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
+                        switch (inputtag[11]) {
+                            case "AM":
+                                document.getElementById("amButton").click()
+                                break
+                            case "PM":
+                                document.getElementById("pmButton").click()
+                                break
+                            default:
+                                document.getElementById("anyButton").click()
+                        }
+                    }
+                }
+                catch(error){
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("failed to click button")
                 }
             }
         }
@@ -1082,3 +1087,15 @@ resetFlagsBtn.addEventListener("click", async () => {
 
 
 });
+
+
+function simulateMouseClick(targetNode) {
+    function triggerMouseEvent(targetNode, eventType) {
+        var clickEvent = document.createEvent('MouseEvents');
+        clickEvent.initEvent(eventType, true, true);
+        targetNode.dispatchEvent(clickEvent);
+    }
+    ["mouseover", "mousedown", "mouseup", "click"].forEach(function(eventType) { 
+        triggerMouseEvent(targetNode, eventType);
+    });
+}

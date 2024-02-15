@@ -200,6 +200,7 @@ window.addEventListener('load', async() => {
 async function schedConfirm(){
     window.removeEventListener("focus", schedConfirm)
     if (confirm("Was a date selected?") == true) {
+        var johnFlag = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText=="John Sleap"
         document.getElementById("btnSendSms-0").click()
         while (!document.getElementById("btnEmailTemplate")) {
             await new Promise(r => setTimeout(r, 10));
@@ -213,19 +214,37 @@ async function schedConfirm(){
                 await new Promise(r => setTimeout(r, 10));
                 console.log("waiting for templates to load")
             }
-            if(document.getElementById("775")){
-                document.getElementById("775").click()
-                document.getElementById("btnSelect").click()
-                break
-            }
-            else {
-                if(document.getElementById("1233")){
-                    document.getElementById("1233").click()
+            if(johnFlag){
+                if(document.getElementById("1261")){
+                    document.getElementById("1261").click()
                     document.getElementById("btnSelect").click()
-                    return
+                    break
                 }
-                else document.getElementsByClassName("af-pg-button")[2].click()
-                
+                else {
+                    if(document.getElementById("1233")){
+                        document.getElementById("1233").click()
+                        document.getElementById("btnSelect").click()
+                        return
+                    }
+                    else document.getElementsByClassName("af-pg-button")[2].click()
+                    
+                }
+            }
+            else{
+                if(document.getElementById("775")){
+                    document.getElementById("775").click()
+                    document.getElementById("btnSelect").click()
+                    break
+                }
+                else {
+                    if(document.getElementById("1233")){
+                        document.getElementById("1233").click()
+                        document.getElementById("btnSelect").click()
+                        return
+                    }
+                    else document.getElementsByClassName("af-pg-button")[2].click()
+                    
+                }
             }
 
             await new Promise(r => setTimeout(r, 10))
@@ -238,6 +257,5 @@ async function schedConfirm(){
         document.getElementById("btnSendSMSmessage").click()
 
         document.getElementById("update_btn").click()
-    } else {    
-    }
+    } 
 }

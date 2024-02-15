@@ -280,3 +280,13 @@
 
 1.0917
 - fixed error relating to benji's name on calendar BAAG
+
+1.0918
+- added john specific message for "parts recieved" flow
+
+1.0919
+- improved consistancy on bookingwith maps
+- when importing jobs date is automatically deselected
+
+TODO
+- doublecheck parts recieved code to ensure correct day is picked
