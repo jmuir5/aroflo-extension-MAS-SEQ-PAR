@@ -287,6 +287,7 @@
 1.0919
 - improved consistancy on bookingwith maps
 - when importing jobs date is automatically deselected
+- fixed calendar day total jobs to accurately reflect total nuymber of jobs, correctly update day string
 
 TODO
 - doublecheck parts recieved code to ensure correct day is picked

@@ -28,19 +28,14 @@ window.addEventListener("load", async()=>{
 
         var ccol = 0
         var index0 = -1
+        var globalTotalJobs = jobs.length
         searchLoop:
         for (let i = 0; i < jobs.length; i++) {
-            
-            
             if(ccol!=jobs[i].getBoundingClientRect().x){
-                
-
                 index0 +=1
                 ccol = jobs[i].getBoundingClientRect().x
                 frame[index0][3]=jobs[i].parentNode.offsetTop
                 frame[index0][4]=jobs[i].parentNode.offsetLeft
-
-
             }
             jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
             if(jobs[i].innerText.includes("Parts Received")){
@@ -59,6 +54,7 @@ window.addEventListener("load", async()=>{
                 for (let j = 0; j < jobs[i].childNodes.length; j++) {
                     console.log(jobs[i].childNodes[j].style.backgroundColor)
                     if(jobs[i].childNodes[j].style.backgroundColor == "rgb(255, 153, 0)" ){
+                        globalTotalJobs-=1
                         if(jobs[i].childNodes[j].innerText.includes("@@@:")){
                             frame[index0][6] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[0])
                             frame[index0][7] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[1][0])
@@ -137,12 +133,12 @@ window.addEventListener("load", async()=>{
         
         
         var bigBox = jobs[0].parentNode.parentNode
-        var totalJobs = 0
+        //var totalJobs = 0
         for (let i = 0; i < techlist.length/2; i++) {
             for (let j = 0; j < dict.length; j++) {
                 if(i==dict[j][3]){
 
-                    totalJobs += frame[i][0]
+                    //totalJobs += frame[i][0]
 
                     var container=document.createElement('div')
                     var amText = document.createElement("p")
@@ -224,14 +220,14 @@ window.addEventListener("load", async()=>{
             }
         }
 
-        if(day!=currentDay){
-            currentDay = day
+        if(baseDayString!=document.getElementsByTagName("h2")[4].childNodes[0].textContent){
+            //currentDay = day
             baseDayString = document.getElementsByTagName("h2")[4].childNodes[0].textContent
             currentTotal = 0
         } 
-        if (currentTotal!= totalJobs){
-            document.getElementsByTagName("h2")[4].childNodes[0].textContent =baseDayString+", Total: "+totalJobs.toString()
-            currentTotal = totalJobs
+        if (currentTotal!= globalTotalJobs){
+            document.getElementsByTagName("h2")[4].childNodes[0].textContent =baseDayString+", Total: "+globalTotalJobs.toString()
+            currentTotal = globalTotalJobs
         }
         
         

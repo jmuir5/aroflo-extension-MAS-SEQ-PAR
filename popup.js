@@ -268,6 +268,7 @@ function importData(techLocations, index23) {
         if (document.getElementById("_Cust299")) document.getElementById("_Cust299").value = "Online Booking"
         if (document.getElementById("_Cust300")) document.getElementById("_Cust300").value = "Online Booking"
         if (document.getElementById("_Cust301")) document.getElementById("_Cust301").value = "Online Booking"
+        document.getElementById("addrequest__submit").addEventListener("click", function(){chrome.storage.sync.set({ ContactTag: 1 });} )
         //opentask in new tab
         if (document.getElementsByClassName("afBtnGroup").length > 0) {
             document.getElementById("btnDoneScheduleDetails").addEventListener("click", async () => {
@@ -309,7 +310,7 @@ function importData(techLocations, index23) {
                         break
                     }
 
-                    console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
+                    //console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
                     
                 }
                 var tables = document.getElementsByClassName("ui-jqgrid-btable")
@@ -431,6 +432,7 @@ function importData(techLocations, index23) {
                         try{
                             var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0]
                             var minusButton = mapButtons.children[13]
+                            document.getElementsByClassName("gm-style-iw-a")[0].remove()
                             break
                         }
                         catch(error){
@@ -438,7 +440,7 @@ function importData(techLocations, index23) {
                             console.log("failed to set map buttons")
                         }
                     }
-                    document.getElementsByClassName("gm-style-iw-a")[0].remove()
+                    
                     for ( i=0; i<4; i++){
                         while(true){
                             try{
