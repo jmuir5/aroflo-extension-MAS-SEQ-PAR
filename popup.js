@@ -369,8 +369,8 @@ function importData(techLocations, index23) {
                     mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
                     while(true){
                         try{
-                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0]
-                            var minusButton = mapButtons.children[13]
+                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
+                            var minusButton = mapButtons.children[12]
                             break
                         }
                         catch(error){
@@ -379,26 +379,16 @@ function importData(techLocations, index23) {
                         }
                     }
                     document.getElementsByClassName("gm-style-iw-a")[0].remove()
-                    for ( i=0; i<4; i++){
-                        while(true){
-                            try{
-                                minusButton.children
-                                break
-                            }
-                            catch (error){
-                                console.log("minus button has no children, reseting minus button")
-                                await new Promise(r => setTimeout(r, 10));
-                                minusButton = mapButtons.children[13]
-                            }
+                    while(true){
+                        try{
+                            minusButton = minusButton.children[0].children[2].children[0].children[2]
+                            break
                         }
-                        while (!minusButton.children) {
+                        catch (error){
+                            console.log("minus button has no children, reseting minus button")
                             await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for minus button children  ")
+                            minusButton = mapButtons.children[13]
                         }
-                        console.log("minusButton.children")
-                        console.log(minusButton.children)
-                        minusButton = minusButton.children[(i%2)*2]
-
                     }
 
                     for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
@@ -430,8 +420,8 @@ function importData(techLocations, index23) {
                     mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
                     while(true){
                         try{
-                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0]
-                            var minusButton = mapButtons.children[13]
+                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
+                            var minusButton = mapButtons.children[12]
                             document.getElementsByClassName("gm-style-iw-a")[0].remove()
                             break
                         }
@@ -441,27 +431,19 @@ function importData(techLocations, index23) {
                         }
                     }
                     
-                    for ( i=0; i<4; i++){
-                        while(true){
-                            try{
-                                minusButton.children
-                                break
-                            }
-                            catch (error){
-                                console.log("minus button has no children, reseting minus button")
-                                await new Promise(r => setTimeout(r, 10));
-                                minusButton = mapButtons.children[13]
-                            }
+                    
+                    while(true){
+                        try{
+                            minusButton = minusButton.children[0].children[2].children[0].children[2]
+                            break
                         }
-                        while (!minusButton.children) {
+                        catch (error){
+                            console.log("minus button has no children, reseting minus button")
                             await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for minus button children  ")
+                            minusButton = mapButtons.children[13]
                         }
-                        console.log("minusButton.children")
-                        console.log(minusButton.children)
-                        minusButton = minusButton.children[(i%2)*2]
-
                     }
+                    
 
                     for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
                     

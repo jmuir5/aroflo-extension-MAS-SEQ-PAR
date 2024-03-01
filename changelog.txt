@@ -289,5 +289,9 @@
 - when importing jobs date is automatically deselected
 - fixed calendar day total jobs to accurately reflect total nuymber of jobs, correctly update day string
 
+1.0920
+- changed eds jobs
+
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked
