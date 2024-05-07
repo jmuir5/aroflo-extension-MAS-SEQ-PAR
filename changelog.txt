@@ -296,6 +296,29 @@
 - changed matts jobs to 5/1, 
 - changed vinis area to remove sutherland
 
+1.0922
+- changed gees jobs to 4/2
+- readded sutherland to vini
+
+1.0923
+- fixed bug when importing jobs on windows
+
+1.0924
+- set johns jobs to 8
+- sending a text to client will also text the tennant if a location is set
+
+1.0925
+- updated south side technician areas
+
+1.0926
+- updated autotext to respect online vs phone bookings 
+
+1.0927
+-updated benji's jobs
+
+1.0928
+- updated some tech locations for better/ more accurate coverage
+- added tech location map button to calendar 
 
 TODO
 - doublecheck parts recieved code to ensure correct day is picked
