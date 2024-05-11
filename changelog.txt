@@ -320,5 +320,12 @@
 - updated some tech locations for better/ more accurate coverage
 - added tech location map button to calendar 
 
+1.0929
+- fixed tech map button so it is more persistant
+- added fridge check for benji, vini, otavio and ed to create page
+
+1.0930
+- changed tech maps to "view" rather than "edit"
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked

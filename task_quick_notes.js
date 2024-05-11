@@ -1,5 +1,20 @@
 //enquirey buttons, cancel buttons, assign button
 window.addEventListener('load', async() => {
+    console.log("quick notes loaded")
+    
+    //archive part 2 execution
+    console.log("checking flag")
+    chrome.storage.sync.get("archiveFlag", async ({ archiveFlag }) => {
+        if(archiveFlag>0){
+            console.log("flag good")
+
+            chrome.storage.sync.set({ archiveFlag: archiveFlag-1})
+            document.getElementById("archive_btn").click()
+
+        }
+    })
+
+
     
     while(!document.getElementsByClassName("afNoteWidget__header margin-top--2")[0]||!document.getElementsByClassName("pageViewTask__signature")[0]){
         await new Promise(r => setTimeout(r, 10));
@@ -79,6 +94,9 @@ window.addEventListener('load', async() => {
     custReschedButton.addEventListener("click", function(){custFunction("to reschedule from XXX to XXX. Reason: XXX")})
     allPtsRcvdButton.addEventListener("click", function(){partsFunction()})
 
+    console.log("note buttons loaded")
+
+
     //cancellation buttons
     const cancelSpace = document.getElementsByClassName("pageViewTask__signature")[0]
     var cancelContainerDiv = document.createElement('DIV')
@@ -137,6 +155,9 @@ window.addEventListener('load', async() => {
     cancelPhoneButton.addEventListener("click", function(){cancelFunction("phone")})
     cancelMessageButton.addEventListener("click", function(){cancelFunction("message")})
 
+    console.log("cancel buttons loaded")
+
+
     //assign button
     var assignLabel = document.createElement('div')
     assignLabel.appendChild(document.createTextNode("Assign technicians to job:"))
@@ -146,6 +167,9 @@ window.addEventListener('load', async() => {
     assignButton.id="assignButton"
     assignButton.classList = "afBtn afBtn__fill af-success padding-x--6"
     
+    var assignContainerDiv = document.createElement('DIV')
+    cancelSpace.appendChild(assignContainerDiv)
+   
 
     cancelContainerDiv.appendChild(assignLabel)
     cancelContainerDiv.appendChild(assignButton)
@@ -194,8 +218,47 @@ window.addEventListener('load', async() => {
         document.getElementsByName("update_btn")[0].click()
     })
 
+    console.log("assign buttons loaded")
+
+    
+    //archive button
+    var archiveLabel = document.createElement('div')
+    archiveLabel.appendChild(document.createTextNode("Fast Archive"))
+    var archiveButton = document.createElement('BUTTON')
+    archiveButton.appendChild(document.createTextNode("Archive Job"))
+    archiveButton.type="button"
+    archiveButton.id="archiveButton"
+    archiveButton.classList = "afBtn afBtn__fill af-success padding-x--6"
+    
+
+    var archiveContainerDiv = document.createElement('DIV')
+    if(!document.getElementById("archive_btn"))cancelSpace.appendChild(archiveContainerDiv)
+   
+
+    archiveContainerDiv.appendChild(archiveLabel)
+    archiveContainerDiv.appendChild(archiveButton)
+    archiveButton.addEventListener("click", async function(){
+        if(confirm("Are you sure you want to archive this job?")){
+            console.log("archiving job")
+            chrome.storage.sync.set({ archiveFlag: 1})
+        
+            const checkboxes = document.getElementsByClassName("afDataTable__row--hover trCompliance af-warn lTR")
+            for(let i=0;i<checkboxes.length;i++){
+                checkboxes[i].children[9].children[0].children[0].click()
+            }
+            document.getElementById("selectedTaskStatus").value=3
+            document.getElementById("update_btn").click()
+        }
+    
+    })
+
+    console.log("archive buttons loaded")
+
+    
+
     
 })
+
 
 async function schedConfirm(){
     window.removeEventListener("focus", schedConfirm)
@@ -259,4 +322,6 @@ async function schedConfirm(){
         document.getElementById("update_btn").click()
     } 
 }
+
+
 
