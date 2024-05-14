@@ -232,7 +232,7 @@ window.addEventListener('load', async() => {
     
 
     var archiveContainerDiv = document.createElement('DIV')
-    if(!document.getElementById("archive_btn"))cancelSpace.appendChild(archiveContainerDiv)
+    if(!(document.getElementById("archive_btn")||document.getElementsByClassName("afBanner af-warn")[0].innerText == "Archived"))cancelSpace.appendChild(archiveContainerDiv)
    
 
     archiveContainerDiv.appendChild(archiveLabel)

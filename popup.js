@@ -25,6 +25,11 @@ var suburbSearchBtn = document.getElementById("suburbSearchBtn")
 var postcodeBox = document.getElementById("postcodeBox")
 var postcodeSearchBtn = document.getElementById("postcodeSearchBtn")
 var techBox = document.getElementById("techBox")
+
+var massArchiveBtn = document.getElementById("massArchiveBtn")
+var massArchiveResetBtn = document.getElementById("massArchiveResetBtn")
+
+
 var input = []
 var dict = {
     "Clothes Dryers": "258",
@@ -1213,3 +1218,57 @@ async function sendBookingText1(index){
     document.getElementById("btnSendSMSmessage").click()
     document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
 }
+
+massArchiveBtn.addEventListener("click", async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    window.close()
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: MassArchiveJobs,
+    });
+
+
+});
+
+function MassArchiveJobs() {
+    const targetUri = "https://office.aroflo.com/ims/Site/Service/managetasks/index.cfm?view=1"
+    if (!window.location.href.includes(targetUri)){
+        if(confirm("You are on the wrong page to use this function. would you like to go to the correct page now?")){
+            window.location.href = targetUri+"&tid=IMS.STK.CUR"
+        }
+
+    }
+    else{
+        if(confirm("Archive all the jobs on this page? this can only be reversed manually. when you are done you need to reset the flag with the correct button or else you will archive all jobs you open.")){
+            
+            const taskList = document.getElementsByClassName("afDataTable__cell--non-numeric page-content-task-name")
+            var autoArchiveTag = 1
+            chrome.storage.sync.set({ autoArchiveTag: autoArchiveTag });
+            for (let i = 1; i < Math.min(25, taskList.length); i++) {
+                window.open(taskList[i].children[0].children[0].href, '_blank')
+            }
+            /*async function archiveReset() {
+                window.removeEventListener("focus", archiveReset)
+                alert("Jobs Archived. Ressetting flag and reloading...")
+                chrome.storage.sync.set({ autoArchiveTag: 0 });
+                window.location.reload()
+                
+            }
+            window.addEventListener("focus", archiveReset)
+            */
+        }
+        
+    }
+
+}
+
+
+
+
+
+//reset flag
+massArchiveResetBtn.addEventListener("click", async () => {
+    const autoArchiveTag = 0
+    chrome.storage.sync.set({ autoArchiveTag: autoArchiveTag });
+    textArea.value = "auto archive flag reset, jobs should be normal now"
+});

@@ -327,5 +327,11 @@
 1.0930
 - changed tech maps to "view" rather than "edit"
 
+1.0931
+- added fast archive to jobs
+
+1.0932
+- added mass archive
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked
