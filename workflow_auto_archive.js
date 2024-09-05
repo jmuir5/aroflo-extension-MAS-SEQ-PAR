@@ -6,7 +6,12 @@ window.addEventListener('load', async() => {
         const targetUri = "https://office.aroflo.com/ims/Site/Service/managetasks/index.cfm?view=1"
         
         if(window.location.href == targetUri) {
-            window.close()
+            if(autoArchiveTag>0){
+                window.close()
+            }
+            else{
+                window.location.href = document.referrer
+            }
         }
 
     })

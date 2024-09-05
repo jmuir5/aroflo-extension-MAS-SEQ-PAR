@@ -40,7 +40,7 @@ window.addEventListener('load', async() => {
                 console.log("waiting for job to open")
             }
             
-            var firstAvailable = await getFirstAvailable(PartsTag)
+            var firstAvailable = await getFirstPartsAvailable(PartsTag)
             console.log("First Available: "+firstAvailable)
             document.getElementById("addResourceMenu_1_0").click()
             document.getElementsByClassName("afMenu__item")[0].children[0].click()
@@ -123,7 +123,7 @@ window.addEventListener('load', async() => {
 
 })
 
-async function getFirstAvailable(technician){
+async function getFirstPartsAvailable(technician){
     var sendTechs = ["John Sleap","Otavio Palharini","Gee Cruz","Tulio Pereira","Vini Moura"]
     document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-next ui")[0].click()
     if(sendTechs.includes(technician)){
@@ -132,7 +132,7 @@ async function getFirstAvailable(technician){
     dayloop:
     while(true){
         document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-next ui")[0].click()
-        while(!document.getElementsByClassName("walkme-icon-image-div walkme-launcher-image-div")[0]){
+        while(!document.getElementById("dlgcalgenLastRefresh").innerText.includes("Last Refresh")){//jobs not loaded
             await new Promise(r => setTimeout(r, 10));
             console.log("waiting for job to open")
         }
@@ -172,6 +172,52 @@ async function getFirstAvailable(technician){
 
     }
 }
+async function getFirstAvailable(technician){
+    dayloop:
+    while(true){
+        document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-next ui")[0].click()
+        while(!document.getElementById("dlgcalgenLastRefresh").innerText.includes("Last Refresh")){//jobs not loaded
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for job to open")
+        }
+        var boxes = document.getElementsByClassName("aagBox")
+        var today = document.getElementsByTagName("h2")[4].innerText.split(",")[0]
+        for(let i=0;i<boxes.length;i++){
+            console.log(boxes[i].children[3].classList)
+
+            console.log(boxes[i].children[3].style.color)
+            if(boxes[i].classList.contains(technician.replace(" ","."))){
+                console.log("box found")
+                console.log(boxes[i].children[3].style.color)
+                if(boxes[i].children[4].style.color=="blue"&&boxes[i].children[3].style.color=="blue"){
+                    var indicator = 0
+                    if(boxes[i].children[0].style.color=="blue")indicator+=1
+                    if(boxes[i].children[1].style.color=="blue")indicator+=2
+                    switch(indicator){
+                        case 1:
+                            indicator = "AM"
+                            break
+                        case 2:
+                            indicator = "PM"
+                            break
+                        case 3:
+                            indicator = "Any"
+                            break
+                    }
+                    return today+" "+indicator
+                
+                }
+                else continue dayloop
+            }
+            else continue
+        }
+        console.log("no box found")
+        return today+" Any"
+
+    }
+}
+
+
 
 function simulateMouseClick(targetNode) {
     function triggerMouseEvent(targetNode, eventType) {

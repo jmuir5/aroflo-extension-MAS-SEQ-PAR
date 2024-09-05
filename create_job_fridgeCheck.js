@@ -1,7 +1,4 @@
 window.addEventListener("load", async()=>{
-
-
-    
     var dismissed = false
     while(true&&!dismissed){
         var assetName = document.getElementById("assetName")

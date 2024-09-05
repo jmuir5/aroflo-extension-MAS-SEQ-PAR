@@ -7,6 +7,8 @@ window.addEventListener("load", async()=>{
     var baseDayString = ""
     var currentTotal = 0
     
+
+    const columnSize = 136
     
     while(true){
         //get positions, get jobs, sort jobs, count, display
@@ -14,16 +16,35 @@ window.addEventListener("load", async()=>{
             await new Promise(r => setTimeout(r, 10));
             //console.log("nothing to do")
         }
+
         var day =document.getElementsByTagName("h2")[4].childNodes[0].textContent.split(",")[0]//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973")[0].parentElement.childNodes[0].textContent.split(",")[0]        
         if(day == "Friday"){
            
         }
-        var frame = [[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1]]
-
+        
         console.log(frame)
-        var dict = [["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 3, 3, -1], ["Eduardo Chiovato", 4, 2, -1], ["John Sleap", 8, 0, -1], ["Benji Le Her", 4, 2, -1],
-                    ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 4, 2, -1], ["Tulio Pereira", 4, 4, -1], ["Vini Moura", 4, 4, -1], ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 3, 3, -1], 
-                    ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 5, 1, -1] ]
+        var dict = [
+            //mas - nsw
+            ["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 8, 0, -1], ["Benji Le Her", 5, 2, -1],
+            ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1], 
+            //premium - wa
+            ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 3, 3, -1], 
+            //seq - qld
+            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 5, 1, -1],
+            //alpha - nsw
+            ["David Miles", 0, 0, -1], ["Dylan Miles", 0, 0, -1], ["Tony Scalone", 0, 0, -1], ["Ron Richards", 0, 0, -1], ["Pavel Guba", 0, 0, -1], 
+            ["Luiz Santana", 0, 0, -1], ["Mark Reardon", 0, 0, -1], ["Sam Hornsey", 0, 0, -1], ["Douglas Herbert", 0, 0, -1], 
+            ["Shane Van Der Hoek", 0, 0, -1], ["Darryl Diamond", 0, 0, -1],["James Campbell", 0, 0, -1], ["Corey Roberts", 0, 0, -1],
+            //bunnies - nsw
+            ["Rory Bebington", 0, 0, -1],["Ashly Dyson", 0, 0, -1],["Ronald Jakacki", 0, 0, -1],["Timothy Jesus", 0, 0, -1],["Tony King", 0, 0, -1],
+            ["Daniel Nigro", 0, 0, -1]
+        ];
+
+        //var frame = [[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1]]
+        var frame = []
+        for(let i = 0; i<dict.length;i++){
+            frame.push([0,0,0,0,0,0,-1,-1])
+        }
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
 
         var ccol = 0
@@ -124,6 +145,15 @@ window.addEventListener("load", async()=>{
                 
             } 
             offset+=1
+        }
+
+        //adaptive view code
+
+        const viewName = document.getElementById("btnShowCalendarViewsLabel").innerText
+        if(viewName=="Adaptive view"){
+            const branch = document.getElementById("imsBUNavigationBtn").innerText
+
+
         }
         
         //console.log("test marker")

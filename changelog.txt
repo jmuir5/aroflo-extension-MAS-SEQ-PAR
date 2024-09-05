@@ -333,5 +333,56 @@
 1.0932
 - added mass archive
 
+1.0933
+- added postpone job button
+- changed cancel job buttons to archive job also, and prompt for approval
+
+1.0934
+- archiving a job returns you to the job page (not including mass archive)
+
+1.0935
+- fixed a bug with parts recieved button
+
+1.0936
+- changed quote acceptance buttons to change acceptance status
+
+1.0937
+- updated every employee techs jobs to 8
+- updated "parts recieved" button to check checklist text, removed john special condition
+
+1.0938
+- added alpha techs to calendar to prevent crashes
+
+1.0939
+- reverted tech job change from 1.0937
+
+1.0940
+- enabling quicknotes for quotes
+
+1.0941
+- reverted reversion from 1.0939 (updated every employee except benji techs jobs to 8)
+
+1.0942 
+- upped benji's jobs to 7 (5/2)
+- added bunnies techs the calendar
+
+1.0943
+-calendar bugfix
+
+1.0944
+- added functionality to automatically set an event reminder whe jobs are created to am/pm buttons.
+- cleaned up some code around am/pm buttons
+
+1.0945
+- removed function added in previous update - function exists within aroflo already
+
+1.0956
+- set peters jobs to 7
+- cancel button now sends a text message to clients when used
+- addeed autoset tech button to create job page
+
+1.0957 
+- fixed bugs in cancel button text messages
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked

@@ -206,7 +206,7 @@ function importData(techLocations, index23) {
         for (let i = 12; i < inputtag.length; i++) {
             description += "\<p\>" + inputtag[i] + "\<\/p\>"
         }
-        console.log(description)
+        console.log(description.trim())
         document.getElementById("description").value = description
         await new Promise(r => setTimeout(r, 10));
         document.getElementById("tdRich").click()
@@ -231,8 +231,7 @@ function importData(techLocations, index23) {
         document.getElementById("address2").focus()
         document.getElementById("address2").value = inputtag[5] + " " + inputtag[6]
         document.getElementById("address2").dispatchEvent(e)
-
-
+        // todo delete
         var clicked = false
         var postcode = inputtag[7]
         var latitudeClone = null
@@ -250,6 +249,7 @@ function importData(techLocations, index23) {
                 }
             }
         })
+        //todo end delete
         while (document.getElementById("Name")) {
             await new Promise(r => setTimeout(r, 10));
             console.log("waiting for name")
@@ -948,8 +948,12 @@ function processInvoices() {
         if (i % 6 == 5 && i != 5) amountOwing.push(cells[i])
     }
     chrome.storage.sync.set({ invoiceTag: invoiceTag });
+    var num = 0
     for (let i = 0; i < amountOwing.length; i++) {
-        if (amountOwing[i].innerText.includes("$0.00")) window.open(jobNumbers[i].href, '_blank')
+        if (amountOwing[i].innerText.includes("$0.00")){
+            num+=1
+            window.open(jobNumbers[i].href, '_blank')
+        }
     }
 
 }

@@ -44,6 +44,7 @@ window.addEventListener('load', async() => {
         document.getElementById("thisnote").value = confText+text
         document.getElementById("selectedQuoteStatus").value=2
         document.getElementById("selectedQuoteStatus").dispatchEvent(event)
+        document.getElementById("selectedAcceptanceStatus").value = 2
         if(document.getElementById("savequote"))document.getElementById("savequote").click()
         if(document.getElementById("saveQuoteStatus"))document.getElementById("saveQuoteStatus").click()
     }

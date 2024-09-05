@@ -5,13 +5,15 @@ window.addEventListener('load', async() => {
     //archive part 2 execution
     console.log("checking flag")
     chrome.storage.sync.get("archiveFlag", async ({ archiveFlag }) => {
-        if(archiveFlag>0){
-            console.log("flag good")
+        chrome.storage.sync.get("autoArchiveTag", async ({ autoArchiveTag }) => {
 
-            chrome.storage.sync.set({ archiveFlag: archiveFlag-1})
-            document.getElementById("archive_btn").click()
+            if(archiveFlag>0){
+                console.log("flag good")
 
-        }
+                chrome.storage.sync.set({ archiveFlag: archiveFlag-1})
+                document.getElementById("archive_btn").click()
+            }
+        })
     })
 
 
@@ -75,8 +77,12 @@ window.addEventListener('load', async() => {
             suffix = "sent to tech"
         }
         document.getElementById("thisnote").value = "Parts received, "+suffix
-        document.getElementsByClassName("afDataTable__cell--center af-warn")[0].children[0].children[0].click()
-        document.getElementsByClassName("afDataTable__cell--center af-warn")[3].children[0].children[0].click()
+        if(document.getElementsByClassName("compNewActionOrder")[0].parentElement.innerText=='Parts Received - Ready to be scheduled'){
+            document.getElementsByClassName("afDataTable__cell--center af-warn")[0].children[0].children[0].click()
+        }
+        if(document.getElementsByClassName("compNewActionOrder")[1].parentElement.innerText=='Parts scheduled with Client to be fitted'){
+            document.getElementsByClassName("afDataTable__cell--center af-warn")[3].children[0].children[0].click()
+        }
         document.getElementById("selectedTaskSubstatus").value = 352
         chrome.storage.sync.set({ PartsTag: currentTech})
         
@@ -97,8 +103,51 @@ window.addEventListener('load', async() => {
     console.log("note buttons loaded")
 
 
+    //Extra Buttons
+    const extraButtonSpace = document.getElementsByClassName("pageViewTask__signature")[0]
+
+    //postponement button
+    var postponeLabel = document.createElement('div')
+    postponeLabel.appendChild(document.createTextNode("Postpone job"))
+    var postponeButton = document.createElement('BUTTON')
+    postponeButton.appendChild(document.createTextNode("Postpone Job"))
+    postponeButton.type="button"
+    postponeButton.id="postponeButton"
+    postponeButton.classList = "afBtn afBtn__fill af-success padding-x--6"
+    
+
+    var postponeContainerDiv = document.createElement('DIV')
+    if(document.getElementsByClassName("schedule-item").length>0)extraButtonSpace.appendChild(postponeContainerDiv)
+   
+
+    postponeContainerDiv.appendChild(postponeLabel)
+    postponeContainerDiv.appendChild(postponeButton)
+    postponeButton.addEventListener("click", async function(){
+        document.getElementById("btnAddNoteText").click()
+        document.getElementById("thisnote").value = "Job postponed per customers request. customer to call and reschedule when ready."
+        document.getElementById("selectedTaskSubstatus").value = '605'
+
+        document.getElementById("btnAddNote").click()
+        var jobNumber = document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header")[3].textContent.split(' ')
+        jobNumber = jobNumber[jobNumber.length-1]
+        chrome.storage.sync.set({ CancelTag: jobNumber})
+        document.getElementById("schedule-item-1").click()
+        while(true){
+            
+            chrome.storage.sync.get("CancelTag", async ({ CancelTag }) => {jobNumber=CancelTag})
+            if(jobNumber==0){
+                document.getElementById("update_btn").click()
+                break
+            }
+            await new Promise(r => setTimeout(r, 10));
+            
+        }
+    
+    })
+
+
+
     //cancellation buttons
-    const cancelSpace = document.getElementsByClassName("pageViewTask__signature")[0]
     var cancelContainerDiv = document.createElement('DIV')
     var cancelEmailButton = document.createElement('BUTTON')
     var cancelPhoneButton = document.createElement('BUTTON')
@@ -108,7 +157,7 @@ window.addEventListener('load', async() => {
     cancelEmailButton.appendChild(document.createTextNode("Email"))
     cancelPhoneButton.appendChild(document.createTextNode("Phone"))
     cancelMessageButton.appendChild(document.createTextNode("Message"))
-    cancelLabel.appendChild(document.createTextNode("Quick Cancel via:  "))
+    cancelLabel.appendChild(document.createTextNode("Quick Cancel and archive via:  "))
 
     cancelEmailButton.type="button"
     cancelPhoneButton.type="button"
@@ -122,32 +171,105 @@ window.addEventListener('load', async() => {
     cancelPhoneButton.classList = "afBtn afBtn__fill af-warn editNoteDelete margin-right--1 headerItemSpacing"
     cancelMessageButton.classList = "afBtn afBtn__fill af-warn editNoteDelete margin-right--1 headerItemSpacing"
     
-    if(document.getElementsByClassName("schedule-item").length>0) cancelSpace.appendChild(cancelContainerDiv)
+    if(document.getElementsByClassName("schedule-item").length>0) extraButtonSpace.appendChild(cancelContainerDiv)
     cancelContainerDiv.appendChild(cancelLabel)
     cancelContainerDiv.appendChild(cancelEmailButton)
     cancelContainerDiv.appendChild(cancelPhoneButton)
     cancelContainerDiv.appendChild(cancelMessageButton)
     
-    const cancelText = "Job cancelled via "
+    
 
     var cancelFunction = async function(text){
-        document.getElementById("btnAddNoteText").click()
-        document.getElementById("thisnote").value = cancelText+text
-        document.getElementById("btnAddNote").click()
-        var jobNumber = document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header")[3].textContent.split(' ')
-        jobNumber = jobNumber[jobNumber.length-1]
-        chrome.storage.sync.set({ CancelTag: jobNumber})
-        document.getElementById("schedule-item-1").click()
-        while(true){
-            
-            chrome.storage.sync.get("CancelTag", async ({ CancelTag }) => {jobNumber=CancelTag})
-            if(jobNumber==0){
-                location.reload()
-                break
+        const cancelText = "Job cancelled via "
+        if(confirm("Are you sure you want to cancel and archive this job?")){
+            document.getElementById("btnAddNoteText").click()
+            document.getElementById("thisnote").value = cancelText+text
+            document.getElementById("btnAddNote").click()
+            var jobNumber = document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header")[3].textContent.split(' ')
+            jobNumber = jobNumber[jobNumber.length-1]
+            chrome.storage.sync.set({ CancelTag: jobNumber})
+            document.getElementById("schedule-item-1").click()
+            while(true){
+                
+                chrome.storage.sync.get("CancelTag", async ({ CancelTag }) => {jobNumber=CancelTag})
+                if(jobNumber==0){
+                    console.log("archiving job")
+                    chrome.storage.sync.set({ archiveFlag: 1})
+                
+                    const checkboxes = document.getElementsByClassName("afDataTable__row--hover trCompliance af-warn lTR")
+                    for(let i=0;i<checkboxes.length;i++){
+                        checkboxes[i].children[9].children[0].children[0].click()
+                    }
+                    document.getElementById("selectedTaskStatus").value=3
+                    //send text
+                    var branch = document.getElementsByClassName("afDataTable__cell--non-numeric ownerEditMode")[0].innerText
+                    var branchNumber = ""
+                    var from = ""
+                    switch(branch){
+                        case "MAS > Master Appliance Service":
+                            branchNumber = "(02) 8445 4000"
+                            from = "MasterAppli"
+                            break
+                        case "MAS > Premium Appliance Repair": 
+                            branchNumber = "1300 614 730"
+                            from = "PremiumAppl"
+                            break
+                        case "MAS > SEQ Appliance Repair": 
+                            branchNumber = "(07) 3096 0580"
+                            from = "SEQApplianc"
+                            break
+                        default: "error"
+                    }
+                    document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[0].click()
+                    while (!document.getElementById("btnEmailTemplate")) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for sms template button")
+                    }
+                    document.getElementById("btnEmailTemplate").click()
+                    
+                    var table =document.getElementsByClassName("ui-jqgrid-btable")
+                    while(true){
+                        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                            await new Promise(r => setTimeout(r, 10));
+                            console.log("waiting for templates to load")
+                        }
+                        if(document.getElementById("1353")){
+                            document.getElementById("1353").click()
+                            document.getElementById("btnSelect").click()
+                            break
+                        }
+                        else {
+                            if(document.getElementById("1233")){
+                                document.getElementById("1233").click()
+                                document.getElementById("btnSelect").click()
+                                return
+                            }
+                            else document.getElementsByClassName("af-pg-button")[2].click()
+                            
+                        }
+
+                        await new Promise(r => setTimeout(r, 10))
+                    }
+                    while (document.getElementById("message_value").value.length<100) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for sms template to load")
+                    }
+                    document.getElementById("from_value").value= from
+                    document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch*', branch.replace("MAS > ", ""))
+                    document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch number*', branchNumber)
+
+                    document.getElementById("btnSendSMSmessage").click()
+                    document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
+
+
+                    document.getElementById("update_btn").click()
+                    break
+                }
+                await new Promise(r => setTimeout(r, 10));
+                
             }
-            await new Promise(r => setTimeout(r, 10));
-            
         }
+
 
     }
 
@@ -168,7 +290,7 @@ window.addEventListener('load', async() => {
     assignButton.classList = "afBtn afBtn__fill af-success padding-x--6"
     
     var assignContainerDiv = document.createElement('DIV')
-    cancelSpace.appendChild(assignContainerDiv)
+    extraButtonSpace.appendChild(assignContainerDiv)
    
 
     cancelContainerDiv.appendChild(assignLabel)
@@ -232,7 +354,7 @@ window.addEventListener('load', async() => {
     
 
     var archiveContainerDiv = document.createElement('DIV')
-    if(!(document.getElementById("archive_btn")||document.getElementsByClassName("afBanner af-warn")[0].innerText == "Archived"))cancelSpace.appendChild(archiveContainerDiv)
+    if(!(document.getElementById("archive_btn")||document.getElementsByClassName("afBanner af-warn")[0].innerText == "Archived"||document.getElementsByClassName("schedule-item").length>0))extraButtonSpace.appendChild(archiveContainerDiv)
    
 
     archiveContainerDiv.appendChild(archiveLabel)
@@ -263,7 +385,6 @@ window.addEventListener('load', async() => {
 async function schedConfirm(){
     window.removeEventListener("focus", schedConfirm)
     if (confirm("Was a date selected?") == true) {
-        var johnFlag = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText=="John Sleap"
         document.getElementById("btnSendSms-0").click()
         while (!document.getElementById("btnEmailTemplate")) {
             await new Promise(r => setTimeout(r, 10));
@@ -277,39 +398,21 @@ async function schedConfirm(){
                 await new Promise(r => setTimeout(r, 10));
                 console.log("waiting for templates to load")
             }
-            if(johnFlag){
-                if(document.getElementById("1261")){
-                    document.getElementById("1261").click()
-                    document.getElementById("btnSelect").click()
-                    break
-                }
-                else {
-                    if(document.getElementById("1233")){
-                        document.getElementById("1233").click()
-                        document.getElementById("btnSelect").click()
-                        return
-                    }
-                    else document.getElementsByClassName("af-pg-button")[2].click()
-                    
-                }
+            
+            if(document.getElementById("775")){
+                document.getElementById("775").click()
+                document.getElementById("btnSelect").click()
+                break
             }
-            else{
-                if(document.getElementById("775")){
-                    document.getElementById("775").click()
+            else {
+                if(document.getElementById("1233")){
+                    document.getElementById("1233").click()
                     document.getElementById("btnSelect").click()
-                    break
+                    return
                 }
-                else {
-                    if(document.getElementById("1233")){
-                        document.getElementById("1233").click()
-                        document.getElementById("btnSelect").click()
-                        return
-                    }
-                    else document.getElementsByClassName("af-pg-button")[2].click()
-                    
-                }
+                else document.getElementsByClassName("af-pg-button")[2].click()
+                
             }
-
             await new Promise(r => setTimeout(r, 10))
         }
         while (document.getElementById("message_value").value.length<100) {

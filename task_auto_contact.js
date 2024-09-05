@@ -1,5 +1,5 @@
 //import sendBookingText from "./sendBookingText"
-//enquirey buttons, cancel buttons, assign button
+//Automatically contact client after importing email
 window.addEventListener('load', async() => {
     chrome.storage.sync.get("ContactTag", async ({ ContactTag }) => {
         console.log("contact flag = "+ContactTag)
@@ -108,7 +108,7 @@ async function ContactClient(flag) {
                 await new Promise(r => setTimeout(r, 10));
                 console.log("waiting for sms template to load")
             }
-            document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch*', branch)
+            document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch*', branch.replace("MAS > ", ""))
             document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch number*', branchNumber)
 
             document.getElementById("btnSendSMSmessage").click()
