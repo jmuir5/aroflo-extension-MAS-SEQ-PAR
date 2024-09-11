@@ -85,6 +85,10 @@ window.addEventListener('load', async() => {
                     if(selectedTechs[i].getAttribute("deleted")==1)continue
                     techlist+= selectedTechs[i].children[1].children[0].innerText
                     selectedTechs[i].children[2].children[0].value=start
+                    console.log("contains gee :"+techlist.includes("Gee Cruz"))
+                    console.log("time :"+time)
+                    if(techlist.includes("Gee Cruz") && time == "AM") selectedTechs[i].children[2].children[0].value="7:30am"
+                    
                     selectedTechs[i].children[3].children[0].value=end
                     if(branch){
                         if(branch.value == "Online Booking") status = "unconfirmed"
@@ -113,89 +117,6 @@ window.addEventListener('load', async() => {
                     }
                     document.getElementById("btnSelect").click()
                 }
-                //set event reminder
-                /*if(document.getElementById("addReminderMenu_1")){
-                    var closeIndex = 0
-                    if(branchTemplate == ""){
-                        switch(document.getElementsByClassName("afHeader__business-unit-menu afBtn__fill")[0].innerText){
-                            case "Master Appliance Service":
-                                branchTemplate = "1342"
-                                break
-                            case "Premium Appliance Repair":
-                                branchTemplate = "1343"
-                                break
-                            case "SEQ Appliance Repair":
-                                branchTemplate = "1344"
-                                break
-                            case "Bunneys Appliances":
-                                branchTemplate = "1345"
-                                break
-                                                
-                        }
-                        closeIndex = 1
-                    }
-                    var branchName = ""
-                    switch(branchTemplate){
-                        case "1342":
-                            branchName = "MasterAppli"
-                            break
-                        case "1343":
-                            branchName = "PremiumAppl"
-                            break
-                        case "1344":
-                            branchName = "SeqApplianc"
-                            break
-                        case "1345":
-                            branchName = "BunneysAppl"
-                            break
-
-
-                    }
-                    console.log("started reminder settings")
-                    document.getElementById("addReminderMenu_1").click()
-                    await new Promise(r => setTimeout(r, 1500));
-                    console.log("waiting for event mmessage dialogue to load")
-                    if(document.getElementsByClassName("afEventSettingBox afPageBox afPageBox--border").length<5){
-                        document.getElementsByClassName("btnAddEventSMS")[0].click()
-                    }
-                    
-                    document.getElementsByClassName("optShowSentHistoryInTaskNotes afCheckbox__input")[0].click()
-                    document.getElementsByClassName("from_customemail")[0].value = branchName
-                    document.getElementsByClassName("minuteSelect")[0].value = 1440
-                    for(let i = document.getElementsByClassName("rowTo").length; i<2;i++){
-                        document.getElementsByClassName("btnAddTo")[0].click()
-                    }
-                    document.getElementsByClassName("selToId toid")[0].value = 4
-                    document.getElementsByClassName("selToId toid")[1].value = 11
-                    document.getElementsByClassName("afBtn afBtn__fill af-primary afBtn--small").btnAdvSearch.click()
-                    while(true){
-                        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for templates to load")
-                        }
-                        if(document.getElementById(branchTemplate)){
-                            document.getElementById(branchTemplate).click()
-                            document.getElementById("btnSelect").click()
-                            break
-                        }
-                        else {
-                            if(document.getElementById("1233")){
-                                alert("Failed to find correct template")
-                                return
-                            }
-                            else document.getElementsByClassName("af-pg-button")[2].click()
-                            
-                        }
-            
-                        await new Promise(r => setTimeout(r, 10))
-                    }
-
-
-                    document.getElementsByClassName("afBtn afBtn__fill af-success btnSaveSettings")[0].click()
-                    document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[closeIndex].click()
-                    
-
-                }*/
 
             }
 

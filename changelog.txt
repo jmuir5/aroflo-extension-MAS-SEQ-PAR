@@ -376,13 +376,22 @@
 1.0945
 - removed function added in previous update - function exists within aroflo already
 
-1.0956
+1.0946
 - set peters jobs to 7
 - cancel button now sends a text message to clients when used
 - addeed autoset tech button to create job page
 
-1.0957 
+1.0947 
 - fixed bugs in cancel button text messages
+
+1.0948
+- updated peters jobs
+
+1.0949
+- changed gee's am to be 7:30, adjusted baag code accordingly
+
+1.0950 
+- updated autocontact to correctly pick up gee's morning jobs for emails
 
 TODO
 - doublecheck parts recieved code to ensure correct day is picked

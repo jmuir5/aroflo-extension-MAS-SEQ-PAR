@@ -63,7 +63,7 @@ window.addEventListener("load", async()=>{
                 frame[index0][5]+=1
                 
             }
-            if(jobs[i].innerText.includes("8:30a")){
+            if(jobs[i].innerText.includes("8:30a")||jobs[i].innerText.includes("7:30a")){
                 frame[index0][0]+=1
                 
             }
