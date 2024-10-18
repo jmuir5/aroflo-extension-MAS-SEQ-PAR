@@ -123,6 +123,9 @@ importBtn.addEventListener("click", async () => {
         console.log(inputtag[4])
         return
     }
+
+    inputtag =  inputtag.map(s => s.trim());
+    //inputtag = trimmedInput
     chrome.storage.sync.set({ inputtag: inputtag });
 
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -204,7 +207,7 @@ function importData(techLocations, index23) {
         document.getElementById("tdDefault").click()
         var description = ""
         for (let i = 12; i < inputtag.length; i++) {
-            description += "\<p\>" + inputtag[i] + "\<\/p\>"
+            if(inputtag[i]) description += "\<p\>" + inputtag[i] + "\<\/p\>"
         }
         console.log(description.trim())
         document.getElementById("description").value = description
@@ -268,6 +271,20 @@ function importData(techLocations, index23) {
                 }
             }
         }
+
+        //set reported by contact 
+        document.querySelectorAll("[id='btnAdvSearch']")[5].click()
+        while (!document.getElementsByClassName("jqgfirstrow")[0].parentElement.children[1]) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for contacts to load")
+        }
+        document.getElementsByClassName("jqgfirstrow")[0].parentElement.children[1].click()
+        document.getElementById("btnSelect").click()
+        while (document.getElementById("btnAdd")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for contacts to close fully")
+        }
+
         //open asset, set asset
         document.querySelectorAll("[id='btnAdvSearch']")[3].click()
         document.getElementById("btnAdd").click()
@@ -307,10 +324,47 @@ function importData(techLocations, index23) {
 
             console.log("waiting for category close")
         }
+        
+        while (document.getElementById("dialog_search_assets")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for asset search dialogue to close")
+            if (document.getElementById("gs_asset")) {
+                if (document.getElementById("gs_asset").value == "") {
+                    document.getElementById("gs_asset").value = inputtag[8] + " " + inputtag[9]
+                    document.getElementById("gs_asset").dispatchEvent(e)
+                }
+            }
+        }
+
+        //redundant?
+        while (document.getElementById("categoryName")) {
+            console.log("waiting for asset to close")
+            await new Promise(r => setTimeout(r, 10));
+
+        }
+
+        //todo: delete as redundant
+        if (document.getElementsByClassName("afCard").length == 5) {
+            //console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
+            while (document.getElementsByClassName("afCard").length>4) {
+                if(document.getElementsByClassName("afCard")[4].childNodes[1].textContent == "Saving ..."){
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log(":p")
+                }
+                break
+            }
+
+            //console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
+            
+        }
+
+        
         //set internet, sleep then set time
         if (document.getElementById("_Cust299")) document.getElementById("_Cust299").value = "Online Booking"
         if (document.getElementById("_Cust300")) document.getElementById("_Cust300").value = "Online Booking"
         if (document.getElementById("_Cust301")) document.getElementById("_Cust301").value = "Online Booking"
+        if (document.getElementById("_Cust319")) document.getElementById("_Cust319").value = "Online Booking"
+
         document.getElementById("addrequest__submit").addEventListener("click", function(){chrome.storage.sync.set({ ContactTag: 1 });} )
         //opentask in new tab
         if (document.getElementsByClassName("afBtnGroup").length > 0) {
@@ -336,161 +390,172 @@ function importData(techLocations, index23) {
                 }
                 document.getElementById("btnShowCal_1_0").click()
                 var node = document.querySelector('[title="'+inputtag[10]+'"]');
-                if(node)node.parentElement.classList.add("ui-state-highlight")
+                if(node){node.parentElement.classList.add("ui-state-highlight")} 
+
                 document.getElementsByClassName("btnAddUsers")[0].click()
-                var listOfTechs = []
-                for (const tech in techLocations) {
-                    if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
-                }
-                console.log(listOfTechs)
-                if (document.getElementsByClassName("afCard").length == 5) {
-                    //console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
-                    while (document.getElementsByClassName("afCard").length>4) {
-                        if(document.getElementsByClassName("afCard")[4].childNodes[1].textContent == "Saving ..."){
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log(":p")
-                        }
-                        break
+                
+                if(document.getElementsByClassName("af-truncate--text")[0].innerText!="Alpha Appliance Repair"){
+                    var listOfTechs = []
+                    for (const tech in techLocations) {
+                        if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
                     }
-
-                    //console.log(document.getElementsByClassName("afCard")[4].childNodes[1].textContent)
+                    console.log(listOfTechs)
                     
-                }
-                var tables = document.getElementsByClassName("ui-jqgrid-btable")
+                    var tables = document.getElementsByClassName("ui-jqgrid-btable")
 
-                while (tables[tables.length-1].children[0].children.length <= 1) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for asign to load")
-                }
-                var table = tables[tables.length-1].children[0].children
-                if (listOfTechs.length == 1) {
-                    console.log("one techs found")
-                    for (let i = 0; i < table.length; i++) {
-
-                        if (listOfTechs.includes(table[i].children[4].innerText)) {
-                            table[i].click()
-                            table[i].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].click()
-
-
-                            break
-                        }
+                    while (tables[tables.length-1].children[0].children.length <= 1) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for asign to load")
                     }
-                } else if (listOfTechs.length > 1) {
-                    console.log("multiple techs found")
-                    var index = 1
-                    console.log(table.length > listOfTechs.length + 1)
-                    console.log(table.length)
-                    console.log(listOfTechs.length + 1)
+                    var table = tables[tables.length-1].children[0].children
+                    if (listOfTechs.length == 1) {
+                        console.log("one techs found")
+                        for (let i = 0; i < table.length; i++) {
 
-                    while (table.length > listOfTechs.length + 1) {
-                        if (listOfTechs.includes(table[index].children[4].innerText)) {
-                            index += 1
-                        } else {
-                            table[index].remove()
-                        }
-                    }
-                    //map popup code block
-                    var loc = document.getElementById("tblIMSMain")
-                    loc.appendChild(latitudeClone)
-                    loc.appendChild(longitudeClone)
-                    loc.appendChild(mapViewBtnClone)
-                    mapViewBtnClone.click()
-                    var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
-                    mapBox.style.height = '660px'
-                    mapBox.style.width = '620px'
-                    mapBox.children[0].children[0].innerText = 'Map'
-                    mapBox.children[1].children[0].children[0].children[0].children[0].remove()
-                    var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
-                    mapArea.style.height = '600px'
-                    mapArea.style.width = '600px'
+                            if (listOfTechs.includes(table[i].children[4].innerText)) {
+                                table[i].click()
+                                table[i].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].click()
 
-                    var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-                    var initX = techTableBox.style.left
-                    var initY = techTableBox.style.top
-                    mapBox.style.top = techTableBox.style.top
-                    techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
-                    mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
-                    while(true){
-                        try{
-                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
-                            var minusButton = mapButtons.children[12]
-                            break
-                        }
-                        catch(error){
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("failed to set map buttons")
-                        }
-                    }
-                    document.getElementsByClassName("gm-style-iw-a")[0].remove()
-                    while(true){
-                        try{
-                            minusButton = minusButton.children[0].children[2].children[0].children[2]
-                            break
-                        }
-                        catch (error){
-                            console.log("minus button has no children, reseting minus button")
-                            await new Promise(r => setTimeout(r, 10));
-                            minusButton = mapButtons.children[13]
-                        }
-                    }
 
-                    for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
-                    
-                    //end map popup code block
-                }
-                else { 
-                    console.log("no techs found") 
-                    //map popup code block
-                    var loc = document.getElementById("tblIMSMain")
-                    loc.appendChild(latitudeClone)
-                    loc.appendChild(longitudeClone)
-                    loc.appendChild(mapViewBtnClone)
-                    mapViewBtnClone.click()
-                    var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
-                    mapBox.style.height = '660px'
-                    mapBox.style.width = '620px'
-                    mapBox.children[0].children[0].innerText = 'Map'
-                    mapBox.children[1].children[0].children[0].children[0].children[0].remove()
-                    var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
-                    mapArea.style.height = '600px'
-                    mapArea.style.width = '600px'
-
-                    var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-                    var initX = techTableBox.style.left
-                    var initY = techTableBox.style.top
-                    mapBox.style.top = techTableBox.style.top
-                    techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
-                    mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
-                    while(true){
-                        try{
-                            var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
-                            var minusButton = mapButtons.children[12]
+                                break
+                            }
+                        }
+                    } else if (listOfTechs.length > 1) {
+                        console.log("multiple techs found")
+                        var index = 1
+                        console.log(table.length > listOfTechs.length + 1)
+                        console.log(table.length)
+                        console.log(listOfTechs.length + 1)
+                        var mapSkip = false
+                        while (true) {
+                            if(table.length==2 || index>=table.length){
+                                break
+                            }
+                            else if (listOfTechs.includes(table[index].children[4].innerText)) {
+                                index += 1
+                            } else {
+                                table[index].remove()
+                            }
+                            
+            
+                        }
+                        if(table.length == 2){
+                            console.log("trimmed down to 1 in area")
+            
+                            table[1].click()
+                            table[1].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].click()
+                            mapSkip = true
+                        }
+            
+                        if(!mapSkip){
+                            //map popup code block
+                            var loc = document.getElementById("tblIMSMain")
+                            loc.appendChild(latitudeClone)
+                            loc.appendChild(longitudeClone)
+                            loc.appendChild(mapViewBtnClone)
+                            mapViewBtnClone.click()
+                            var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
+                            mapBox.style.height = '660px'
+                            mapBox.style.width = '620px'
+                            mapBox.children[0].children[0].innerText = 'Map'
+                            mapBox.children[1].children[0].children[0].children[0].children[0].remove()
+                            var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
+                            mapArea.style.height = '600px'
+                            mapArea.style.width = '600px'
+            
+                            var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+                            var initX = techTableBox.style.left
+                            var initY = techTableBox.style.top
+                            mapBox.style.top = techTableBox.style.top
+                            techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
+                            mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
+                            while(true){
+                                try{
+                                    var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
+                                    var minusButton = mapButtons.children[12]
+                                    break
+                                }
+                                catch(error){
+                                    await new Promise(r => setTimeout(r, 10));
+                                    console.log("failed to set map buttons")
+                                }
+                            }
                             document.getElementsByClassName("gm-style-iw-a")[0].remove()
-                            break
+                            while(true){
+                                try{
+                                    minusButton = minusButton.children[0].children[2].children[0].children[2]
+                                    break
+                                }
+                                catch (error){
+                                    console.log("minus button has no children, reseting minus button")
+                                    await new Promise(r => setTimeout(r, 10));
+                                    minusButton = mapButtons.children[12]
+                                }
+                            }
+            
+                            for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
+            
+                            loc.removeChild(latitudeClone)
+                            loc.removeChild(longitudeClone)
+                            loc.removeChild(mapViewBtnClone)
                         }
-                        catch(error){
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("failed to set map buttons")
-                        }
+                        
+                        //end map popup code block
                     }
-                    
-                    
-                    while(true){
-                        try{
-                            minusButton = minusButton.children[0].children[2].children[0].children[2]
-                            break
+                    else { 
+                        console.log("no techs found") 
+                        //map popup code block
+                        var loc = document.getElementById("tblIMSMain")
+                        loc.appendChild(latitudeClone)
+                        loc.appendChild(longitudeClone)
+                        loc.appendChild(mapViewBtnClone)
+                        mapViewBtnClone.click()
+                        var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
+                        mapBox.style.height = '660px'
+                        mapBox.style.width = '620px'
+                        mapBox.children[0].children[0].innerText = 'Map'
+                        mapBox.children[1].children[0].children[0].children[0].children[0].remove()
+                        var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
+                        mapArea.style.height = '600px'
+                        mapArea.style.width = '600px'
+            
+                        var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+                        var initX = techTableBox.style.left
+                        var initY = techTableBox.style.top
+                        mapBox.style.top = techTableBox.style.top
+                        techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
+                        mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
+                        while(true){
+                            try{
+                                var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
+                                var minusButton = mapButtons.children[12]
+                                document.getElementsByClassName("gm-style-iw-a")[0].remove()
+                                break
+                            }
+                            catch(error){
+                                await new Promise(r => setTimeout(r, 10));
+                                console.log("failed to set map buttons")
+                            }
                         }
-                        catch (error){
-                            console.log("minus button has no children, reseting minus button")
-                            await new Promise(r => setTimeout(r, 10));
-                            minusButton = mapButtons.children[13]
+                        
+                        
+                        while(true){
+                            try{
+                                minusButton = minusButton.children[0].children[2].children[0].children[2]
+                                break
+                            }
+                            catch (error){
+                                console.log("minus button has no children, reseting minus button")
+                                await new Promise(r => setTimeout(r, 10));
+                                minusButton = mapButtons.children[12]
+                            }
                         }
-                    }
-                    
+                        
 
-                    for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
-                    
-                    //end map popup code block
+                        for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
+                        
+                        //end map popup code block
+                    }
                 }
                 while (document.getElementsByClassName("schedStartTime vd_required vd_time  afTextfield__input afTextfield__input--small ui-timepicker-input").length == 0) {
                     await new Promise(r => setTimeout(r, 10));
@@ -524,8 +589,10 @@ function importData(techLocations, index23) {
                                 document.getElementById("pmButton").click()
                                 break
                             default:
-                                document.getElementById("anyButton").click()
+                                document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value = "unconfirmed"
+                                break
                         }
+                        //await new Promise(r => setTimeout(r, 10));
                     }
                 }
                 catch(error){
@@ -569,6 +636,9 @@ async function ContactClient(flag) {
                 break
             case "SEQ Appliance Repair": 
                 branchNumber = "(07) 3096 0580"
+                break
+            case "Alpha Appliance Repair": 
+                branchNumber = "(02) 9420 2622"
                 break
             default: "error"
         }
@@ -673,6 +743,7 @@ async function ContactClient(flag) {
             else if (time.includes("12:30 PM")) time = "PM"
             else time = "Any"
             emailTag = "1051"
+            var alphaEarlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert"]
 
 
             switch (true) {
@@ -731,6 +802,18 @@ async function ContactClient(flag) {
                 case ((branch == "SEQ Appliance Repair") && (time == "Any")):
                     emailTag = "1039"
                     break;
+                case ((branch == "Alpha Appliance Repair") && (time == "AM") && alphaEarlyStarters.some(item=>document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes(item))):
+                    emailTag = "1394"
+                    break;
+                case ((branch == "Alpha Appliance Repair") && (time == "AM")):
+                    emailTag = "1237"
+                    break;
+                case ((branch == "Alpha Appliance Repair") && (time == "PM")):
+                    emailTag = "1238"
+                    break;
+                case ((branch == "Alpha Appliance Repair") && (time == "Any")):
+                    emailTag = "1236"
+                    break;
             }
 
 
@@ -785,19 +868,21 @@ async function ContactClient(flag) {
             if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
             await new Promise(r => setTimeout(r, 10));
             console.log("done2")
-            while (!document.getElementsByClassName("emlSendResult")[0]) {
+            while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
                 await new Promise(r => setTimeout(r, 10));
                 console.log("waiting for send")
             }
-            document.getElementsByClassName("ui-button-text")[2].click()
+            //document.getElementsByClassName("ui-button-text")[2].click()
             chrome.storage.sync.get("createTag", async ({ createTag }) => {
                 console.log(createTag)
-                if (createTag != 0) {
+                if (createTag > 0) {
                     var newtag = createTag - 1
                     chrome.storage.sync.set({ createTag: newtag });
                     window.close()
                 }
-                else window.location = "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK"
+                else {
+                    window.location = "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK"
+                }
             })
         });
     }

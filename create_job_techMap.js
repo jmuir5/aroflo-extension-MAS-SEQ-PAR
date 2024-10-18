@@ -58,64 +58,80 @@ window.addEventListener("load", async()=>{
             console.log(table.length > listOfTechs.length + 1)
             console.log(table.length)
             console.log(listOfTechs.length + 1)
-
-            while (table.length > listOfTechs.length + 1) {
-                if (listOfTechs.includes(table[index].children[4].innerText)) {
+            var done = false
+            var mapSkip = false
+            while (true) {
+                if(table.length==2 || index>=table.length){
+                    break
+                }
+                else if (listOfTechs.includes(table[index].children[4].innerText)) {
                     index += 1
                 } else {
                     table[index].remove()
                 }
-            }
-            //map popup code block
-            var loc = document.getElementById("tblIMSMain")
-            loc.appendChild(latitudeClone)
-            loc.appendChild(longitudeClone)
-            loc.appendChild(mapViewBtnClone)
-            mapViewBtnClone.click()
-            var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
-            mapBox.style.height = '660px'
-            mapBox.style.width = '620px'
-            mapBox.children[0].children[0].innerText = 'Map'
-            mapBox.children[1].children[0].children[0].children[0].children[0].remove()
-            var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
-            mapArea.style.height = '600px'
-            mapArea.style.width = '600px'
+                
 
-            var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-            var initX = techTableBox.style.left
-            var initY = techTableBox.style.top
-            mapBox.style.top = techTableBox.style.top
-            techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
-            mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
-            while(true){
-                try{
-                    var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
-                    var minusButton = mapButtons.children[12]
-                    break
-                }
-                catch(error){
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("failed to set map buttons")
-                }
             }
-            document.getElementsByClassName("gm-style-iw-a")[0].remove()
-            while(true){
-                try{
-                    minusButton = minusButton.children[0].children[2].children[0].children[2]
-                    break
-                }
-                catch (error){
-                    console.log("minus button has no children, reseting minus button")
-                    await new Promise(r => setTimeout(r, 10));
-                    minusButton = mapButtons.children[13]
-                }
+            if(table.length == 2){
+                console.log("trimmed down to 1 in area")
+
+                table[1].click()
+                table[1].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].click()
+                mapSkip = true
             }
 
-            for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
+            if(!mapSkip){
+                //map popup code block
+                var loc = document.getElementById("tblIMSMain")
+                loc.appendChild(latitudeClone)
+                loc.appendChild(longitudeClone)
+                loc.appendChild(mapViewBtnClone)
+                mapViewBtnClone.click()
+                var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
+                mapBox.style.height = '660px'
+                mapBox.style.width = '620px'
+                mapBox.children[0].children[0].innerText = 'Map'
+                mapBox.children[1].children[0].children[0].children[0].children[0].remove()
+                var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
+                mapArea.style.height = '600px'
+                mapArea.style.width = '600px'
 
-            loc.removeChild(latitudeClone)
-            loc.removeChild(longitudeClone)
-            loc.removeChild(mapViewBtnClone)
+                var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+                var initX = techTableBox.style.left
+                var initY = techTableBox.style.top
+                mapBox.style.top = techTableBox.style.top
+                techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
+                mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
+                while(true){
+                    try{
+                        var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
+                        var minusButton = mapButtons.children[12]
+                        break
+                    }
+                    catch(error){
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("failed to set map buttons")
+                    }
+                }
+                document.getElementsByClassName("gm-style-iw-a")[0].remove()
+                while(true){
+                    try{
+                        minusButton = minusButton.children[0].children[2].children[0].children[2]
+                        break
+                    }
+                    catch (error){
+                        console.log("minus button has no children, reseting minus button")
+                        await new Promise(r => setTimeout(r, 10));
+                        minusButton = mapButtons.children[12]
+                    }
+                }
+
+                for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
+
+                loc.removeChild(latitudeClone)
+                loc.removeChild(longitudeClone)
+                loc.removeChild(mapViewBtnClone)
+            }
             
             //end map popup code block
         }
@@ -164,7 +180,7 @@ window.addEventListener("load", async()=>{
                 catch (error){
                     console.log("minus button has no children, reseting minus button")
                     await new Promise(r => setTimeout(r, 10));
-                    minusButton = mapButtons.children[13]
+                    minusButton = mapButtons.children[12]
                 }
             }
             

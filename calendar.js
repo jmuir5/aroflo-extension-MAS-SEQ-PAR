@@ -26,15 +26,15 @@ window.addEventListener("load", async()=>{
         var dict = [
             //mas - nsw
             ["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 8, 0, -1], ["Benji Le Her", 5, 2, -1],
-            ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1], 
+            ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],
             //premium - wa
             ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 3, 3, -1], 
             //seq - qld
             ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 5, 1, -1],
             //alpha - nsw
-            ["David Miles", 0, 0, -1], ["Dylan Miles", 0, 0, -1], ["Tony Scalone", 0, 0, -1], ["Ron Richards", 0, 0, -1], ["Pavel Guba", 0, 0, -1], 
-            ["Luiz Santana", 0, 0, -1], ["Mark Reardon", 0, 0, -1], ["Sam Hornsey", 0, 0, -1], ["Douglas Herbert", 0, 0, -1], 
-            ["Shane Van Der Hoek", 0, 0, -1], ["Darryl Diamond", 0, 0, -1],["James Campbell", 0, 0, -1], ["Corey Roberts", 0, 0, -1],
+            ["David Miles", 5, 3, -1], ["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
+            ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 
+            ["Shane Van Der Hoek", 0, 0, -1], ["Darryl Diamond", 0, 0, -1],["James Campbell", 0, 0, -1], ["Corey Roberts", 5, 3, -1],
             //bunnies - nsw
             ["Rory Bebington", 0, 0, -1],["Ashly Dyson", 0, 0, -1],["Ronald Jakacki", 0, 0, -1],["Timothy Jesus", 0, 0, -1],["Tony King", 0, 0, -1],
             ["Daniel Nigro", 0, 0, -1]

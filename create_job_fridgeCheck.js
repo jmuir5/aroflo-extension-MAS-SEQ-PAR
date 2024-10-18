@@ -1,3 +1,6 @@
+//ron to cooktop or oven
+//mark no oven
+
 window.addEventListener("load", async()=>{
     var dismissed = false
     while(true&&!dismissed){

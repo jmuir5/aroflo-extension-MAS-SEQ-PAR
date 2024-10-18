@@ -25,6 +25,9 @@ async function ContactClient(flag) {
             case "SEQ Appliance Repair": 
                 branchNumber = "(07) 3096 0580"
                 break
+            case "Alpha Appliance Repair": 
+                branchNumber = "(02) 9420 2622"
+                break
             default: "error"
         }
         
@@ -129,6 +132,8 @@ async function ContactClient(flag) {
             else if (time.includes("12:30 PM")) time = "PM"
             else time = "Any"
             emailTag = "1051"
+            var alphaEarlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert"]
+
 
 
             switch (true) {
@@ -187,6 +192,18 @@ async function ContactClient(flag) {
                 case ((branch == "SEQ Appliance Repair") && (time == "Any")):
                     emailTag = "1039"
                     break;
+                    case ((branch == "Alpha Appliance Repair") && (time == "AM") && alphaEarlyStarters.some(item=>document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes(item))):
+                    emailTag = "1394"
+                    break;
+                case ((branch == "Alpha Appliance Repair") && (time == "AM")):
+                    emailTag = "1237"
+                    break;
+                case ((branch == "Alpha Appliance Repair") && (time == "PM")):
+                    emailTag = "1238"
+                    break;
+                case ((branch == "Alpha Appliance Repair") && (time == "Any")):
+                    emailTag = "1236"
+                    break;
             }
 
 
@@ -241,11 +258,11 @@ async function ContactClient(flag) {
             if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
             await new Promise(r => setTimeout(r, 10));
             console.log("done2")
-            while (!document.getElementsByClassName("emlSendResult")[0]) {
+            while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
                 await new Promise(r => setTimeout(r, 10));
                 console.log("waiting for send")
             }
-            document.getElementsByClassName("ui-button-text")[2].click()
+            //document.getElementsByClassName("ui-button-text")[2].click()
             location.reload()
         });
     }

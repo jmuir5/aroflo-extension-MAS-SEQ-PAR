@@ -10,6 +10,7 @@ window.addEventListener("load", async()=>{
         const nswMap = "https://www.google.com/maps/d/viewer?mid=1p98laK_skx5TC_vrLVvkGUJNzGgBB7s&usp=sharing"
         const waMap = "https://www.google.com/maps/d/viewer?mid=1fCOzq_4GQHeH-FRPfXLC7OjmWVJw81E&usp=sharing"
         const qldMap = "https://www.google.com/maps/d/viewer?mid=1CHaIKj6r5rSRxXMRKHoGs2ks4bNDVMQ&usp=sharing"
+        const alphaMap = "https://www.google.com/maps/d/viewer?mid=1MGPL27yi4PpaQXo5IdsVB1BNpq5BcAE&usp=sharing"
 
         const showMapButton = document.createElement('BUTTON')
 
@@ -19,12 +20,14 @@ window.addEventListener("load", async()=>{
 
         var link = nswMap
         switch(branch){
-            case "Premium Appliance Repair" : 
+            case "Premium Appliance Repair": 
                 link = waMap
                 break
-            case "SEQ Appliance Repair" : 
+            case "SEQ Appliance Repair": 
                 link = qldMap
                 break
+            case "Alpha Appliance Repair":
+                link = alphaMap
         }
 
         showMapButton.addEventListener("click", function(){

@@ -1,3 +1,6 @@
+var earlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert", "Gee Cruz"]
+
+
 //code for adding am/pm/any buttons
 window.addEventListener('load', async() => {
     var capitalFlag=0
@@ -27,10 +30,15 @@ window.addEventListener('load', async() => {
             anyButton.id="anyButton"
 
             
+
+            
             schedBlock.appendChild(document.createElement('BR'))
             schedBlock.appendChild(amButton)
             schedBlock.appendChild(pmButton)
             schedBlock.appendChild(anyButton)
+
+            anyButton.disabled = true
+            
             var branch = 0
 
             var setTimeFunc = async function(time){
@@ -85,9 +93,9 @@ window.addEventListener('load', async() => {
                     if(selectedTechs[i].getAttribute("deleted")==1)continue
                     techlist+= selectedTechs[i].children[1].children[0].innerText
                     selectedTechs[i].children[2].children[0].value=start
-                    console.log("contains gee :"+techlist.includes("Gee Cruz"))
+                    console.log("contains gee :"+earlyStarters.some(item=>techlist.includes(item)))//includes("Gee Cruz"))
                     console.log("time :"+time)
-                    if(techlist.includes("Gee Cruz") && time == "AM") selectedTechs[i].children[2].children[0].value="7:30am"
+                    if(earlyStarters.some(item=>techlist.includes(item)) && time == "AM") selectedTechs[i].children[2].children[0].value="7:30am"
                     
                     selectedTechs[i].children[3].children[0].value=end
                     if(branch){

@@ -393,5 +393,48 @@
 1.0950 
 - updated autocontact to correctly pick up gee's morning jobs for emails
 
+1.0951
+- added nitesh as tech
+
+1.0952 
+-bugfix
+
+1.0953
+- added safeguards to parts recieved button.
+
+1.0954
+- disabled "any" scheduling button
+
+1.0955
+- fixed freeze with import job
+
+1.0956
+- fixed bug due to changed behaviour to email system
+
+1.0957
+- updated calendar to inlcude job numbers for alpha techs
+- improved mechanism for technicians with earlier start times
+- BOOKING IMPORTER:
+    - imporve consistancy around asset selection and subsequent actions
+    - automatically select "reported by contact"
+    - added support for alpha booking source custom field 
+    - trimmed excess whitespace from description
+
+1.0958
+- set up email, text message hooks for quick client contact. 
+- fixed bug in email for alpha early starting techs
+- removed mosman from leos area
+- added map to alpha calendar
+
+1.0959
+- fixed bug in tech autoselect
+
+1.0960
+- fixed cancellation button text messages
+
+1.0961
+-added adaptive scrolling based on buisness unit for maximal view on calendar
+
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked

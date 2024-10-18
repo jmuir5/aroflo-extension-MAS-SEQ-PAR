@@ -69,26 +69,28 @@ window.addEventListener('load', async() => {
     }
 
     var partsFunction = function(){
-        document.getElementById("btnAddNoteText").click()
-        var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
-        var suffix = "put in techs box"
-        var sendTechs = ["John Sleap","Otavio Palharini","Gee Cruz","Tulio Pereira","Vini Moura"]
-        if(sendTechs.includes(currentTech)){
-            suffix = "sent to tech"
-        }
-        document.getElementById("thisnote").value = "Parts received, "+suffix
-        if(document.getElementsByClassName("compNewActionOrder")[0].parentElement.innerText=='Parts Received - Ready to be scheduled'){
-            document.getElementsByClassName("afDataTable__cell--center af-warn")[0].children[0].children[0].click()
-        }
-        if(document.getElementsByClassName("compNewActionOrder")[1].parentElement.innerText=='Parts scheduled with Client to be fitted'){
-            document.getElementsByClassName("afDataTable__cell--center af-warn")[3].children[0].children[0].click()
-        }
-        document.getElementById("selectedTaskSubstatus").value = 352
-        chrome.storage.sync.set({ PartsTag: currentTech})
-        
-        window.addEventListener("focus", schedConfirm)
+        if (confirm("Have you read all the notes on the job?") == true) {
+            document.getElementById("btnAddNoteText").click()
+            var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
+            var suffix = "put in techs box"
+            var sendTechs = ["John Sleap","Otavio Palharini","Gee Cruz","Tulio Pereira","Vini Moura"]
+            if(sendTechs.includes(currentTech)){
+                suffix = "sent to tech"
+            }
+            document.getElementById("thisnote").value = "Parts received, "+suffix
+            if(document.getElementsByClassName("compNewActionOrder")[0].parentElement.innerText=='Parts Received - Ready to be scheduled'){
+                document.getElementsByClassName("compNewActionOrder")[0].parentElement.parentElement.children[7].children[0].children[0].click()
+            }
+            if(document.getElementsByClassName("compNewActionOrder")[1].parentElement.innerText=='Parts scheduled with Client to be fitted'){
+                document.getElementsByClassName("compNewActionOrder")[1].parentElement.parentElement.children[7].children[0].children[0].click()
+            }
+            document.getElementById("selectedTaskSubstatus").value = 352
+            chrome.storage.sync.set({ PartsTag: currentTech})
+            
+            window.addEventListener("focus", schedConfirm)
 
-        window.open(document.getElementsByClassName("afBtn afBtn--small af-info all-schedules")[0].href)
+            window.open(document.getElementsByClassName("afBtn afBtn--small af-info all-schedules")[0].href)
+        }
           
         //document.getElementById("update_btn").click()
     }
@@ -218,6 +220,9 @@ window.addEventListener('load', async() => {
                             branchNumber = "(07) 3096 0580"
                             from = "SEQApplianc"
                             break
+                        case "MAS > Alpha Appliance Repair":
+                            branchNumber = "(02) 9420 2622"
+                            from = "AlphaApplia"
                         default: "error"
                     }
                     document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[0].click()
