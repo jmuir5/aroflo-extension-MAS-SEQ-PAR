@@ -11,6 +11,10 @@ window.addEventListener("load", async()=>{
     const techLocationsFile = await import(src);
     const techLocations = techLocationsFile.default
     console.log(techLocations)
+
+    var tonyFilteredAppliances = ["fridges", "fridge", "freezer"]
+    var tonyRegex = new RegExp( tonyFilteredAppliances.join( "|" ), "i");
+    var otherStateTechs =  ["Phil", "Ozgur", "Matt"]
         
     
     var showMapFunc = async function(){
@@ -18,6 +22,12 @@ window.addEventListener("load", async()=>{
         var listOfTechs = []
         for (const tech in techLocations) {
             if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
+        }
+        if(tonyRegex.test(document.getElementById("assetName").value)){
+            if(!otherStateTechs.some(item => listOfTechs.includes(item))){
+                listOfTechs = ["Tony"]
+            }
+            
         }
         console.log(listOfTechs)
         if (document.getElementsByClassName("afCard").length == 5) {

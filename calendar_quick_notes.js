@@ -33,6 +33,8 @@ window.addEventListener('load', async() => {
             }
         }
     })
+
+    //parts recieved autoscheduling - legacy
     chrome.storage.sync.get("PartsTag", async ({ PartsTag }) => {
         if(PartsTag.length>0){
             while(!document.getElementsByClassName("afTextfield__display--small schRefJobNo")[0]||!document.getElementsByClassName("afBtn afBtn__fill afBtn--small af-warn schedule__delete canDisable")[0]){
@@ -79,7 +81,7 @@ window.addEventListener('load', async() => {
                     for (let j = 0; j < days.length-i; j++) {
                         if((i+j)%7==index) flag= true
                         if(flag==true){
-                            if(!days[i+j].classList.contains("ui-datepicker-week-end")){
+                            if(!(days[i+j].classList.contains("ui-datepicker-week-end") || days[i+j].classList.contains("ui-datepicker-unselectable"))){
                                 console.log("launching click")
                                 simulateMouseClick(days[i+j].children[0])
                                 break dayloop

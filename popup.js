@@ -110,8 +110,12 @@ importBtn.addEventListener("click", async () => {
     if (inputtag[4].startsWith("61")) {
         inputtag[4] = inputtag[4].replace('61', '0');
     }
+    
     while (inputtag[4].includes(" ")) {
         inputtag[4] = inputtag[4].replace(' ', '');
+    }
+    if (!inputtag[4].startsWith("0") && inputtag[4].length==9) {
+        inputtag[4] = "0"+inputtag[4];
     }
     if (!/^[0-9]+$/.test(inputtag[4])) {
         document.querySelector("#textArea").value = "something is wrong with the phone number: Not a Number"
@@ -227,7 +231,12 @@ function importData(techLocations, index23) {
         document.getElementById("ShortName").value = inputtag[1].slice(0, 6)
         document.getElementById("givennames").value = inputtag[0]
         document.getElementById("surname").value = inputtag[1]
-        document.getElementById("mobile").value = inputtag[4]
+        if(inputtag[4].startsWith("04")){
+            document.getElementById("mobile").value = inputtag[4]
+        }
+        else{
+            document.getElementById("phone").value = inputtag[4]
+        }
         document.getElementById("Email").value = inputtag[2]
         searchPostcode2(inputtag[7])
         await new Promise(r => setTimeout(r, 300));

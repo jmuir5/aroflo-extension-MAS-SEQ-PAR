@@ -43,7 +43,7 @@ window.addEventListener('load', async() => {
     custReschedButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
 
     var allPtsRcvdButton = document.createElement('BUTTON')
-    allPtsRcvdButton.appendChild(document.createTextNode("Parts received"))
+    allPtsRcvdButton.appendChild(document.createTextNode("Notify Parts received"))
     allPtsRcvdButton.type="button"
     allPtsRcvdButton.id="allPtsRcvdButton"
     allPtsRcvdButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
@@ -68,28 +68,158 @@ window.addEventListener('load', async() => {
         //document.getElementById("btnAddNote").click()
     }
 
-    var partsFunction = function(){
+    var partsFunction = async function(){
         if (confirm("Have you read all the notes on the job?") == true) {
-            document.getElementById("btnAddNoteText").click()
-            var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
-            var suffix = "put in techs box"
-            var sendTechs = ["John Sleap","Otavio Palharini","Gee Cruz","Tulio Pereira","Vini Moura"]
-            if(sendTechs.includes(currentTech)){
-                suffix = "sent to tech"
-            }
-            document.getElementById("thisnote").value = "Parts received, "+suffix
-            if(document.getElementsByClassName("compNewActionOrder")[0].parentElement.innerText=='Parts Received - Ready to be scheduled'){
-                document.getElementsByClassName("compNewActionOrder")[0].parentElement.parentElement.children[7].children[0].children[0].click()
-            }
-            if(document.getElementsByClassName("compNewActionOrder")[1].parentElement.innerText=='Parts scheduled with Client to be fitted'){
-                document.getElementsByClassName("compNewActionOrder")[1].parentElement.parentElement.children[7].children[0].children[0].click()
-            }
-            document.getElementById("selectedTaskSubstatus").value = 352
-            chrome.storage.sync.set({ PartsTag: currentTech})
-            
-            window.addEventListener("focus", schedConfirm)
+            if (confirm("Has a date been selected?") == true) {
+                let tennanted = document.getElementsByClassName("afDataTable__cell--non-numeric")[23].innerHTML.includes("btnSendSMS afBtn af-info afIconBtn afBtn--small")
+                var clientTextID = "1397"
+                if(tennanted) clientTextID = "1402"
+                var tennantTextID = "1397"
 
-            window.open(document.getElementsByClassName("afBtn afBtn--small af-info all-schedules")[0].href)
+                
+                //client sms
+                document.getElementById("btnSendSms-0").click()
+                while (!document.getElementById("btnEmailTemplate")) {
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for sms template button")
+                }
+                document.getElementById("btnEmailTemplate").click()
+                
+                var table =document.getElementsByClassName("ui-jqgrid-btable")
+                while(true){
+                    while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for templates to load")
+                    }
+                    
+                    if(document.getElementById(clientTextID)){
+                        document.getElementById(clientTextID).click()
+                        document.getElementById("btnSelect").click()
+                        break
+                    }
+                    else {
+                        if(document.getElementById("1233")){
+                            document.getElementById("1233").click()
+                            document.getElementById("btnSelect").click()
+                            return
+                        }
+                        else document.getElementsByClassName("af-pg-button")[2].click()
+                        
+                    }
+                    await new Promise(r => setTimeout(r, 10))
+                }
+                while (document.getElementById("message_value").value.length<100) {
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for sms template to load")
+                }
+        
+                document.getElementById("btnSendSMSmessage").click()
+                document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[0].click()
+                while(document.getElementById("ui-dialog-title-1")){
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for sms dialogue to close")
+                }
+
+                if(tennanted){
+                    //TENNANT SMS
+                    document.getElementById("btnSendSms-1").click()
+                    while (!document.getElementById("btnEmailTemplate")) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for sms template button")
+                    }
+                    document.getElementById("btnEmailTemplate").click()
+                    
+                    var table =document.getElementsByClassName("ui-jqgrid-btable")
+                    while(true){
+                        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                            await new Promise(r => setTimeout(r, 10));
+                            console.log("waiting for templates to load")
+                        }
+                        
+                        if(document.getElementById(tennantTextID)){
+                            document.getElementById(tennantTextID).click()
+                            document.getElementById("btnSelect").click()
+                            break
+                        }
+                        else {
+                            if(document.getElementById("1233")){
+                                document.getElementById("1233").click()
+                                document.getElementById("btnSelect").click()
+                                return
+                            }
+                            else document.getElementsByClassName("af-pg-button")[2].click()
+                            
+                        }
+                        await new Promise(r => setTimeout(r, 10))
+                    }
+                    while (document.getElementById("message_value").value.length<100) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for sms template to load")
+                    }
+            
+                    document.getElementById("btnSendSMSmessage").click()
+                    document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[0].click()
+                    while(document.getElementById("ui-dialog-title-1")){
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for sms dialogue to close")
+                    }
+                }
+
+                document.getElementById("customiseLayout").click()
+        
+                while (!document.getElementById("TrackEmailYesNo")) {
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for category close")
+                }
+        
+                document.getElementById("TrackEmailYesNo").click()
+                document.getElementById("btnSearchEmailTemplates").click()
+        
+                var table =document.getElementsByClassName("ui-jqgrid-btable")
+        
+                while(true){
+                    while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for templates to load")
+                    }
+                    if(document.getElementById("1398")){
+                        document.getElementById("1398").click()
+                        document.getElementById("btnSelect").click()
+                        break
+                    }
+                    else {
+                        if(document.getElementById("1051")){
+                            document.getElementById("1051").click()
+                            document.getElementById("btnSelect").click()
+                            return
+                        }
+                        else document.getElementsByClassName("af-pg-button")[2].click()
+                        
+                    }
+        
+                    await new Promise(r => setTimeout(r, 10))
+                }
+        
+                while (!document.getElementById("ToSubject").value.includes("Tentative")) {
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for load")
+                }
+        
+                await new Promise(r => setTimeout(r, 500));
+                if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
+                if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
+                if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
+                if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
+                console.log("done2")
+                while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for send")
+                }
+                //document.getElementsByClassName("ui-button-text")[2].click()
+                
+        
+                document.getElementById("update_btn").click()
+            } 
         }
           
         //document.getElementById("update_btn").click()
@@ -387,8 +517,13 @@ window.addEventListener('load', async() => {
 })
 
 
-async function schedConfirm(){
-    window.removeEventListener("focus", schedConfirm)
+async function schedConfirm(){ //legacy
+    window.removeEventListener("visibilitychange", (event) => {
+        if (document.visibilityState == "visible" && fired == false) {
+            fired = true
+            schedConfirm()
+        } 
+      })
     if (confirm("Was a date selected?") == true) {
         document.getElementById("btnSendSms-0").click()
         while (!document.getElementById("btnEmailTemplate")) {
@@ -404,8 +539,8 @@ async function schedConfirm(){
                 console.log("waiting for templates to load")
             }
             
-            if(document.getElementById("775")){
-                document.getElementById("775").click()
+            if(document.getElementById("1397")){
+                document.getElementById("1397").click()
                 document.getElementById("btnSelect").click()
                 break
             }
@@ -426,10 +561,95 @@ async function schedConfirm(){
         }
 
         document.getElementById("btnSendSMSmessage").click()
+        document.getElementById("customiseLayout").click()
+
+        while (!document.getElementById("TrackEmailYesNo")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for category close")
+        }
+
+        document.getElementById("TrackEmailYesNo").click()
+        document.getElementById("btnSearchEmailTemplates").click()
+
+        var table =document.getElementsByClassName("ui-jqgrid-btable")
+
+        while(true){
+            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for templates to load")
+            }
+            if(document.getElementById("1398")){
+                document.getElementById("1398").click()
+                document.getElementById("btnSelect").click()
+                break
+            }
+            else {
+                if(document.getElementById("1051")){
+                    document.getElementById("1051").click()
+                    document.getElementById("btnSelect").click()
+                    return
+                }
+                else document.getElementsByClassName("af-pg-button")[2].click()
+                
+            }
+
+            await new Promise(r => setTimeout(r, 10))
+        }
+
+        while (!document.getElementById("ToSubject").value.includes("Tentative")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for load")
+        }
+
+        await new Promise(r => setTimeout(r, 500));
+        if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
+        if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
+        if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
+        if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
+        console.log("done2")
+        while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for send")
+        }
+        //document.getElementsByClassName("ui-button-text")[2].click()
+        
 
         document.getElementById("update_btn").click()
     } 
 }
 
 
+function partsFunctionLegacy(){
+    if (confirm("Have you read all the notes on the job?") == true) {
+        document.getElementById("btnAddNoteText").click()
+        var currentTech = document.getElementsByClassName("afDataTable__cell--non-numeric")[25].innerText
+        var suffix = "put in techs box"
+        var sendTechs = ["John Sleap","Otavio Palharini","Gee Cruz","Tulio Pereira","Vini Moura"]
+        if(sendTechs.includes(currentTech)){
+            suffix = "sent to tech"
+        }
+        document.getElementById("thisnote").value = "Parts received, "+suffix
+        if(document.getElementsByClassName("compNewActionOrder")[0].parentElement.innerText=='Parts Received - Ready to be scheduled'){
+            document.getElementsByClassName("compNewActionOrder")[0].parentElement.parentElement.children[7].children[0].children[0].click()
+        }
+        if(document.getElementsByClassName("compNewActionOrder")[1].parentElement.innerText=='Parts scheduled with Client to be fitted'){
+            document.getElementsByClassName("compNewActionOrder")[1].parentElement.parentElement.children[7].children[0].children[0].click()
+        }
+        document.getElementById("selectedTaskSubstatus").value = 352
+        chrome.storage.sync.set({ PartsTag: currentTech})
+        
 
+        window.open(document.getElementsByClassName("afBtn afBtn--small af-info all-schedules")[0].href)
+        var fired = false
+        document.addEventListener("visibilitychange", (event) => {
+            if (document.visibilityState == "visible" && fired == false) {
+                fired = true
+                schedConfirm()
+            } 
+          });
+        //window.addEventListener("focus", schedConfirm)
+
+    }
+      
+    //document.getElementById("update_btn").click()
+}

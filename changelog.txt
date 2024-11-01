@@ -435,6 +435,23 @@
 1.0961
 -added adaptive scrolling based on buisness unit for maximal view on calendar
 
+1.0962
+- "parts recieved" button now sends an email in addition to sending  text 
+- consisitancy improved
+
+1.0963
+- attempted to improve "parts received" tech autoselection around end of month
+- stripped "parts received" function back to only send email and txt, removed all other functionality (still present but disconnected)
+
+1.0964
+- added safeguard against booking techs for appliances they cant do 
+
+1.0965
+- added contact tennant sms to parts received button
+
+1.0966
+- updated import job function to accept phone numbers missing a leading 0, 
+- now differentiates between mobile and landline numbers based on area code and puts them in correct place
 
 TODO
 - doublecheck parts recieved code to ensure correct day is picked
