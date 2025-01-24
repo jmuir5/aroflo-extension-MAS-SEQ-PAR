@@ -6,13 +6,13 @@ let importBtn = document.getElementById("importBtn")
 var emailSmsBtn = document.getElementById("emailSmsBtn")
 var emailBtn = document.getElementById("emailBtn")
 var smsBtn = document.getElementById("smsClientBtn")
-var smsBtn1 = document.getElementById("smsBtn1")
+//var smsBtn1 = document.getElementById("smsBtn1")
 var invoiceBtn = document.getElementById("invoiceBtn")
 var invoiceBtn2 = document.getElementById("invoiceBtn2")
 var invoiceBtn3 = document.getElementById("invoiceBtn3")
-var bulkImportBtn = document.getElementById("bulkImportBtn")
-var bulkTextArea = document.getElementById("bulkTextArea")
-var bulkInfoText = document.getElementById("bulkInfoText")
+//var bulkImportBtn = document.getElementById("bulkImportBtn")
+//var bulkTextArea = document.getElementById("bulkTextArea")
+//var bulkInfoText = document.getElementById("bulkInfoText")
 var resetFlagsBtn = document.getElementById("resetBtn2")
 //button.addEventListener("click", test)
 var textArea = document.getElementById("textArea")
@@ -898,127 +898,7 @@ async function ContactClient(flag) {
 }
 
 
-smsBtn1.addEventListener("click", async () => {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    window.close()
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: sendTexts,
-    });
-});
-
-
-
-async function sendTexts() {
-    var when = "tommorow"
-    if (document.getElementsByTagName("h2")[4].innerText.split(",")[0] == "Monday") when = "Monday"
-    var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
-    var branchNumber = 0
-    var jobNumbers = []
-    var names = []
-    var phoneNumbers = []
-    var problems = []
-    var status = []
-    var index = 0
-    var jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
-    if (branch.includes("Master")) branchNumber = "8445 4000"
-    if (branch.includes("Premium")) branchNumber = "1300 614 730"
-    if (branch.includes("SEQ")) branchNumber = "3096 0580"
-    console.log(jobs)
-    for (let i = 0; i < jobs.length; i++) {
-        var temp = jobs[i].title.split(" ")
-        jobNumbers[index] = temp[0]
-        phoneNumbers[index] = temp[1]
-        names[index] = temp[2] + " " + temp[3]
-        index += 1
-        if (jobs[i].title.includes("unconfirmed")) {
-            status[index] = 0
-        }
-        else status[index] = 1
-    }
-
-    console.log(jobNumbers)
-    console.log(names)
-    console.log(phoneNumbers)
-
-    for (let i = 0; i < phoneNumbers.length; i++) {
-        if (phoneNumbers[i].startsWith("+61")) {
-            phoneNumbers[i] = phoneNumbers[i].replace('+61', '0');
-        }
-        if (phoneNumbers[i].startsWith("61")) {
-            phoneNumbers[i] = phoneNumbers[i].replace('61', '0');
-        }
-        while (phoneNumbers[i].includes(" ")) {
-            phoneNumbers[i] = phoneNumbers[i].replace(' ', '');
-        }
-        while (phoneNumbers[i].includes(",")) {
-            phoneNumbers[i] = phoneNumbers[i].replace(',', '');
-        }
-        if (!/^[0-9]+$/.test(phoneNumbers[i])) {
-            console.log(jobNumbers[i] + "failed: NaN")
-            console.log(phoneNumbers[i])
-            problems.push(jobNumbers[i])
-            names.splice(i, 1)
-            jobNumbers.splice(i, 1)
-            phoneNumbers.splice(i, 1)
-            i -= 1
-            console.log()
-            continue
-
-        }
-        if (phoneNumbers[i].length != 10) {
-            console.log(jobNumbers[i] + "failed: wrong length")
-            problems.push(jobNumbers[i])
-            names.splice(i, 1)
-            jobNumbers.splice(i, 1)
-            phoneNumbers.splice(i, 1)
-            i -= 1
-            continue
-        }
-
-    }
-
-    var container = document.createElement('div')
-    var classList = container.classList
-    classList.add("afBtn", "afBtn__fill", "af-primary", "afBtn--small", "btnSendSMS", "qbNoClose", "handCursor")
-    jobs[0].parentElement.parentElement.appendChild(container)
-    container.click()
-
-    while (!document.getElementById("to_value")) {
-        await new Promise(r => setTimeout(r, 10));
-        console.log("waiting for message to send")
-    }
-    var phoneEntry = document.getElementById("to_value")
-    var textEntry = document.getElementById("message_value")
-    var sendBtn = document.getElementById("btnSendSMSmessage")
-
-    for (let i = 0; i < jobNumbers.length; i++) {
-        phoneEntry.value = phoneNumbers[i]
-        //textEntry.value = "To " + names[i]+"\n"+branch+" JN "+jobNumbers[i]+ ". Pls call "+branchNumber+" to CONFIRM or CANCEL the time of your booking for "+when+". Do not reply via sms, thanks."
-        textEntry.value = "To " + names[i] + ",\nThis is your reminder that you have a " + branch + " technician attending " + when + ". \nPls call " + branchNumber + " with ref: " + jobNumbers[i] + " to cancel if the service is no longer required. \nDo not reply via sms, thanks."
-        sendBtn.click()
-        while (!document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0]) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for message to send")
-        }
-        document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0].click()
-    }
-    //container.parentElement.remove(container)
-
-    if (problems.length != 0) {
-        var constructedMessage = "the following messages failed to send:\n"
-        for (let i = 0; i < problems.length; i++) constructedMessage += problems[i] + "\n"
-        constructedMessage += "all other messages sent correctly"
-        textEntry.value = constructedMessage
-        console.log(constructedMessage)
-    } else {
-        textEntry.value = "all confirmation messages sent correctly"
-        console.log("all confirmation messages sent correctly")
-
-    }
-    sendBtn.remove()
-}
 
 //approve invoices 
 invoiceBtn.addEventListener("click", async () => {
@@ -1140,16 +1020,17 @@ var searchPostcode = async function (postcode) {
             techBox.appendChild(document.createTextNode(listOfTechs[i] + " "))
         }
     } else techBox.appendChild(document.createTextNode("postcode " + postcode + " not assigned to any technicians, may be out of area"))
+
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: highlightTechsFunc,
+        args: [listOfTechs]
+    });
 }
 
-var searchPostcode2 = async function (postcode) {
-    while (techBox.childNodes.length > 0) { techBox.childNodes[0].remove() }
-    var listOfTechs = []
-    for (const tech in techLocations) {
-        if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
-    }
-    if (listOfTechs.length == 0) alert("postcode " + postcode + " not assigned to any technicians, may be out of area")
-}
+
 
 
 var searchSuburb = async function (suburb) {
@@ -1166,90 +1047,39 @@ var searchSuburb = async function (suburb) {
     techBox.appendChild(document.createTextNode("Suburb not found, check spelling or suburb may be out of area"))
 }
 
+let highlightTechsFunc = async function(techList){
+    if(window.location.href.indexOf("https://office.aroflo.com/ims/Site/Calendar/index.cfm")!=-1){
+        let headerBar = document.getElementsByClassName("fc-head-col-resource fc-last")[1]
+        for( i=0; i<headerBar.childElementCount; i++){
+            headerBar.children[i].classList.remove("MasExtHl")
+
+            for(j=0;j<techList.length;j++){
+                if(headerBar.children[i].title.includes(techList[j])){
+                    headerBar.children[i].classList.add("MasExtHl")
+                }
+            }
+        }
+    }
+}
+
+suburbSearchBtn.addEventListener("click", function () { searchSuburb(suburbBox.value) })
+postcodeSearchBtn.addEventListener("click", function () { searchPostcode(postcodeBox.value) })
+suburbBox.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault()
+        suburbSearchBtn.click()
+    }
+})
+postcodeBox.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault()
+        postcodeSearchBtn.click()
+    }
+})
 suburbSearchBtn.addEventListener("click", function () { searchSuburb(suburbBox.value) })
 postcodeSearchBtn.addEventListener("click", function () { searchPostcode(postcodeBox.value) })
 
 
-bulkImportBtn.addEventListener("click", async () => {
-    const mainSplitString = "\n\t\n\t\t\t\n\t\n \n\t\n"
-    const qldSplitString = "\n\t\n\t\t\t\n\t\n\t\n\t\n"
-    var bulkInputs = bulkTextArea.value.split(mainSplitString)
-    var bulk2 = bulkTextArea.value.split(qldSplitString)
-    if (bulkInputs.length < bulk2.length) bulkInputs = bulk2
-    //var bulkInputs = bulkTextArea.value.split(qldSplitString)//"\n\t\n\t\t\t\n\t\n \n\t\n")
-
-    console.log(bulkInputs)
-    bulkInputs.splice(bulkInputs.length - 1, 1)
-    var failedInputs = []
-
-    for (const entries in bulkInputs) {
-        //console.log(entries)//.split("Service Booking\t \n\t"))
-        bulkInputs[entries] = String(bulkInputs[entries].split("Service Booking\t \n\tFirst")[1])
-        console.log(bulkInputs)
-        bulkInputs[entries] = bulkInputs[entries].split("\n")
-        console.log(bulkInputs[entries].length)
-
-        if (bulkInputs[entries].length > 12) {
-            var fullDesc = bulkInputs[entries][11]
-            console.log("start: " + fullDesc)
-            for (let i = 12; i < bulkInputs[entries].length; i++) {
-                fullDesc += "\n" + bulkInputs[entries][i]
-                console.log(bulkInputs[entries][i])
-                console.log(fullDesc + " added")
-            }
-            bulkInputs[entries][11] = fullDesc
-            console.log("end: " + fullDesc)
-            bulkInputs[entries].splice(12, bulkInputs[entries].length - 11)
-        }
-        for (const line in bulkInputs[entries]) {
-            bulkInputs[entries][line] = String(bulkInputs[entries][line].split("\t ")[1]).trim()
-        }
-        bulkInputs[entries].splice(3, 0, "spliced1234")
-
-        if (bulkInputs[entries][4].startsWith("+61")) {
-            bulkInputs[entries][4] = bulkInputs[entries][4].replace('+61', '0');
-        }
-        if (bulkInputs[entries][4].startsWith("61")) {
-            bulkInputs[entries][4] = bulkInputs[entries][4].replace('61', '0');
-        }
-        while (bulkInputs[entries][4].includes(" ")) {
-            bulkInputs[entries][4] = bulkInputs[entries][4].replace(' ', '');
-        }
-        if (!/^[0-9]+$/.test(bulkInputs[entries][4])) {
-            var identifier = bulkInputs[entries][0] + bulkInputs[entries][1] + bulkInputs[entries][2]
-            failedInputs.push([identifier, "NAN", entries])
-            console.log(identifier)
-            continue
-        }
-        if (bulkInputs[entries][4].length != 10) {
-            var identifier = bulkInputs[entries][0] + bulkInputs[entries][1] + bulkInputs[entries][2]
-            failedInputs.push([identifier, "Length", entries])
-            console.log(identifier)
-            continue
-        }
-    }
-    //console.log(bulkInputs)
-    var outputText = "all " + bulkInputs.length + " emails imported successfully"
-    if (failedInputs.length > 0) {
-        outputText = "the following emails failed to import:\n"
-        for (let i = failedInputs.length - 1; i >= 0; i--) {
-            outputText += failedInputs[i][0] + " Reason: " + failedInputs[i][1]
-            bulkInputs.splice(failedInputs[i][2], 1)
-        }
-        outputText += "\nThe remaining " + bulkInputs.length + "  emails imported successfully"
-    }
-    chrome.storage.sync.set({ inputtag: bulkInputs });
-    chrome.storage.sync.set({ bulkTag: bulkInputs.length - 1 });
-    //chrome.storage.sync.set({ createTag: bulkInputs.length - 1 });
-    alert(outputText)
-
-    window.open("https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK", '_blank')
-
-    //for (const entries in bulkInputs) {
-        
-    //}
-
-});
 
 resetFlagsBtn.addEventListener("click", async () => {
     chrome.storage.sync.set({ bulkTag: -1 });
@@ -1370,3 +1200,212 @@ massArchiveResetBtn.addEventListener("click", async () => {
     chrome.storage.sync.set({ autoArchiveTag: autoArchiveTag });
     textArea.value = "auto archive flag reset, jobs should be normal now"
 });
+
+//legacy - bulk email importer
+/*bulkImportBtn.addEventListener("click", async () => {
+    const mainSplitString = "\n\t\n\t\t\t\n\t\n \n\t\n"
+    const qldSplitString = "\n\t\n\t\t\t\n\t\n\t\n\t\n"
+    var bulkInputs = bulkTextArea.value.split(mainSplitString)
+    var bulk2 = bulkTextArea.value.split(qldSplitString)
+    if (bulkInputs.length < bulk2.length) bulkInputs = bulk2
+    //var bulkInputs = bulkTextArea.value.split(qldSplitString)//"\n\t\n\t\t\t\n\t\n \n\t\n")
+
+    console.log(bulkInputs)
+    bulkInputs.splice(bulkInputs.length - 1, 1)
+    var failedInputs = []
+
+    for (const entries in bulkInputs) {
+        //console.log(entries)//.split("Service Booking\t \n\t"))
+        bulkInputs[entries] = String(bulkInputs[entries].split("Service Booking\t \n\tFirst")[1])
+        console.log(bulkInputs)
+        bulkInputs[entries] = bulkInputs[entries].split("\n")
+        console.log(bulkInputs[entries].length)
+
+        if (bulkInputs[entries].length > 12) {
+            var fullDesc = bulkInputs[entries][11]
+            console.log("start: " + fullDesc)
+            for (let i = 12; i < bulkInputs[entries].length; i++) {
+                fullDesc += "\n" + bulkInputs[entries][i]
+                console.log(bulkInputs[entries][i])
+                console.log(fullDesc + " added")
+            }
+            bulkInputs[entries][11] = fullDesc
+            console.log("end: " + fullDesc)
+            bulkInputs[entries].splice(12, bulkInputs[entries].length - 11)
+        }
+        for (const line in bulkInputs[entries]) {
+            bulkInputs[entries][line] = String(bulkInputs[entries][line].split("\t ")[1]).trim()
+        }
+        bulkInputs[entries].splice(3, 0, "spliced1234")
+
+        if (bulkInputs[entries][4].startsWith("+61")) {
+            bulkInputs[entries][4] = bulkInputs[entries][4].replace('+61', '0');
+        }
+        if (bulkInputs[entries][4].startsWith("61")) {
+            bulkInputs[entries][4] = bulkInputs[entries][4].replace('61', '0');
+        }
+        while (bulkInputs[entries][4].includes(" ")) {
+            bulkInputs[entries][4] = bulkInputs[entries][4].replace(' ', '');
+        }
+        if (!/^[0-9]+$/.test(bulkInputs[entries][4])) {
+            var identifier = bulkInputs[entries][0] + bulkInputs[entries][1] + bulkInputs[entries][2]
+            failedInputs.push([identifier, "NAN", entries])
+            console.log(identifier)
+            continue
+        }
+        if (bulkInputs[entries][4].length != 10) {
+            var identifier = bulkInputs[entries][0] + bulkInputs[entries][1] + bulkInputs[entries][2]
+            failedInputs.push([identifier, "Length", entries])
+            console.log(identifier)
+            continue
+        }
+    }
+    //console.log(bulkInputs)
+    var outputText = "all " + bulkInputs.length + " emails imported successfully"
+    if (failedInputs.length > 0) {
+        outputText = "the following emails failed to import:\n"
+        for (let i = failedInputs.length - 1; i >= 0; i--) {
+            outputText += failedInputs[i][0] + " Reason: " + failedInputs[i][1]
+            bulkInputs.splice(failedInputs[i][2], 1)
+        }
+        outputText += "\nThe remaining " + bulkInputs.length + "  emails imported successfully"
+    }
+    chrome.storage.sync.set({ inputtag: bulkInputs });
+    chrome.storage.sync.set({ bulkTag: bulkInputs.length - 1 });
+    //chrome.storage.sync.set({ createTag: bulkInputs.length - 1 });
+    alert(outputText)
+
+    window.open("https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK", '_blank')
+
+    //for (const entries in bulkInputs) {
+        
+    //}
+
+});
+*/
+
+//legacy - mass sms sender
+/*smsBtn1.addEventListener("click", async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    window.close()
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: sendTexts,
+    });
+});
+
+
+
+
+
+async function sendTexts() {
+    var when = "tommorow"
+    if (document.getElementsByTagName("h2")[4].innerText.split(",")[0] == "Monday") when = "Monday"
+    var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
+    var branchNumber = 0
+    var jobNumbers = []
+    var names = []
+    var phoneNumbers = []
+    var problems = []
+    var status = []
+    var index = 0
+    var jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
+    if (branch.includes("Master")) branchNumber = "8445 4000"
+    if (branch.includes("Premium")) branchNumber = "1300 614 730"
+    if (branch.includes("SEQ")) branchNumber = "3096 0580"
+    console.log(jobs)
+    for (let i = 0; i < jobs.length; i++) {
+        var temp = jobs[i].title.split(" ")
+        jobNumbers[index] = temp[0]
+        phoneNumbers[index] = temp[1]
+        names[index] = temp[2] + " " + temp[3]
+        index += 1
+        if (jobs[i].title.includes("unconfirmed")) {
+            status[index] = 0
+        }
+        else status[index] = 1
+    }
+
+    console.log(jobNumbers)
+    console.log(names)
+    console.log(phoneNumbers)
+
+    for (let i = 0; i < phoneNumbers.length; i++) {
+        if (phoneNumbers[i].startsWith("+61")) {
+            phoneNumbers[i] = phoneNumbers[i].replace('+61', '0');
+        }
+        if (phoneNumbers[i].startsWith("61")) {
+            phoneNumbers[i] = phoneNumbers[i].replace('61', '0');
+        }
+        while (phoneNumbers[i].includes(" ")) {
+            phoneNumbers[i] = phoneNumbers[i].replace(' ', '');
+        }
+        while (phoneNumbers[i].includes(",")) {
+            phoneNumbers[i] = phoneNumbers[i].replace(',', '');
+        }
+        if (!/^[0-9]+$/.test(phoneNumbers[i])) {
+            console.log(jobNumbers[i] + "failed: NaN")
+            console.log(phoneNumbers[i])
+            problems.push(jobNumbers[i])
+            names.splice(i, 1)
+            jobNumbers.splice(i, 1)
+            phoneNumbers.splice(i, 1)
+            i -= 1
+            console.log()
+            continue
+
+        }
+        if (phoneNumbers[i].length != 10) {
+            console.log(jobNumbers[i] + "failed: wrong length")
+            problems.push(jobNumbers[i])
+            names.splice(i, 1)
+            jobNumbers.splice(i, 1)
+            phoneNumbers.splice(i, 1)
+            i -= 1
+            continue
+        }
+
+    }
+
+    var container = document.createElement('div')
+    var classList = container.classList
+    classList.add("afBtn", "afBtn__fill", "af-primary", "afBtn--small", "btnSendSMS", "qbNoClose", "handCursor")
+    jobs[0].parentElement.parentElement.appendChild(container)
+    container.click()
+
+    while (!document.getElementById("to_value")) {
+        await new Promise(r => setTimeout(r, 10));
+        console.log("waiting for message to send")
+    }
+    var phoneEntry = document.getElementById("to_value")
+    var textEntry = document.getElementById("message_value")
+    var sendBtn = document.getElementById("btnSendSMSmessage")
+
+    for (let i = 0; i < jobNumbers.length; i++) {
+        phoneEntry.value = phoneNumbers[i]
+        //textEntry.value = "To " + names[i]+"\n"+branch+" JN "+jobNumbers[i]+ ". Pls call "+branchNumber+" to CONFIRM or CANCEL the time of your booking for "+when+". Do not reply via sms, thanks."
+        textEntry.value = "To " + names[i] + ",\nThis is your reminder that you have a " + branch + " technician attending " + when + ". \nPls call " + branchNumber + " with ref: " + jobNumbers[i] + " to cancel if the service is no longer required. \nDo not reply via sms, thanks."
+        sendBtn.click()
+        while (!document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0]) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for message to send")
+        }
+        document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0].click()
+    }
+    //container.parentElement.remove(container)
+
+    if (problems.length != 0) {
+        var constructedMessage = "the following messages failed to send:\n"
+        for (let i = 0; i < problems.length; i++) constructedMessage += problems[i] + "\n"
+        constructedMessage += "all other messages sent correctly"
+        textEntry.value = constructedMessage
+        console.log(constructedMessage)
+    } else {
+        textEntry.value = "all confirmation messages sent correctly"
+        console.log("all confirmation messages sent correctly")
+
+    }
+    sendBtn.remove()
+}
+*/

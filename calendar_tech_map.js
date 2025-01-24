@@ -1,12 +1,11 @@
 window.addEventListener("load", async()=>{
     while(true){
         while(document.getElementById("showMapBtn")){
-            await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 100000));
             //console.log("nothing to do")
         }
 
     
-        var branch = document.getElementById("imsBUNavigationBtn").innerText
         const nswMap = "https://www.google.com/maps/d/viewer?mid=1p98laK_skx5TC_vrLVvkGUJNzGgBB7s&usp=sharing"
         const waMap = "https://www.google.com/maps/d/viewer?mid=1fCOzq_4GQHeH-FRPfXLC7OjmWVJw81E&usp=sharing"
         const qldMap = "https://www.google.com/maps/d/viewer?mid=1CHaIKj6r5rSRxXMRKHoGs2ks4bNDVMQ&usp=sharing"
@@ -18,19 +17,21 @@ window.addEventListener("load", async()=>{
         showMapButton.classList = "afBtn afBtn__fill af-primary"
         showMapButton.appendChild(document.createTextNode("View Tech Map"))
 
-        var link = nswMap
-        switch(branch){
-            case "Premium Appliance Repair": 
-                link = waMap
-                break
-            case "SEQ Appliance Repair": 
-                link = qldMap
-                break
-            case "Alpha Appliance Repair":
-                link = alphaMap
-        }
+        
 
         showMapButton.addEventListener("click", function(){
+            var branch = document.getElementById("imsBUNavigationBtn").innerText
+            var link = nswMap
+            switch(true){
+                case branch.includes("Premium Appliance Repair"): 
+                    link = waMap
+                    break
+                case branch.includes("SEQ Appliance Repair"): 
+                    link = qldMap
+                    break
+                case branch.includes("Alpha Appliance Repair"):
+                    link = alphaMap
+            }
             window.open(link, '_blank')
 
         })

@@ -24,10 +24,14 @@ window.addEventListener("load", async()=>{
             if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
         }
         if(tonyRegex.test(document.getElementById("assetName").value)){
-            if(!otherStateTechs.some(item => listOfTechs.includes(item))){
+            if(listOfTechs.includes("Tony")){
                 listOfTechs = ["Tony"]
             }
-            
+        }
+        else{
+            if(listOfTechs.includes("Tony")){
+                listOfTechs =  listOfTechs.filter(item => item !== "Tony")
+            }
         }
         console.log(listOfTechs)
         if (document.getElementsByClassName("afCard").length == 5) {

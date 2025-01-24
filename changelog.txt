@@ -453,5 +453,30 @@
 - updated import job function to accept phone numbers missing a leading 0, 
 - now differentiates between mobile and landline numbers based on area code and puts them in correct place
 
+1.0967
+- fixed bug in techmap button
+
+1.0968
+- updated some tech areas for alpha
+- updated fridge check for tech auto allocate 
+- calendar total jobs for the day now only counts unique jobs
+- changed leos jobs to 3/3
+
+1.0969
+-updated matts jobs to 7/1, changed morning window to 7:30
+
+1.0970
+- added arpan to calendar,
+- added sandy to early starters
+
+1.0971
+- updated cancellation buttons to send an email also. 
+- added silent cancel button
+- added "go to next available" button on calendar
+
+1.0972
+- added highlighting to techs on calendar, 
+- imporved functionality of postcode and suburb tech search to make smoother and to highlight on calendar page
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked

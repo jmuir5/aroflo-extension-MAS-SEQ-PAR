@@ -284,30 +284,42 @@ window.addEventListener('load', async() => {
     var cancelEmailButton = document.createElement('BUTTON')
     var cancelPhoneButton = document.createElement('BUTTON')
     var cancelMessageButton = document.createElement('BUTTON')
+    var cancelSilentlyButton = document.createElement('BUTTON')
+
     var cancelLabel = document.createElement('div')
 
     cancelEmailButton.appendChild(document.createTextNode("Email"))
     cancelPhoneButton.appendChild(document.createTextNode("Phone"))
     cancelMessageButton.appendChild(document.createTextNode("Message"))
+    cancelSilentlyButton.appendChild(document.createTextNode("Silentely"))
+
     cancelLabel.appendChild(document.createTextNode("Quick Cancel and archive via:  "))
 
     cancelEmailButton.type="button"
     cancelPhoneButton.type="button"
     cancelMessageButton.type="button"
+    cancelSilentlyButton.type="button"
+
 
     cancelEmailButton.id="cancelEmailButton"
     cancelPhoneButton.id="cancelPhoneButton"
     cancelMessageButton.id="cancelMessageButton"
+    cancelSilentlyButton.id="cancelSilentleyButton"
+
 
     cancelEmailButton.classList = "afBtn afBtn__fill af-warn editNoteDelete margin-right--1 headerItemSpacing"
     cancelPhoneButton.classList = "afBtn afBtn__fill af-warn editNoteDelete margin-right--1 headerItemSpacing"
     cancelMessageButton.classList = "afBtn afBtn__fill af-warn editNoteDelete margin-right--1 headerItemSpacing"
+    cancelSilentlyButton.classList = "afBtn afBtn__fill af-warn editNoteDelete margin-right--1 headerItemSpacing"
+
     
     if(document.getElementsByClassName("schedule-item").length>0) extraButtonSpace.appendChild(cancelContainerDiv)
     cancelContainerDiv.appendChild(cancelLabel)
     cancelContainerDiv.appendChild(cancelEmailButton)
     cancelContainerDiv.appendChild(cancelPhoneButton)
     cancelContainerDiv.appendChild(cancelMessageButton)
+    cancelContainerDiv.appendChild(cancelSilentlyButton)
+
     
     
 
@@ -395,8 +407,96 @@ window.addEventListener('load', async() => {
 
                     document.getElementById("btnSendSMSmessage").click()
                     document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
+                    
+                    //email code
+                    document.getElementById("customiseLayout").click()
+
+                    while (!document.getElementById("TrackEmailYesNo")) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for category close")
+                    }
+                    let emailTag = "1425"
+                    document.getElementById("TrackEmailYesNo").click()
+                    document.getElementById("btnSearchEmailTemplates").click()
+
+                    var table =document.getElementsByClassName("ui-jqgrid-btable")
+
+                    while(true){
+                        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                            await new Promise(r => setTimeout(r, 10));
+                            console.log("waiting for templates to load")
+                        }
+                        if(document.getElementById(emailTag)){
+                            document.getElementById(emailTag).click()
+                            document.getElementById("btnSelect").click()
+                            if (emailTag == "1051") return
+                            break
+                        }
+                        else {
+                            if(document.getElementById("1051")){
+                                document.getElementById("1051").click()
+                                document.getElementById("btnSelect").click()
+                                return
+                            }
+                            else document.getElementsByClassName("af-pg-button")[2].click()
+                            
+                        }
+
+                        await new Promise(r => setTimeout(r, 10))
+                    }
+
+                    while (!document.getElementById("ToSubject").value.includes("Job Cancelled")) {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for load")
+                    }
+
+                    await new Promise(r => setTimeout(r, 500));
+                    if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
+                    if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
+                    if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
+                    if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("done2")
+                    while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
+                        await new Promise(r => setTimeout(r, 10));
+                        console.log("waiting for send")
+                    }
 
 
+                    document.getElementById("update_btn").click()
+                    break
+                }
+                await new Promise(r => setTimeout(r, 10));
+                
+            }
+        }
+
+
+    }
+
+    var cancelSilentleyFunction = async function(){
+        const cancelText = "Job cancelled Silently, no message was sent to the customer."
+        if(confirm("Are you sure you want to cancel and archive this job silently? no message will be sent to the customer?")){
+            document.getElementById("btnAddNoteText").click()
+            document.getElementById("thisnote").value = cancelText
+            document.getElementById("btnAddNote").click()
+            var jobNumber = document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header")[3].textContent.split(' ')
+            jobNumber = jobNumber[jobNumber.length-1]
+            chrome.storage.sync.set({ CancelTag: jobNumber})
+            document.getElementById("schedule-item-1").click()
+            while(true){
+                
+                chrome.storage.sync.get("CancelTag", async ({ CancelTag }) => {jobNumber=CancelTag})
+                if(jobNumber==0){
+                    console.log("archiving job")
+                    chrome.storage.sync.set({ archiveFlag: 1})
+                
+                    const checkboxes = document.getElementsByClassName("afDataTable__row--hover trCompliance af-warn lTR")
+                    for(let i=0;i<checkboxes.length;i++){
+                        checkboxes[i].children[9].children[0].children[0].click()
+                    }
+                    document.getElementById("selectedTaskStatus").value=3
+                    
                     document.getElementById("update_btn").click()
                     break
                 }
@@ -411,6 +511,7 @@ window.addEventListener('load', async() => {
     cancelEmailButton.addEventListener("click", function(){cancelFunction("Email")})
     cancelPhoneButton.addEventListener("click", function(){cancelFunction("phone")})
     cancelMessageButton.addEventListener("click", function(){cancelFunction("message")})
+    cancelSilentlyButton.addEventListener("click", function(){cancelSilentleyFunction()})
 
     console.log("cancel buttons loaded")
 
@@ -508,12 +609,7 @@ window.addEventListener('load', async() => {
         }
     
     })
-
     console.log("archive buttons loaded")
-
-    
-
-    
 })
 
 

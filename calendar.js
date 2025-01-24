@@ -25,12 +25,12 @@ window.addEventListener("load", async()=>{
         console.log(frame)
         var dict = [
             //mas - nsw
-            ["Peter Traish", 4, 4, -1], ["Leo Oh", 4, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 8, 0, -1], ["Benji Le Her", 5, 2, -1],
-            ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],
+            ["Peter Traish", 4, 4, -1], ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 8, 0, -1], ["Benji Le Her", 5, 2, -1],
+            ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],
             //premium - wa
             ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 3, 3, -1], 
             //seq - qld
-            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 5, 1, -1],
+            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],
             //alpha - nsw
             ["David Miles", 5, 3, -1], ["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
             ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 
@@ -40,16 +40,21 @@ window.addEventListener("load", async()=>{
             ["Daniel Nigro", 0, 0, -1]
         ];
 
+        var dayOffFilteredText = ["holidays", "day off", "holiday", "no jobs", "public holiday"]
+        var dayOffRegex = new RegExp( dayOffFilteredText.join( "|" ), "i");
+
         //var frame = [[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1]]
         var frame = []
         for(let i = 0; i<dict.length;i++){
-            frame.push([0,0,0,0,0,0,-1,-1])
+            frame.push([0,0,0,0,0,0,-1000,-1000])
         }
         jobs = document.getElementsByClassName("fc-event-inner fc-event-skin")
 
         var ccol = 0
         var index0 = -1
+        var uniqueJobs = []
         var globalTotalJobs = jobs.length
+        var blocks = 0
         searchLoop:
         for (let i = 0; i < jobs.length; i++) {
             if(ccol!=jobs[i].getBoundingClientRect().x){
@@ -59,17 +64,34 @@ window.addEventListener("load", async()=>{
                 frame[index0][4]=jobs[i].parentNode.offsetLeft
             }
             jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
+            let title = jobs[i].title.split(",")
+            let jobNumber = 0
+            if(isNaN(parseInt(title[0]))){
+                jobNumber = parseInt(title[1])
+            }
+            else jobNumber = parseInt(title[0])
+            
+            if(!isNaN(jobNumber)){
+                uniqueJobs.indexOf(jobNumber) === -1 ? uniqueJobs.push(jobNumber) : console.log("This item already exists");
+            }
+            //uniqueJobs.push(jobNumber)
             if(jobs[i].innerText.includes("Parts Received")){
                 frame[index0][5]+=1
+                
                 
             }
             if(jobs[i].innerText.includes("8:30a")||jobs[i].innerText.includes("7:30a")){
                 frame[index0][0]+=1
+                if(jobs[i].childNodes[1].style.backgroundColor == "rgb(255, 153, 0)" ){
+                    blocks+=1
+                }
                 
             }
             else if(jobs[i].innerText.includes("12:30p")){
                 frame[index0][1]+=1
-                
+                if(jobs[i].childNodes[1].style.backgroundColor == "rgb(255, 153, 0)" ){
+                    blocks+=1
+                } 
             }
             else{
                 for (let j = 0; j < jobs[i].childNodes.length; j++) {
@@ -77,17 +99,38 @@ window.addEventListener("load", async()=>{
                     if(jobs[i].childNodes[j].style.backgroundColor == "rgb(255, 153, 0)" ){
                         globalTotalJobs-=1
                         if(jobs[i].childNodes[j].innerText.includes("@@@:")){
-                            frame[index0][6] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[0])
-                            frame[index0][7] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[1][0])
+                            let amModifier = jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[0]
+                            let pmModifier = jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[1]
+                            if(amModifier!="?"){
+                                if(amModifier[0]=="-"){
+                                    amModifier = parseInt(amModifier.substring(1))
+                                    frame[index0][6] = (amModifier*-1)
+                                }
+                                else frame[index0][6] = parseInt(amModifier)
+                            }
+                            if(pmModifier!="?"){
+                                if(pmModifier[0]=="-"){
+                                    pmModifier = parseInt(pmModifier.substring(1))
+                                    frame[index0][7] = (pmModifier*-1)
+                                }
+                                else frame[index0][7] = parseInt(pmModifier)
+                            }
+                            
+                            //frame[index0][6] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[0])
+                            //frame[index0][7] = parseInt(jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[1][0])
                         }
-                        if(jobs[i].childNodes[j].innerText.includes("Holidays:")){
+                        if(dayOffRegex.test(jobs[i].childNodes[j].innerText)){
+                            frame[index0][6] = 0
+                            frame[index0][7] = 0
+                        }
+                        /*if(jobs[i].childNodes[j].innerText.includes("Holidays:")){
                             frame[index0][6] = 0
                             frame[index0][7] = 0
                         }
                         if(jobs[i].childNodes[j].innerText.includes("Day Off:")){
                             frame[index0][6] = 0
                             frame[index0][7] = 0
-                        }
+                        }*/
                         //jobs[i].parentNode.style.top = jobs[i].parentNode.offsetTop + 75+"px"
                         continue searchLoop
                     }
@@ -104,6 +147,8 @@ window.addEventListener("load", async()=>{
             
         }
         console.log(frame)
+        console.log(uniqueJobs)
+        console.log(uniqueJobs.length)
 
         var techlist = document.getElementsByClassName("fc-resourceName fc-col-res ui-widget-header")
         if (techlist.length==0) {
@@ -179,9 +224,12 @@ window.addEventListener("load", async()=>{
 
                     var amJobs = dict[j][1]
                     if(frame[i][6]>=0) amJobs = frame[i][6]
+                    else if(frame[i][6]>=-999) amJobs = amJobs + frame[i][6]
 
                     var pmJobs = dict[j][2]
                     if(frame[i][7]>=0) pmJobs = frame[i][7]
+                    else if(frame[i][7]>=-999) pmJobs = pmJobs + frame[i][7]
+
                     
 
                     amText.innerText = "AM: "+frame[i][0]+"/"+amJobs
@@ -256,6 +304,7 @@ window.addEventListener("load", async()=>{
             baseDayString = dateTextReconstructed
             currentTotal = 0
         } 
+        globalTotalJobs = uniqueJobs.length
         if (currentTotal!= globalTotalJobs){
             document.getElementsByTagName("h2")[4].childNodes[0].textContent =baseDayString+", Total: "+globalTotalJobs.toString()
             currentTotal = globalTotalJobs
