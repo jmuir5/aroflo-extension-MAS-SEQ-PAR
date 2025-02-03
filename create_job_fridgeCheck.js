@@ -10,6 +10,8 @@ window.addEventListener("load", async()=>{
         var ronsFilteredAppliances = ["cooktop", "oven", "stove", "rangehood"]
         var marksFilteredAppliances = ["oven"]
         var pavFilteredAppliances = ["microwave", "micro"]
+        var WAFilteredBrands = ["samsung"]
+        var philFilteredAppliances = pavFilteredAppliances // microwaves
         //var trigger = false
         var allFilteredAppliances = ronsFilteredAppliances.concat(tonyFilteredAppliances, marksFilteredAppliances, pavFilteredAppliances)
         
@@ -18,8 +20,42 @@ window.addEventListener("load", async()=>{
         var markRegex = new RegExp( marksFilteredAppliances.join( "|" ), "i");
         var pavRegex = new RegExp( pavFilteredAppliances.join( "|" ), "i");
         var maxRegex = new RegExp( allFilteredAppliances.join( "|" ), "i");
+        var philRegex = new RegExp( philFilteredAppliances.join( "|" ), "i");
+        var waRegex = new RegExp( WAFilteredBrands.join( "|" ), "i");
         
+        //states first
+        if(waRegex.test(assetName.value)){
+            console.log("wa filterd appliance detected")
+            var branch = document.getElementById("ownerOrgName")
+            if(
+                branch.value = "Premium Appliance Repair"
+            ){
+                console.log("bad branch detected")
+                if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
+                    if (confirm("No TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
+                        dismissed=true
+                        break
+                    } else {
+                        console.log("calendar: confirm answer: no")
+                        alert("This booking will now be closed.")
+                        document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                    }  
+                    
+                }
+                else{                    
+                    if (confirm("No TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
+                        dismissed=true
+                        break
+                    } else {
+                        document.querySelectorAll("[id='btnAdvSearch']")[3].click()
+                        document.getElementById("btnSelectNone").click()
+                        console.log("alt path")                        
+                    }
+                }
+            }
+        }
         
+        //checking technicians
         if(scheduledTechs.length==0){
             await new Promise(r => setTimeout(r, 1000));
             console.log("no techs detected")
@@ -209,6 +245,72 @@ window.addEventListener("load", async()=>{
                             tech.childNodes[9].children[0].click()
                             console.log("alt path")                        
                         }
+                    }
+                }
+            }
+        }
+
+        if(philRegex.test(assetName.value)){
+            console.log("phil filterd appliance detected")
+            for(let index = 0; index< scheduledTechs.length; index++){
+                var tech = scheduledTechs[index]
+                console.log(tech)
+                var deleted = tech.getAttribute("deleted");
+                console.log(deleted)
+                if(
+                    !deleted==1 && tech.childNodes[1].innerText.includes("Phill")
+                ){
+                    console.log("bad tech detected")
+                    if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
+                            dismissed=true
+                            break
+                        } else {
+                            console.log("calendar: confirm answer: no")
+                            alert("This booking will now be closed.")
+                            document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                        }  
+                        
+                    }
+                    else{                    
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
+                            dismissed=true
+                            break
+                        } else {
+                            tech.childNodes[9].children[0].click()
+                            console.log("alt path")                        
+                        }
+                    }
+                }
+            }
+        }
+
+        if(waRegex.test(assetName.value)){
+            console.log("wa filterd appliance detected")
+            var branch = document.getElementById("ownerOrgName")
+            if(
+                branch.value = "Premium Appliance Repair"
+            ){
+                console.log("bad branch detected")
+                if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
+                    if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nNo TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
+                        dismissed=true
+                        break
+                    } else {
+                        console.log("calendar: confirm answer: no")
+                        alert("This booking will now be closed.")
+                        document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                    }  
+                    
+                }
+                else{                    
+                    if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nNo TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
+                        dismissed=true
+                        break
+                    } else {
+                        document.querySelectorAll("[id='btnAdvSearch']")[3].click()
+                        document.getElementById("btnSelectNone").click()
+                        console.log("alt path")                        
                     }
                 }
             }

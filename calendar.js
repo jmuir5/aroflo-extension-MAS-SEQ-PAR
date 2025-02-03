@@ -25,7 +25,7 @@ window.addEventListener("load", async()=>{
         console.log(frame)
         var dict = [
             //mas - nsw
-            ["Peter Traish", 4, 4, -1], ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 8, 0, -1], ["Benji Le Her", 5, 2, -1],
+            ["Peter Traish", 4, 4, -1], ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 2, -1],
             ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],
             //premium - wa
             ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 3, 3, -1], 
@@ -40,7 +40,7 @@ window.addEventListener("load", async()=>{
             ["Daniel Nigro", 0, 0, -1]
         ];
 
-        var dayOffFilteredText = ["holidays", "day off", "holiday", "no jobs", "public holiday"]
+        var dayOffFilteredText = ["holidays", "day off", "holiday", "no jobs", "public holiday", "sick"]
         var dayOffRegex = new RegExp( dayOffFilteredText.join( "|" ), "i");
 
         //var frame = [[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1]]

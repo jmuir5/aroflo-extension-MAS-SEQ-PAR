@@ -478,5 +478,12 @@
 - added highlighting to techs on calendar, 
 - imporved functionality of postcode and suburb tech search to make smoother and to highlight on calendar page
 
+1.0973
+- changed johns jobs to 4/0
+- removed 2017 postcode from gee, added to otavio
+- added "sick" to shorthand calendar editor messages
+- added samsung to wa exclusion lists
+- added microwaves to phils exclusion list
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked
