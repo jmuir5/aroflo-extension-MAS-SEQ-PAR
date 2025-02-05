@@ -28,7 +28,7 @@ window.addEventListener("load", async()=>{
             console.log("wa filterd appliance detected")
             var branch = document.getElementById("ownerOrgName")
             if(
-                branch.value = "Premium Appliance Repair"
+                branch.value == "Premium Appliance Repair"
             ){
                 console.log("bad branch detected")
                 if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
@@ -289,7 +289,7 @@ window.addEventListener("load", async()=>{
             console.log("wa filterd appliance detected")
             var branch = document.getElementById("ownerOrgName")
             if(
-                branch.value = "Premium Appliance Repair"
+                branch.value == "Premium Appliance Repair"
             ){
                 console.log("bad branch detected")
                 if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){

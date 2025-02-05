@@ -485,5 +485,8 @@
 - added samsung to wa exclusion lists
 - added microwaves to phils exclusion list
 
+1.0974
+- fixed bug in wa exclusion list
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked
