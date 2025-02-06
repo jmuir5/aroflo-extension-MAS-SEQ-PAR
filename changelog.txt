@@ -488,5 +488,8 @@
 1.0974
 - fixed bug in wa exclusion list
 
+1.0975
+- updated technician areas
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked
