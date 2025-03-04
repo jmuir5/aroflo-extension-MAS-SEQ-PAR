@@ -491,5 +491,29 @@
 1.0975
 - updated technician areas
 
+1.0976
+- added day dependant jobs for peters
+- added new seq techician andrew
+
+1.0977
+- updated booking emails to use universal templates, updated booking sms's also
+- added support for warranty detection/email to contact button
+
+1.0978
+- added filter for andrew for fridges
+- refined andrew area
+- added search toolbox on calendar
+- removed dave from the tech table due to illness
+
+1.0979
+- changed location search to skip tony
+- fixed some tech areas
+- changed andrew to 4/2 from 3/3
+- reduced leo's area as per his request
+
+1.0980
+- added gas cooktops to andrews exclusion list
+- changed leos area to remove mosman and cremorne
+
 TODO
 - doublecheck parts recieved code to ensure correct day is picked

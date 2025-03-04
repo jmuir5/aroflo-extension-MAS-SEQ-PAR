@@ -18,6 +18,19 @@ window.addEventListener("load", async()=>{
         }
 
         var day =document.getElementsByTagName("h2")[4].childNodes[0].textContent.split(",")[0]//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973")[0].parentElement.childNodes[0].textContent.split(",")[0]        
+        var Peter = ["Peter Traish", 4, 4, -1]
+        if(day == "Monday"){
+           
+        }
+        if(day == "Tuesday"){
+           
+        }
+        if(day == "Wednesday"){
+            Peter = ["Peter Traish", 4, 2, -1]
+        }
+        if(day == "Thursday"){
+            Peter = ["Peter Traish", 4, 2, -1]
+        }
         if(day == "Friday"){
            
         }
@@ -25,12 +38,12 @@ window.addEventListener("load", async()=>{
         console.log(frame)
         var dict = [
             //mas - nsw
-            ["Peter Traish", 4, 4, -1], ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 4, 4, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 2, -1],
+            Peter, ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 5, 3, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 2, -1],
             ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],
             //premium - wa
             ["Ozgur Aytemur", 4, 4, -1], ["Phill Poustie", 3, 3, -1], 
             //seq - qld
-            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],
+            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],["Andrew Burton", 4, 2, -1],
             //alpha - nsw
             ["David Miles", 5, 3, -1], ["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
             ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 

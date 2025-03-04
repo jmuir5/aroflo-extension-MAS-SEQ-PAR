@@ -10,6 +10,7 @@ window.addEventListener("load", async()=>{
         var ronsFilteredAppliances = ["cooktop", "oven", "stove", "rangehood"]
         var marksFilteredAppliances = ["oven"]
         var pavFilteredAppliances = ["microwave", "micro"]
+        var andrewFilteredAppliances = ["fridges", "fridge", "freezer", "cooktop", "gas"]
         var WAFilteredBrands = ["samsung"]
         var philFilteredAppliances = pavFilteredAppliances // microwaves
         //var trigger = false
@@ -21,6 +22,7 @@ window.addEventListener("load", async()=>{
         var pavRegex = new RegExp( pavFilteredAppliances.join( "|" ), "i");
         var maxRegex = new RegExp( allFilteredAppliances.join( "|" ), "i");
         var philRegex = new RegExp( philFilteredAppliances.join( "|" ), "i");
+        var andrewRegex = new RegExp( andrewFilteredAppliances.join( "|" ), "i");
         var waRegex = new RegExp( WAFilteredBrands.join( "|" ), "i");
         
         //states first
@@ -284,6 +286,40 @@ window.addEventListener("load", async()=>{
                 }
             }
         }
+        if(andrewRegex.test(assetName.value)){
+            console.log("andrew filterd appliance detected")
+            for(let index = 0; index< scheduledTechs.length; index++){
+                var tech = scheduledTechs[index]
+                console.log(tech)
+                var deleted = tech.getAttribute("deleted");
+                console.log(deleted)
+                if(
+                    !deleted==1 && tech.childNodes[1].innerText.includes("Andrew")
+                ){
+                    console.log("bad tech detected")
+                    if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair fridges or GAS cooktops. \nAre you sure you want to make this booking?")) {
+                            dismissed=true
+                            break
+                        } else {
+                            console.log("calendar: confirm answer: no")
+                            alert("This booking will now be closed.")
+                            document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                        }  
+                        
+                    }
+                    else{                    
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair fridges or GAS cooktops. \nAre you sure you want to make this booking?")) {
+                            dismissed=true
+                            break
+                        } else {
+                            tech.childNodes[9].children[0].click()
+                            console.log("alt path")                        
+                        }
+                    }
+                }
+            }
+        }
 
         if(waRegex.test(assetName.value)){
             console.log("wa filterd appliance detected")
@@ -363,3 +399,42 @@ window.addEventListener("load", async()=>{
 
     
 })
+
+let applianceCheckFunc = async function(filteredAppliances, assetName, techName) {
+    var filteredRegex = new RegExp(filteredAppliances.join( "|" ), "i");
+    if(filteredRegex.test(assetName)){
+        console.log("andrew filterd appliance detected")
+        for(let index = 0; index< scheduledTechs.length; index++){
+            var tech = scheduledTechs[index]
+            console.log(tech)
+            var deleted = tech.getAttribute("deleted");
+            console.log(deleted)
+            if(
+                !deleted==1 && tech.childNodes[1].innerText.includes(techName)
+            ){
+                console.log("bad tech detected")
+                if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
+                    if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
+                        dismissed=true
+                        break
+                    } else {
+                        console.log("calendar: confirm answer: no")
+                        alert("This booking will now be closed.")
+                        document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                    }  
+                    
+                }
+                else{                    
+                    if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
+                        dismissed=true
+                        break
+                    } else {
+                        tech.childNodes[9].children[0].click()
+                        console.log("alt path")                        
+                    }
+                }
+            }
+        }
+    }
+    
+}

@@ -634,7 +634,28 @@ smsBtn.addEventListener("click", function(){emailSmsPasser(2)})
 
 async function ContactClient(flag) {
     if (flag==0||flag==2){
-        var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
+        var branch = document.getElementsByClassName("afDataTable__cell--non-numeric ownerEditMode")[0].innerText
+        var branchNumber = ""
+        var from = ""
+        switch(branch){
+            case "MAS > Master Appliance Service":
+                branchNumber = "(02) 8445 4000"
+                from = "MasterAppli"
+                break
+            case "MAS > Premium Appliance Repair": 
+                branchNumber = "1300 614 730"
+                from = "PremiumAppl"
+                break
+            case "MAS > SEQ Appliance Repair": 
+                branchNumber = "(07) 3096 0580"
+                from = "SEQApplianc"
+                break
+            case "MAS > Alpha Appliance Repair":
+                branchNumber = "(02) 9420 2622"
+                from = "AlphaApplia"
+            default: "error"
+        }
+        /*var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
         var branchNumber = ""
         switch(branch){
             case "Master Appliance Service":
@@ -650,7 +671,7 @@ async function ContactClient(flag) {
                 branchNumber = "(02) 9420 2622"
                 break
             default: "error"
-        }
+        }*/
         var method = ""
         if(document.getElementsByTagName("select")[2].value=="Online Booking"){
             method = "online "
@@ -689,9 +710,9 @@ async function ContactClient(flag) {
             await new Promise(r => setTimeout(r, 10));
             console.log("waiting for sms template to load")
         }
-        document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch*', branch)
         document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*method*', method)
-        document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch number*', branchNumber)
+        document.getElementById("from_value").value= from
+
 
         document.getElementById("btnSendSMSmessage").click()
         document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
@@ -730,8 +751,7 @@ async function ContactClient(flag) {
                 await new Promise(r => setTimeout(r, 10));
                 console.log("waiting for sms template to load")
             }
-            document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch*', branch)
-            document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch number*', branchNumber)
+            document.getElementById("from_value").value= from
 
             document.getElementById("btnSendSMSmessage").click()
             document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
@@ -742,20 +762,24 @@ async function ContactClient(flag) {
         console.log("emailing client")
 
         chrome.storage.sync.get("emailTag", async ({ emailTag }) => {
+            emailTag = "1430"
+
             var time = document.getElementsByClassName("schedule-item-date")[0].innerText
             var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
             var source = "Online Booking"
             var branchIndex = 1
             if (branch == "Master Appliance Service") branchIndex = 2
             if (document.getElementsByTagName("Select")[branchIndex]) source = document.getElementsByTagName("Select")[branchIndex].children[document.getElementsByTagName("Select")[branchIndex].selectedIndex].value
-            if (time.includes("8:30 AM")||time.includes("7:30 AM")) time = "AM"
+            /*if (time.includes("8:30 AM")||time.includes("7:30 AM")) time = "AM"
             else if (time.includes("12:30 PM")) time = "PM"
-            else time = "Any"
-            emailTag = "1051"
+            else time = "Any"*/
             var alphaEarlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert"]
+            if( document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText == "Warranty - Internal"){
+                emailTag = "1386"
+            }
 
 
-            switch (true) {
+            /*switch (true) {
                 case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("John Sleap"))):
                     emailTag = "1054"
                     break;
@@ -823,7 +847,7 @@ async function ContactClient(flag) {
                 case ((branch == "Alpha Appliance Repair") && (time == "Any")):
                     emailTag = "1236"
                     break;
-            }
+            }*/
 
 
 

@@ -1,7 +1,7 @@
 {
   "name": "Enhancement Suite - MAS/PAR/SEQ",
   "description": "speed up importing emails, send emails from client page, and other enhancements",
-  "version": "1.0975",
+  "version": "1.0979",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -22,7 +22,7 @@
   },
   "web_accessible_resources": [{
     "matches": ["<all_urls>"],
-    "resources": ["techTable.js"]
+    "resources": ["techTable.js", "suburbTable.js"]
   }],
 
   "content_scripts": [
@@ -52,6 +52,10 @@
     },
     {
       "js": ["calendar_extra_tech_buttons.js"],
+      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"]
+    },
+    {
+      "js": ["calendar_search_toolbar.js"],
       "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"]
     },
     {
