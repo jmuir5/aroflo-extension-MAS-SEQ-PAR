@@ -1,4 +1,4 @@
-var earlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert", "Gee Cruz", "Matt Gillard", "Sandy Adhikari"]
+var earlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert", "Gee Cruz", "Matt Gillard", "Sandy Adhikari", "Benji Le Her"]
 
 
 //code for adding am/pm/any buttons

@@ -401,9 +401,10 @@ function importData(techLocations, index23) {
                 var node = document.querySelector('[title="'+inputtag[10]+'"]');
                 if(node){node.parentElement.classList.add("ui-state-highlight")} 
 
-                document.getElementsByClassName("btnAddUsers")[0].click()
+                document.getElementById("mapButton").click()
+                //document.getElementsByClassName("btnAddUsers")[0].click()
                 
-                if(document.getElementsByClassName("af-truncate--text")[0].innerText!="Alpha Appliance Repair"){
+                /*if(document.getElementsByClassName("af-truncate--text")[0].innerText!="Alpha Appliance Repair"){
                     var listOfTechs = []
                     for (const tech in techLocations) {
                         if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
@@ -565,7 +566,7 @@ function importData(techLocations, index23) {
                         
                         //end map popup code block
                     }
-                }
+                }*/
                 while (document.getElementsByClassName("schedStartTime vd_required vd_time  afTextfield__input afTextfield__input--small ui-timepicker-input").length == 0) {
                     await new Promise(r => setTimeout(r, 10));
                     console.log("waiting for technician entry")
