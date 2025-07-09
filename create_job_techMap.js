@@ -120,6 +120,7 @@ window.addEventListener("load", async()=>{
                     try{
                         var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
                         var minusButton = mapButtons.children[12]
+                        document.getElementsByClassName("gm-style-iw-a")[0].remove()
                         break
                     }
                     catch(error){
@@ -127,10 +128,11 @@ window.addEventListener("load", async()=>{
                         console.log("failed to set map buttons")
                     }
                 }
-                document.getElementsByClassName("gm-style-iw-a")[0].remove()
+                
+                
                 while(true){
                     try{
-                        minusButton = minusButton.children[0].children[2].children[0].children[2]
+                        minusButton = minusButton.children[0].children[1].children[1].children[5].children[0]
                         break
                     }
                     catch (error){
@@ -138,7 +140,7 @@ window.addEventListener("load", async()=>{
                         await new Promise(r => setTimeout(r, 10));
                         minusButton = mapButtons.children[12]
                     }
-                }
+                }    
 
                 for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
 
@@ -188,7 +190,7 @@ window.addEventListener("load", async()=>{
             
             while(true){
                 try{
-                    minusButton = minusButton.children[0].children[2].children[0].children[2]
+                    minusButton = minusButton.children[0].children[1].children[1].children[5].children[0]
                     break
                 }
                 catch (error){

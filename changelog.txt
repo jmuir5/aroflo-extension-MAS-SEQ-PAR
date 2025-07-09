@@ -530,5 +530,66 @@
 - added all office staff to calendar
 - changed a few techs to 0/0
 
-TODO
-- doublecheck parts recieved code to ensure correct day is picked
+1.0985
+- gave the seatch toobar text box a name so it would autocomplete
+- added andrew back to calendar, reassigned area,
+- added exception to calendar baag execution for calendars that are not in the correct format
+
+1.0986
+- added carlos to calendar
+
+1.0987
+- updated phils area
+-updated john to early starters
+
+1.0988
+- reverted change that made everyone early starters
+
+1.0989
+- changed luiz area, 
+- parts received button added for all job types now
+
+1.0990
+- updated tech areas 
+
+1.0991
+- fixed time buttons to appear on all schedules and controll their own schedules only
+
+1.0992
+-updated tech areas, updated some postcodes
+- made a change to fridge check
+- fixed tech autopick map generation code in response to change from google
+- reworked quote approved buttons
+- added fees and charges button to quick notes task buttons, 
+- split quick notes to quick notes and quick actions for tasks, 
+- added DSS part inquirey button 
+- added email bounced button
+- added glenorie to peters area
+
+1.0993
+- fixxed matts appliance filter
+- fixed reschedule quicknotes button
+
+1.0994
+- updated matts areas
+- added account technician check to calendar and reminder for jobs
+
+1.0995
+- added techs to Real Estate approved techs list
+
+1.0996
+- removed some areas from vini (2136, 2190)
+- removed some areas from pav (2114- 2116)
+- moved sutherland from vini to arpan (2224 - 2234)
+- added several areas to vini( "2018",
+    "2020",
+    "2044",
+    "2049",
+    "2130",
+    "2131",
+    2205
+    "2216",
+    "2217",
+    "2219",)
+- added eastern suburbs to otavio (2000, 2010, 2011, 2016, 2021-2029)
+- added integrated fridges to matts dissallowed appliances

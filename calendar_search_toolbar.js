@@ -22,7 +22,7 @@ window.addEventListener("load", async()=>{
     }
     
     let scrollRightFunct= async function() {
-            while(!document.getElementsByClassName("fc-head-col-resource fc-last")[1]){
+        while(!document.getElementsByClassName("fc-head-col-resource fc-last")[1]){
             console.log("waiting for calendar selector")
             await new Promise(r => setTimeout(r, 10));
         }
@@ -34,13 +34,13 @@ window.addEventListener("load", async()=>{
 
     let scrollToTarget= async function(target) {
         while(!document.getElementsByClassName("fc-head-col-resource fc-last")[1]){
-        console.log("waiting for calendar selector")
-        await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for calendar selector")
+            await new Promise(r => setTimeout(r, 10));
+        }
+        var innerBox = document.getElementsByClassName("fc-view fc-view-basicDayByResource fc-grid")[0]
+        innerBox.scrollLeft = 0
+        window.scrollTo(target, 0)
     }
-    var innerBox = document.getElementsByClassName("fc-view fc-view-basicDayByResource fc-grid")[0]
-    innerBox.scrollLeft = 0
-    window.scrollTo(target, 0)
-}
     
     let clearHighlighting= async function() {
         let headerBar = document.getElementsByClassName("fc-head-col-resource fc-last")[1]
@@ -131,6 +131,7 @@ window.addEventListener("load", async()=>{
         searchBox.size = "20"
         searchBox.placeholder = "Search Locations..."
         searchBox.style = "padding:4px 7px; margin:0px 5px;"
+        searchBox.setAttribute("name", "searchBox")
 
         searchToolbarBox.id = 'searchToolbarBox'
         searchToolbarBox.classList = "ui-widget ui-widget-content ui-widget-header ui-corner-tl"

@@ -23,47 +23,64 @@ window.addEventListener('load', async() => {
     }
     const noteBar = document.getElementsByClassName("afNoteWidget__header margin-top--2")[0]
     //common cust enquirey buttons buttons
-    var custContainerDiv = document.createElement('DIV')
-    var custEtaButton = document.createElement('BUTTON')
-    custEtaButton.appendChild(document.createTextNode("ETA"))
-    custEtaButton.type="button"
-    custEtaButton.id="custEtaButton"
-    custEtaButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
+    var quickNotesDiv = document.createElement('DIV')
+    var quickActionsDiv = document.createElement('DIV')
+
+
+    var templateButton = document.createElement('BUTTON')
+    templateButton.type="button"
+    templateButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
     
-    var custCompButton = document.createElement('BUTTON')
+    var feesChargesButton = templateButton.cloneNode()
+    feesChargesButton.appendChild(document.createTextNode("Fees & Charges"))
+    feesChargesButton.id = "feesChargesButton"
+
+
+    var custEtaButton = templateButton.cloneNode()
+    custEtaButton.appendChild(document.createTextNode("ETA"))
+    custEtaButton.id="custEtaButton"
+    
+    var custCompButton = templateButton.cloneNode()
     custCompButton.appendChild(document.createTextNode("Complaints"))
-    custCompButton.type="button"
     custCompButton.id="custCompButton"
-    custCompButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
 
-    var custReschedButton = document.createElement('BUTTON')
+    var custReschedButton = templateButton.cloneNode()
     custReschedButton.appendChild(document.createTextNode("Rescheduling"))
-    custReschedButton.type="button"
     custReschedButton.id="custReschedButton"
-    custReschedButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
 
-    var allPtsRcvdButton = document.createElement('BUTTON')
+    var emailBouncedButton = templateButton.cloneNode()
+    emailBouncedButton.appendChild(document.createTextNode("Email Bounced"))
+    emailBouncedButton.id="emailBouncedButton"
+
+    var allPtsRcvdButton = templateButton.cloneNode()
     allPtsRcvdButton.appendChild(document.createTextNode("Notify Parts received"))
-    allPtsRcvdButton.type="button"
     allPtsRcvdButton.id="allPtsRcvdButton"
-    allPtsRcvdButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
+
+    var emailDSSPartsButton = templateButton.cloneNode()
+    emailDSSPartsButton.appendChild(document.createTextNode("PP enquirey DSS"))
+    emailDSSPartsButton.id="emailDSSPartsButton"
     
     
     //confContainerDiv.after(custContainerDiv)
-    noteBar.children[0].after(custContainerDiv)
-    custContainerDiv.appendChild(document.createTextNode("customer called for: "))
-    custContainerDiv.appendChild(custEtaButton)
-    custContainerDiv.appendChild(custCompButton)
-    custContainerDiv.appendChild(custReschedButton)
-    if(document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText.includes("Fit Parts")){
-        custContainerDiv.appendChild(allPtsRcvdButton)
-    }
-    
-    const custText = "customer called "
+    noteBar.children[0].after(quickActionsDiv)
+    noteBar.children[0].after(quickNotesDiv)
 
+    quickNotesDiv.appendChild(document.createTextNode("Quick Notes: "))
+    quickNotesDiv.appendChild(custEtaButton)
+    quickNotesDiv.appendChild(feesChargesButton)
+    quickNotesDiv.appendChild(custCompButton)
+    quickNotesDiv.appendChild(custReschedButton)
+    quickActionsDiv.appendChild(document.createTextNode("Quick actions: "))
+
+    quickActionsDiv.appendChild(emailBouncedButton)
+    quickActionsDiv.appendChild(allPtsRcvdButton)
+    quickActionsDiv.appendChild(emailDSSPartsButton)
+
+    // fit parts job type only//if(document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText.includes("Fit Parts")){}
+    
     var custFunction = function(text){
         document.getElementById("btnAddNoteText").click()
-        document.getElementById("thisnote").value = custText+text
+        document.getElementById("thisnote").value = text
         
         //document.getElementById("btnAddNote").click()
     }
@@ -225,12 +242,147 @@ window.addEventListener('load', async() => {
         //document.getElementById("update_btn").click()
     }
 
-    custEtaButton.addEventListener("click", function(){custFunction("for part ETA, email sent to supplier/forwarded to spare parts/forwarded to technician/cust was informed of"+
+    var emailBouncedFunction = async function(){
+        if(confirm("Send customer email bounced text?")){
+            var templateId = "1432"
+            document.getElementById("btnSendSms-0").click()
+            while (!document.getElementById("btnEmailTemplate")) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for sms template button")
+            }
+            document.getElementById("btnEmailTemplate").click()
+            
+            var table =document.getElementsByClassName("ui-jqgrid-btable")
+            while(true){
+                while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for templates to load")
+                }
+                
+                if(document.getElementById(templateId)){
+                    document.getElementById(templateId).click()
+                    document.getElementById("btnSelect").click()
+                    break
+                }
+                else {
+                    if(document.getElementById("1233")){
+                        document.getElementById("1233").click()
+                        document.getElementById("btnSelect").click()
+                        return
+                    }
+                    else document.getElementsByClassName("af-pg-button")[2].click()
+                    
+                }
+                await new Promise(r => setTimeout(r, 10))
+            }
+            while (document.getElementById("message_value").value.length<100) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for sms template to load")
+            }
+            document.getElementById("btnSendSMSmessage").click()
+            document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[0].click()
+            while(document.getElementById("ui-dialog-title-1")){
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for sms dialogue to close")
+            }
+            await new Promise(r => setTimeout(r, 1000));
+            document.getElementsByClassName("afBtn afBtn--small afBtn__fill af-primary btnRefreshNotes headerItemSpacing")[0].click()
+        }
+    }
+
+    var partEnqDSSFunction = async function(){
+        var emailTemplateID = "1360"
+        document.getElementById("customiseLayout").click()
+        while (!document.getElementById("TrackEmailYesNo")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for email to open")
+        }
+
+        document.getElementById("btnSearchEmailTemplates").click()
+
+        var table = document.getElementsByClassName("ui-jqgrid-btable")
+
+        while(true){
+            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for templates to load")
+            }
+            if(document.getElementById(emailTemplateID)){
+                document.getElementById(emailTemplateID).click()
+                document.getElementById("btnSelect").click()
+                break
+            }
+            else {
+                if(document.getElementById("1051")){
+                    document.getElementById("1051").click()
+                    document.getElementById("btnSelect").click()
+                    return
+                }
+                else document.getElementsByClassName("af-pg-button")[2].click()
+                
+            }
+
+            await new Promise(r => setTimeout(r, 10))
+        }
+
+        while (!document.getElementById("ToSubject").value.includes("Inquiry")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for load")
+        }
+
+        await new Promise(r => setTimeout(r, 500));
+        document.getElementById("ToArea").value = "trade@dougsmithspares.com.au"
+        if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
+        if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
+        if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
+        if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
+        console.log("done2")
+
+        document.getElementsByClassName("afBtn afBtn__fill af-primary afBtn--small afBtn--text-icon ui-button-text-icon-secondary")[1].dispatchEvent(new MouseEvent('mouseover', { 'bubbles': true }));
+        document.getElementsByClassName("afBtnMenu__menuItem")[15].click()
+
+        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for task documents to load")
+        }
+        var headRow = document.getElementsByClassName("jqgfirstrow")[0]
+        while (headRow.parentElement.children.length<2) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for task documents to load")
+        }
+        for (let index = 0; index < headRow.parentElement.children.length; index++) {
+            headRow.parentElement.children[index].click()
+        } 
+
+        document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+
+
+
+
+        while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for send")
+        }
+        //document.getElementsByClassName("ui-button-text")[2].click()
+        
+
+        //document.getElementById("update_btn").click()
+    }
+
+
+    custEtaButton.addEventListener("click", function(){custFunction("cust called for part ETA, email sent to supplier/forwarded to spare parts/forwarded to technician/cust was informed of"+
         " expected delivery date")})
-    custCompButton.addEventListener("click", function(){custFunction("to complain, customer had valid problems/rambled incoherently/had their expectations adjusted/should be "+
+    feesChargesButton.addEventListener("click", function(){custFunction("Fees & Charges explained to customer for non warranty issues")})
+    custCompButton.addEventListener("click", function(){custFunction("cust called to complain, customer had valid problems/rambled incoherently/had their expectations adjusted/should be "+
         "relegated to the mental asylum")})
-    custReschedButton.addEventListener("click", function(){custFunction("to reschedule from XXX to XXX. Reason: XXX")})
+    custReschedButton.addEventListener("click", function(){custFunction("cust called to reschedule from XXX to XXX. Reason: XXX")})
+    
+    emailBouncedButton.addEventListener("click", function(){emailBouncedFunction()})
+
     allPtsRcvdButton.addEventListener("click", function(){partsFunction()})
+
+    emailDSSPartsButton.addEventListener("click", function(){partEnqDSSFunction()})
+
 
     console.log("note buttons loaded")
 

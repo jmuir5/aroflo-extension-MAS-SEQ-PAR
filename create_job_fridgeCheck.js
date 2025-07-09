@@ -11,8 +11,9 @@ window.addEventListener("load", async()=>{
         var marksFilteredAppliances = ["oven"]
         var pavFilteredAppliances = ["microwave", "micro"]
         var andrewFilteredAppliances = ["fridges", "fridge", "freezer", "cooktop", "gas"]
+        var mattFilteredAppliances = ["steam oven", "steam",  "cooktop", "gas", "fridges", "fridge", "freezer"]
         var WAFilteredBrands = ["samsung"]
-        var philFilteredAppliances = pavFilteredAppliances // microwaves
+        var philFilteredAppliances = ["microwave", "micro", "oven", "gas", "samsung"]//pavFilteredAppliances // microwaves
         //var trigger = false
         var allFilteredAppliances = ronsFilteredAppliances.concat(tonyFilteredAppliances, marksFilteredAppliances, pavFilteredAppliances)
         
@@ -23,39 +24,9 @@ window.addEventListener("load", async()=>{
         var maxRegex = new RegExp( allFilteredAppliances.join( "|" ), "i");
         var philRegex = new RegExp( philFilteredAppliances.join( "|" ), "i");
         var andrewRegex = new RegExp( andrewFilteredAppliances.join( "|" ), "i");
+        var mattRegex = new RegExp( mattFilteredAppliances.join( "|" ), "i");
         var waRegex = new RegExp( WAFilteredBrands.join( "|" ), "i");
         
-        //states first
-        if(waRegex.test(assetName.value)){
-            console.log("wa filterd appliance detected")
-            var branch = document.getElementById("ownerOrgName")
-            if(
-                branch.value == "Premium Appliance Repair"
-            ){
-                console.log("bad branch detected")
-                if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
-                    if (confirm("No TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
-                        dismissed=true
-                        break
-                    } else {
-                        console.log("calendar: confirm answer: no")
-                        alert("This booking will now be closed.")
-                        document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
-                    }  
-                    
-                }
-                else{                    
-                    if (confirm("No TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
-                        dismissed=true
-                        break
-                    } else {
-                        document.querySelectorAll("[id='btnAdvSearch']")[3].click()
-                        document.getElementById("btnSelectNone").click()
-                        console.log("alt path")                        
-                    }
-                }
-            }
-        }
         
         //checking technicians
         if(scheduledTechs.length==0){
@@ -121,7 +92,8 @@ window.addEventListener("load", async()=>{
                     console.log(deleted)
                     if(
                         !deleted==1 && !(
-                            tech.childNodes[1].innerText.includes("Tony") 
+                            tech.childNodes[1].innerText.includes("Tony") ||
+                            tech.childNodes[1].innerText.includes("Carlos")
                         )
                     ){
                         console.log("bad tech detected")
@@ -264,7 +236,7 @@ window.addEventListener("load", async()=>{
                 ){
                     console.log("bad tech detected")
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
-                        if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair samsung appliances, microwaves or GAS ovens. \nAre you sure you want to make this booking?")) {
                             dismissed=true
                             break
                         } else {
@@ -275,7 +247,7 @@ window.addEventListener("load", async()=>{
                         
                     }
                     else{                    
-                        if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair samsung appliances, microwaves or GAS ovens. \nAre you sure you want to make this booking?")) {
                             dismissed=true
                             break
                         } else {
@@ -294,7 +266,9 @@ window.addEventListener("load", async()=>{
                 var deleted = tech.getAttribute("deleted");
                 console.log(deleted)
                 if(
-                    !deleted==1 && tech.childNodes[1].innerText.includes("Andrew")
+                    !deleted==1 && (
+                        tech.childNodes[1].innerText.includes("Andrew")
+                    )
                 ){
                     console.log("bad tech detected")
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
@@ -310,6 +284,43 @@ window.addEventListener("load", async()=>{
                     }
                     else{                    
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair fridges or GAS cooktops. \nAre you sure you want to make this booking?")) {
+                            dismissed=true
+                            break
+                        } else {
+                            tech.childNodes[9].children[0].click()
+                            console.log("alt path")                        
+                        }
+                    }
+                }
+            }
+        }
+
+        if(mattRegex.test(assetName.value)){
+            console.log("matt filterd appliance detected")
+            for(let index = 0; index< scheduledTechs.length; index++){
+                var tech = scheduledTechs[index]
+                console.log(tech)
+                var deleted = tech.getAttribute("deleted");
+                console.log(deleted)
+                if(
+                    !deleted==1 && (
+                        tech.childNodes[1].innerText.includes("Matt")
+                    )
+                ){
+                    console.log("bad tech detected")
+                    if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
+                        if (confirm(tech.childNodes[1].innerText + " is unable to steam ovens, GAS cooktops or INTEGRATED fridges. \nAre you sure you want to make this booking?")) {
+                            dismissed=true
+                            break
+                        } else {
+                            console.log("calendar: confirm answer: no")
+                            alert("This booking will now be closed.")
+                            document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                        }  
+                        
+                    }
+                    else{                    
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair steam ovens or GAS cooktops. \nAre you sure you want to make this booking?")) {
                             dismissed=true
                             break
                         } else {

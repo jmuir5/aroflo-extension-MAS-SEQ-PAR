@@ -12,24 +12,33 @@ window.addEventListener("load", async()=>{
     
     while(true){
         //get positions, get jobs, sort jobs, count, display
-        while(document.getElementById("aagBox")||document.getElementsByClassName("fc-event-inner fc-event-skin").length ==0||document.getElementsByTagName("h2")<5){//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973").length==0){
+        while(
+            document.getElementById("aagBox")||
+            document.getElementsByClassName("fc-event-inner fc-event-skin").length ==0||
+            document.getElementsByTagName("h2")<5||
+            !(document.getElementById("btnShowViewTypesLabel").innerText.includes("List")&&document.getElementById("btnShowViewTypesLabel").innerText.includes("Day by Resource"))
+        ){//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973").length==0){
             await new Promise(r => setTimeout(r, 10));
             //console.log("nothing to do")
         }
 
         var day =document.getElementsByTagName("h2")[4].childNodes[0].textContent.split(",")[0]//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973")[0].parentElement.childNodes[0].textContent.split(",")[0]        
         var Peter = ["Peter Traish", 4, 4, -1]
+        var Binod = ["Binod Timilsina", 0,0,-1]
+        var Carlos = ["Carlos Moreno", 3, 2, -1]
         if(day == "Monday"){
-           
+            Binod = ["Binod Timilsina", 0,0,-1]
         }
         if(day == "Tuesday"){
            
         }
         if(day == "Wednesday"){
             Peter = ["Peter Traish", 4, 2, -1]
+            Carlos = ["Carlos Moreno", 0, 0, -1]
         }
         if(day == "Thursday"){
             Peter = ["Peter Traish", 4, 2, -1]
+            Binod = ["Binod Timilsina", 0,0,-1]
         }
         if(day == "Friday"){
            
@@ -39,11 +48,12 @@ window.addEventListener("load", async()=>{
         var dict = [
             //mas - nsw
             Peter, ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 5, 3, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 2, -1],
-            ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],["Binod Timilsina", 0,0,-1],
+            ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],Binod,
+            Carlos,
             //premium - wa
             ["Ozgur Aytemur", 0, 0, -1], ["Phill Poustie", 3, 3, -1], 
             //seq - qld
-            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],["Andrew Burton", 0, 0, -1],//andrew: 5/3
+            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],["Andrew Burton", 5, 3, -1],
             //alpha - nsw
             ["David Miles", 0, 0, -1], ["Dylan Miles", 0, 0, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
             ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 
@@ -62,7 +72,7 @@ window.addEventListener("load", async()=>{
             ["Roman Salasek", 0, 0, -1],["Tomas	Berger", 0, 0, -1]
         ];
 
-        var dayOffFilteredText = ["holidays", "day off", "holiday", "no jobs", "public holiday", "sick", "no work"]
+        var dayOffFilteredText = ["holidays", "day off", "holiday", "no jobs", "public holiday", "sick", "no work", "not working", "easter"]
         var dayOffRegex = new RegExp( dayOffFilteredText.join( "|" ), "i");
 
         //var frame = [[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1],[0,0,0,0,0,0,-1,-1]]
@@ -177,6 +187,7 @@ window.addEventListener("load", async()=>{
             techlist = document.getElementsByClassName("fc- fc-col-res ui-widget-header")
         }
         var offset = 0 
+        var globalMaxJobs = 0
         breakpoint:
         for (let i = 0; i < techlist.length/2; i++) {
             var indexAbs = -1
@@ -274,6 +285,8 @@ window.addEventListener("load", async()=>{
                     anyText.style.color = "#DAA520"
 
                     var totalJobs = amJobs+pmJobs
+
+                    globalMaxJobs += totalJobs
                     
                     var partsPercent = (frame[i][5]/totalJobs)*100
                     
@@ -328,7 +341,7 @@ window.addEventListener("load", async()=>{
         } 
         globalTotalJobs = uniqueJobs.length
         if (currentTotal!= globalTotalJobs){
-            document.getElementsByTagName("h2")[4].childNodes[0].textContent =baseDayString+", Total: "+globalTotalJobs.toString()
+            document.getElementsByTagName("h2")[4].childNodes[0].textContent =baseDayString+", Total: "+globalTotalJobs.toString() //+"/"+globalMaxJobs.toString()
             currentTotal = globalTotalJobs
         }
         
