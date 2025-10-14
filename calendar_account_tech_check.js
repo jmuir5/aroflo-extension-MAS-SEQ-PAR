@@ -1,4 +1,4 @@
-let approvedTechnicians = ["Eduardo", "Doug", "Luiz", "Vini", "Otavio", "Sam", "Leo", "Pavel", "Mark", "Arpan", "Ron", "Tony"]
+let approvedTechnicians = ["Eduardo", "Doug", "Luiz", "Vini", "Otavio", "Sam", "Leo", "Pavel", "Mark", "Arpan", "Ron", "Tony", "David", "Dylan", "Corey"]
 let approvedTechRegex = new RegExp( approvedTechnicians.join( "|" ), "i");
 
 window.addEventListener('load', async() => {

@@ -76,7 +76,7 @@ window.addEventListener("load", async()=>{
             for(j=0;j<techList.length;j++){
                 if(headerBar.children[i].title.includes(techList[j])){
                     headerBar.children[i].classList.add("MasExtHl")
-                    if(snapTo == -1 && !headerBar.children[i].innerText.includes("Tony Scalone")){
+                    if(snapTo == -1 && !(headerBar.children[i].innerText.includes("Tony Scalone")||headerBar.children[i].innerText.includes("Carlos Moreno"))){
                         snapTo = headerBar.children[i].offsetLeft
                         scrollToTarget(snapTo)
                     }

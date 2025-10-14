@@ -291,6 +291,76 @@ window.addEventListener('load', async() => {
     }
 
     var partEnqDSSFunction = async function(){
+        //miele bosch asko fisher and paykell, lebherr, vzug
+        /*
+        https://partners.gorenje.com/gsd/default.aspx
+        https://www.cbw.fp.co.nz/login.cfm
+        */
+        var mieleList = ["Miele"]
+        var vzugList = ["vzug", "V-Zug"]
+        var boschList = ["bosch", "gaggenau", "neff", "siemens"]
+        var smegList = ["smeg"]
+        var askoList = ["asko"]
+        var andicoList = ["andico", "andi-co", "falcon", "leibherr"]
+        var fisherPaykelList = ["fisher", "paykell", "paykel", "haier"]
+
+        var mieleRegex = new RegExp( mieleList.join( "|" ), "i");
+        var vzugRegex = new RegExp( vzugList.join( "|" ), "i");
+        var boschRegex = new RegExp( boschList.join( "|" ), "i");
+        var smegRegex = new RegExp( smegList.join( "|" ), "i");
+        var askoRegex = new RegExp( askoList.join( "|" ), "i");
+        var andicoRegex = new RegExp( andicoList.join( "|" ), "i");
+        var fisherpaykelRegex = new RegExp( fisherPaykelList.join( "|" ), "i");
+        var assetName = document.getElementById("assetName")
+
+        let mieleUrl = "https://www3.miele.de/msd/MSD#/start"
+        let vzugUrl = "https://www.vzug.com/b2b/au/en/login"
+        //let smegUrl = "https://www.smeg.com/au/technician-login"
+        let boschUrl = "https://b2bportal-cloud.bsh-partner.com/"
+        let andicoUrl = "https://www3.miele.de/msd/MSD#/start"
+        let askoUrl = "https://partners.gorenje.com/gsd/default.aspx"
+        let fisherPaykelUrl = ""
+
+        let smegFlag = false
+
+
+        if(mieleRegex.test(assetName.innerText)){
+            if(confirm("for Miele appliances please use the Miele portal. Open in new tab?")){
+                window.open(mieleUrl, '_blank').focus();
+                return
+            }
+        }
+        if(smegRegex.test(assetName.innerText)){
+            smegFlag = true
+            /*if(confirm("for Smeg appliances please use the Smeg portal. Open in new tab?")){
+                window.open(smegUrl, '_blank').focus();
+                return
+            }*/
+        }
+        if(vzugRegex.test(assetName.innerText)){
+            if(confirm("for V-Zug appliances please use the vzug portal. Open in new tab?")){
+                window.open(vzugUrl, '_blank').focus();
+                return
+            }
+        }
+        if(boschRegex.test(assetName.innerText)){
+            if(confirm("for Bosch appliances please use the Bosch portal. Open in new tab?")){
+                window.open(boschUrl, '_blank').focus();
+                return
+            }
+        }
+        if(askoRegex.test(assetName.innerText)){
+            if(confirm("for Asko appliances please use the Asko portal. Open in new tab?")){
+                window.open(askoUrl, '_blank').focus();
+                return
+            }
+        }
+        if(andicoRegex.test(assetName.innerText)){
+            if(confirm("for Andi-Co appliances please use the Andi-Co portal. Open in new tab?")){
+                window.open(andicoUrl, '_blank').focus();
+                return
+            }
+        }
         var emailTemplateID = "1360"
         document.getElementById("customiseLayout").click()
         while (!document.getElementById("TrackEmailYesNo")) {
@@ -330,8 +400,12 @@ window.addEventListener('load', async() => {
             console.log("waiting for load")
         }
 
-        await new Promise(r => setTimeout(r, 500));
-        document.getElementById("ToArea").value = "trade@dougsmithspares.com.au"
+        await new Promise(r => setTimeout(r, 500));FromEmail
+        document.getElementById("FromEmail").value = "administration@masterappliances.com.au"
+        if(smegFlag){ document.getElementById("ToArea").value = "spareparts@smeg.com.au"}
+        else{ document.getElementById("ToArea").value = "trade@dougsmithspares.com.au"}
+
+
         if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
         if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
         if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
@@ -363,6 +437,9 @@ window.addEventListener('load', async() => {
             await new Promise(r => setTimeout(r, 10));
             console.log("waiting for send")
         }
+        await new Promise(r => setTimeout(r, 1000));
+        document.getElementsByClassName("afBtn afBtn--small afBtn__fill af-primary btnRefreshNotes headerItemSpacing")[0].click()
+
         //document.getElementsByClassName("ui-button-text")[2].click()
         
 
@@ -750,6 +827,10 @@ window.addEventListener('load', async() => {
     archiveButton.addEventListener("click", async function(){
         if(confirm("Are you sure you want to archive this job?")){
             console.log("archiving job")
+            if(document.getElementById("statusDummy")){
+                alert("Task has an active quote against it. quote must be rejected to archive task.")
+                return
+            }
             chrome.storage.sync.set({ archiveFlag: 1})
         
             const checkboxes = document.getElementsByClassName("afDataTable__row--hover trCompliance af-warn lTR")

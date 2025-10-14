@@ -25,7 +25,7 @@ window.addEventListener("load", async()=>{
         var day =document.getElementsByTagName("h2")[4].childNodes[0].textContent.split(",")[0]//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973")[0].parentElement.childNodes[0].textContent.split(",")[0]        
         var Peter = ["Peter Traish", 4, 4, -1]
         var Binod = ["Binod Timilsina", 0,0,-1]
-        var Carlos = ["Carlos Moreno", 3, 2, -1]
+        var Carlos = ["Carlos Moreno", 5, 3, -1]
         if(day == "Monday"){
             Binod = ["Binod Timilsina", 0,0,-1]
         }
@@ -49,25 +49,26 @@ window.addEventListener("load", async()=>{
             //mas - nsw
             Peter, ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 5, 3, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 2, -1],
             ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],Binod,
-            Carlos,
+            Carlos, ["Adrian Miszkurka", 3, 3, -1],
             //premium - wa
             ["Ozgur Aytemur", 0, 0, -1], ["Phill Poustie", 3, 3, -1], 
             //seq - qld
             ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],["Andrew Burton", 5, 3, -1],
             //alpha - nsw
-            ["David Miles", 0, 0, -1], ["Dylan Miles", 0, 0, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
+            ["David Miles", 5, 3, -1], ["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
             ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 
             ["Shane Van Der Hoek", 0, 0, -1], ["Darryl Diamond", 0, 0, -1],["James Campbell", 0, 0, -1], ["Corey Roberts", 0, 0, -1],
             //bunnies - nsw
-            ["Rory Bebington", 0, 0, -1],["Ashly Dyson", 0, 0, -1],["Ronald Jakacki", 0, 0, -1],["Timothy Jesus", 0, 0, -1],["Tony King", 0, 0, -1],
-            ["Daniel Nigro", 0, 0, -1],
+            ["Rory Bebington", 0, 0, -1],["Ashley Dyson", 0, 0, -1],["Ronald Jakacki", 0, 0, -1],["Timothy Jesus", 0, 0, -1],["Tony King", 0, 0, -1],
+            ["Daniel Nigro", 0, 0, -1],["Felipe Collor", 0, 0, -1],["Luan Viana", 0, 0, -1],
             
             //office staff - NSW
             ["Adam Rogers", 0, 0, -1],["Chris Muir", 0, 0, -1],["Elke Paynter", 0, 0, -1],["Jane Bernaldo", 0, 0, -1],["Jessica Schauwecker", 0, 0, -1],
-            ["Kim Choo", 0, 0, -1],["Mark Jamieson", 0, 0, -1],["Ryan	Irlam", 0, 0, -1],
+            ["Kim Choo", 0, 0, -1],["Mark Jamieson", 0, 0, -1],["Ryan Irlam", 0, 0, -1],["Veena Etcell", 0, 0, -1],
             //else
             ["Allison Duncombe", 0, 0, -1],["Amin Dehbandi", 0, 0, -1],["Ashley Dyson", 0, 0, -1],["Elle Vachon", 0, 0, -1],["Elle Vachon", 0, 0, -1],
-            ["Elle Vachon", 0, 0, -1],["Felipe Collor", 0, 0, -1],["Jacob Mines", 0, 0, -1],["Josh Clark", 0, 0, -1],["Kennith Gilbert", 0, 0, -1],
+            ["Elle Vachon", 0, 0, -1],["Jacob Mines", 0, 0, -1],["Josh Clark", 0, 0, -1],["Kennith Gilbert", 0, 0, -1],["Tori Flanagan", 0, 0, -1],
+            ["Kennith Gilbert", 0, 0, -1],
             ["Kenny Goh", 0, 0, -1],["Luan Viana", 0, 0, -1],["Luke Zammit", 0, 0, -1],["Michaela Salaskova", 0, 0, -1],["Nancy Robinson", 0, 0, -1],
             ["Roman Salasek", 0, 0, -1],["Tomas	Berger", 0, 0, -1]
         ];

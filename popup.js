@@ -19,6 +19,7 @@ var textArea = document.getElementById("textArea")
 var infoText = document.getElementById("infoText")
 var buyPriceBox = document.getElementById("buyPriceBox")
 var mielePriceBox = document.getElementById("mielePriceBox")
+var boschPriceBox = document.getElementById("boschPriceBox")
 var fieldPriceBox = document.getElementById("fieldPriceBox")
 var suburbBox = document.getElementById("suburbBox")
 var suburbSearchBtn = document.getElementById("suburbSearchBtn")
@@ -65,9 +66,8 @@ function sleep(ms) {
 
 importBtn.addEventListener("click", async () => {
     let inputtag = document.querySelector("#textArea").value.split("\n");
-
-    let headerFlag = true
     let inputTag2 = document.querySelector("#textArea").value.split("\n");
+    let headerFlag = true
 
     for (let index = 0; index < inputTag2.length; index++) {
         const element = inputTag2[index];
@@ -762,164 +762,167 @@ async function ContactClient(flag) {
     if (flag==0||flag==1){//email code
         console.log("emailing client")
 
-        chrome.storage.sync.get("emailTag", async ({ emailTag }) => {
-            emailTag = "1430"
+        
+        let emailTag = "1430"
 
-            var time = document.getElementsByClassName("schedule-item-date")[0].innerText
-            var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
-            var source = "Online Booking"
-            var branchIndex = 1
-            if (branch == "Master Appliance Service") branchIndex = 2
-            if (document.getElementsByTagName("Select")[branchIndex]) source = document.getElementsByTagName("Select")[branchIndex].children[document.getElementsByTagName("Select")[branchIndex].selectedIndex].value
-            /*if (time.includes("8:30 AM")||time.includes("7:30 AM")) time = "AM"
-            else if (time.includes("12:30 PM")) time = "PM"
-            else time = "Any"*/
-            var alphaEarlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert"]
-            if( document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText == "Warranty - Internal"){
-                emailTag = "1386"
-            }
-
-
-            /*switch (true) {
-                case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("John Sleap"))):
-                    emailTag = "1054"
-                    break;
-                case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("Gee Cruz"))&& ((time == "AM"))):
-                    emailTag = "1206"
-                    break;
-                case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("Gee Cruz"))&& ((time == "Any"))):
-                    emailTag = "1207"
-                    break;
-                    
-                case ((branch == "Master Appliance Service") && (time == "AM") && source == "Online Booking"):
-                    emailTag = "1037"
-                    break;
-                case ((branch == "Master Appliance Service") && (time == "AM") && source != "Online Booking"):
-                    emailTag = "1186"
-                    break;
-                case ((branch == "Master Appliance Service") && (time == "PM" && source == "Online Booking")):
-                    emailTag = "1038"
-                    break;
-                case ((branch == "Master Appliance Service") && (time == "PM" && source != "Online Booking")):
-                    emailTag = "1187"
-                    break;
-                case ((branch == "Master Appliance Service") && (time == "Any")):
-                    emailTag = "1036"
-                    break;
-                case ((branch == "Premium Appliance Repair") && (time == "AM" && source == "Online Booking")):
-                    emailTag = "1043"
-                    break;
-                case ((branch == "Premium Appliance Repair") && (time == "AM" && source != "Online Booking")):
-                    emailTag = "1188"
-                    break;
-                case ((branch == "Premium Appliance Repair") && (time == "PM" && source == "Online Booking")):
-                    emailTag = "1044"
-                    break;
-                case ((branch == "Premium Appliance Repair") && (time == "PM" && source != "Online Booking")):
-                    emailTag = "1189"
-                    break;
-                case ((branch == "Premium Appliance Repair") && (time == "Any")):
-                    emailTag = "1042"
-                    break;
-                case ((branch == "SEQ Appliance Repair") && (time == "AM" && source == "Online Booking")):
-                    emailTag = "1040"
-                    break;
-                case ((branch == "SEQ Appliance Repair") && (time == "AM" && source != "Online Booking")):
-                    emailTag = "1190"
-                    break;
-                case ((branch == "SEQ Appliance Repair") && (time == "PM" && source == "Online Booking")):
-                    emailTag = "1041"
-                    break;
-                case ((branch == "SEQ Appliance Repair") && (time == "PM" && source != "Online Booking")):
-                    emailTag = "1191"
-                    break;
-                case ((branch == "SEQ Appliance Repair") && (time == "Any")):
-                    emailTag = "1039"
-                    break;
-                case ((branch == "Alpha Appliance Repair") && (time == "AM") && alphaEarlyStarters.some(item=>document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes(item))):
-                    emailTag = "1394"
-                    break;
-                case ((branch == "Alpha Appliance Repair") && (time == "AM")):
-                    emailTag = "1237"
-                    break;
-                case ((branch == "Alpha Appliance Repair") && (time == "PM")):
-                    emailTag = "1238"
-                    break;
-                case ((branch == "Alpha Appliance Repair") && (time == "Any")):
-                    emailTag = "1236"
-                    break;
-            }*/
+        var time = document.getElementsByClassName("schedule-item-date")[0].innerText
+        var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
+        var source = "Online Booking"
+        var branchIndex = 1
+        if (branch == "Master Appliance Service") branchIndex = 2
+        if (document.getElementsByTagName("Select")[branchIndex]) source = document.getElementsByTagName("Select")[branchIndex].children[document.getElementsByTagName("Select")[branchIndex].selectedIndex].value
+        /*if (time.includes("8:30 AM")||time.includes("7:30 AM")) time = "AM"
+        else if (time.includes("12:30 PM")) time = "PM"
+        else time = "Any"*/
+        var alphaEarlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert"]
+        if( document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText == "Warranty - Internal"){
+            emailTag = "1386"
+        }
 
 
+        /*switch (true) {
+            case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("John Sleap"))):
+                emailTag = "1054"
+                break;
+            case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("Gee Cruz"))&& ((time == "AM"))):
+                emailTag = "1206"
+                break;
+            case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("Gee Cruz"))&& ((time == "Any"))):
+                emailTag = "1207"
+                break;
+                
+            case ((branch == "Master Appliance Service") && (time == "AM") && source == "Online Booking"):
+                emailTag = "1037"
+                break;
+            case ((branch == "Master Appliance Service") && (time == "AM") && source != "Online Booking"):
+                emailTag = "1186"
+                break;
+            case ((branch == "Master Appliance Service") && (time == "PM" && source == "Online Booking")):
+                emailTag = "1038"
+                break;
+            case ((branch == "Master Appliance Service") && (time == "PM" && source != "Online Booking")):
+                emailTag = "1187"
+                break;
+            case ((branch == "Master Appliance Service") && (time == "Any")):
+                emailTag = "1036"
+                break;
+            case ((branch == "Premium Appliance Repair") && (time == "AM" && source == "Online Booking")):
+                emailTag = "1043"
+                break;
+            case ((branch == "Premium Appliance Repair") && (time == "AM" && source != "Online Booking")):
+                emailTag = "1188"
+                break;
+            case ((branch == "Premium Appliance Repair") && (time == "PM" && source == "Online Booking")):
+                emailTag = "1044"
+                break;
+            case ((branch == "Premium Appliance Repair") && (time == "PM" && source != "Online Booking")):
+                emailTag = "1189"
+                break;
+            case ((branch == "Premium Appliance Repair") && (time == "Any")):
+                emailTag = "1042"
+                break;
+            case ((branch == "SEQ Appliance Repair") && (time == "AM" && source == "Online Booking")):
+                emailTag = "1040"
+                break;
+            case ((branch == "SEQ Appliance Repair") && (time == "AM" && source != "Online Booking")):
+                emailTag = "1190"
+                break;
+            case ((branch == "SEQ Appliance Repair") && (time == "PM" && source == "Online Booking")):
+                emailTag = "1041"
+                break;
+            case ((branch == "SEQ Appliance Repair") && (time == "PM" && source != "Online Booking")):
+                emailTag = "1191"
+                break;
+            case ((branch == "SEQ Appliance Repair") && (time == "Any")):
+                emailTag = "1039"
+                break;
+            case ((branch == "Alpha Appliance Repair") && (time == "AM") && alphaEarlyStarters.some(item=>document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes(item))):
+                emailTag = "1394"
+                break;
+            case ((branch == "Alpha Appliance Repair") && (time == "AM")):
+                emailTag = "1237"
+                break;
+            case ((branch == "Alpha Appliance Repair") && (time == "PM")):
+                emailTag = "1238"
+                break;
+            case ((branch == "Alpha Appliance Repair") && (time == "Any")):
+                emailTag = "1236"
+                break;
+        }*/
 
 
-            document.getElementById("customiseLayout").click()
 
-            while (!document.getElementById("TrackEmailYesNo")) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for category close")
-            }
-            //if(emailTag=="1036"||emailTag=="1037"||emailTag=="1038")document.getElementById("forwardRepliesTo").value = "Master Appliance Service <service@masterappliances.com.au>"
 
-            document.getElementById("TrackEmailYesNo").click()
-            document.getElementById("btnSearchEmailTemplates").click()
+        document.getElementById("customiseLayout").click()
 
-            var table =document.getElementsByClassName("ui-jqgrid-btable")
-
-            while(true){
-                while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for templates to load")
-                }
-                if(document.getElementById(emailTag)){
-                    document.getElementById(emailTag).click()
-                    document.getElementById("btnSelect").click()
-                    if (emailTag == "1051") return
-                    break
-                }
-                else {
-                    if(document.getElementById("1051")){
-                        document.getElementById("1051").click()
-                        document.getElementById("btnSelect").click()
-                        return
-                    }
-                    else document.getElementsByClassName("af-pg-button")[2].click()
-                    
-                }
-
-                await new Promise(r => setTimeout(r, 10))
-            }
-
-            while (!document.getElementById("ToSubject").value.includes("Service Booking")) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for load")
-            }
-
-            await new Promise(r => setTimeout(r, 500));
-            if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
-            if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
-            if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
-            if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
+        while (!document.getElementById("TrackEmailYesNo")) {
             await new Promise(r => setTimeout(r, 10));
-            console.log("done2")
-            while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
+            console.log("waiting for category close")
+        }
+        //if(emailTag=="1036"||emailTag=="1037"||emailTag=="1038")document.getElementById("forwardRepliesTo").value = "Master Appliance Service <service@masterappliances.com.au>"
+
+        document.getElementById("TrackEmailYesNo").click()
+        document.getElementById("btnSearchEmailTemplates").click()
+
+        var table =document.getElementsByClassName("ui-jqgrid-btable")
+
+        while(true){
+            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
                 await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for send")
+                console.log("waiting for templates to load")
             }
-            //document.getElementsByClassName("ui-button-text")[2].click()
-            chrome.storage.sync.get("createTag", async ({ createTag }) => {
-                console.log(createTag)
-                if (createTag > 0) {
-                    var newtag = createTag - 1
-                    chrome.storage.sync.set({ createTag: newtag });
-                    window.close()
+            if(document.getElementById(emailTag)){
+                document.getElementById(emailTag).click()
+                document.getElementById("btnSelect").click()
+                if (emailTag == "1051") return
+                break
+            }
+            else {
+                if(document.getElementById("1051")){
+                    document.getElementById("1051").click()
+                    document.getElementById("btnSelect").click()
+                    return
                 }
-                else {
-                    window.location = "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK"
-                }
-            })
-        });
+                else document.getElementsByClassName("af-pg-button")[2].click()
+                
+            }
+
+            await new Promise(r => setTimeout(r, 10))
+        }
+
+        while (!document.getElementById("ToSubject").value.includes("Service Booking")) {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for load")
+        }
+
+        await new Promise(r => setTimeout(r, 500));
+        if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
+        if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
+        if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
+        if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
+        await new Promise(r => setTimeout(r, 10));
+        console.log("done2")
+        while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
+            await new Promise(r => setTimeout(r, 10));
+            console.log("waiting for send")
+        }
+        //document.getElementsByClassName("ui-button-text")[2].click()
+        /*chrome.storage.sync.get("createTag", async ({ createTag }) => {
+            console.log(createTag)
+            if (createTag > 0) {
+                var newtag = createTag - 1
+                chrome.storage.sync.set({ createTag: newtag });
+                window.close()
+            }
+            else {
+                window.location = "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK"
+            }
+        })*/
+    
+    
     }
+    await new Promise(r => setTimeout(r, 1000));
+    document.getElementsByClassName("afBtn afBtn--small afBtn__fill af-primary btnRefreshNotes headerItemSpacing")[0].click()
 }
 
 
@@ -997,9 +1000,10 @@ invoiceBtn3.addEventListener("click", async () => {
 
 buyPriceBox.addEventListener("change", async () => {
     var price = Number(buyPriceBox.value)
-    mielePriceBox.value = price * 1.7
+    mielePriceBox.value = (price*0.75) * 1.7
+    boschPriceBox.value = price*1.7
 
-    if (price <= 10) {
+    /*if (price <= 10) {
         fieldPriceBox.value = price * 3 + 10
     }
     else if (price <= 20) {
@@ -1029,7 +1033,33 @@ buyPriceBox.addEventListener("change", async () => {
     else {
         if (price * 1.5 < 1312.5) fieldPriceBox.value = 1312.5
         fieldPriceBox.value = price * 1.5
+    }*/
+
+    
+    if (price <= 20) {
+        fieldPriceBox.value = price * 3
     }
+    else if (price <= 50) {
+        if (price * 2.5 < 60) fieldPriceBox.value = 60
+        fieldPriceBox.value = price * 2.5
+    }
+    else if (price <= 100) {
+        if (price * 2.4 < 150) fieldPriceBox.value = 150
+        fieldPriceBox.value = price * 2.4
+    }
+    else if (price <= 200) {
+        if (price * 2 < 240) fieldPriceBox.value = 240
+        fieldPriceBox.value = price * 2
+    }
+    else if (price <= 500) {
+        if (price * 1.7 < 400) fieldPriceBox.value = 400
+        fieldPriceBox.value = price * 1.7
+    }
+    else {
+        if (price * 1.5 < 850) fieldPriceBox.value = 850
+        fieldPriceBox.value = price * 1.5
+    }
+
 
 })
 

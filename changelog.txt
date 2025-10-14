@@ -593,3 +593,43 @@
     "2219",)
 - added eastern suburbs to otavio (2000, 2010, 2011, 2016, 2021-2029)
 - added integrated fridges to matts dissallowed appliances
+
+1.0997
+- added luan and felipe to calandar - bunies technicians
+- quick quote button prompts user to use the appropriate portal to get part prices for miele, vzug, smeg, bosch, asko and andi-co
+
+1.0998
+- updated tech tables to remove marrickvill from otavio, change luiz and gee to nothern beaches
+- updated various email and text message things to refresh notes rather than refresh page
+- added out of area alert to auto allocate
+- added warning when trying to archive job with a quote
+honestly i probably did some other stuff, i forgot.
+
+1.0999
+moved gee i guess?
+
+- added doug and corey back to system
+
+1.1000
+- added adrian and veena
+
+1.1001
+- bugfix for calendar
+
+
+1.1002
+- updated calculator with new prices
+- added dave, corey, dylan to approved tech list for real estate jobs
+
+1.1003
+- fixed tech fridge checker to work with the calendar view
+
+1.1004
+- updated fridge checker to support peter doing fridges
+
+1.1005
+- updated carlos jobs  to 5/3
+- fixed area search to not snap to carlos
+
+1.1006
+- updated dylans jobs  to 5/3

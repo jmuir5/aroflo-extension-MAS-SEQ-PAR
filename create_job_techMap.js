@@ -24,13 +24,22 @@ window.addEventListener("load", async()=>{
             if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
         }
         if(tonyRegex.test(document.getElementById("assetName").value)){
-            if(listOfTechs.includes("Tony")){
+            if(listOfTechs.includes("Tony")&& listOfTechs.includes("Tony")){
+                listOfTechs = ["Carlos", "Tony"]
+            }
+            else if(listOfTechs.includes("Carlos")){
+                listOfTechs = ["Carlos"]
+            }
+            else if(listOfTechs.includes("Tony")){
                 listOfTechs = ["Tony"]
+            }
+            else if(listOfTechs.includes("Carlos")){
+                listOfTechs = ["Carlos"]
             }
         }
         else{
-            if(listOfTechs.includes("Tony")){
-                listOfTechs =  listOfTechs.filter(item => item !== "Tony")
+            if(listOfTechs.includes("Tony")||listOfTechs.includes("Carlos")){
+                listOfTechs =  listOfTechs.filter(item => item !== "Tony" && item !== "Carlos")
             }
         }
         console.log(listOfTechs)
@@ -153,6 +162,7 @@ window.addEventListener("load", async()=>{
         }
         else { 
             console.log("no techs found") 
+            alert("No Technicians found for this area")
             //map popup code block
             var loc = document.getElementById("tblIMSMain")
             loc.appendChild(latitudeClone)

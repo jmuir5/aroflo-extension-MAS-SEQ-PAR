@@ -14,7 +14,7 @@ window.addEventListener('load', async() => {
         scheduleButton.appendChild(scheduleCover)
         scheduleCover.addEventListener("click", function(){
             if(confirm("Real Estate and account customers require one of the following technicians: \n - Ed \n - Doug \n - Luiz \n - Vini \n - Otavio \n - Sam \n - Leo \n - Pav"+
-                " \n - Mark \n - Arpan \n - Ron")){
+                " \n - Mark \n - Arpan \n - Ron \n - Dave \n - Dylan \n - Corey")){
                     scheduleButton.click()
                 }
         })

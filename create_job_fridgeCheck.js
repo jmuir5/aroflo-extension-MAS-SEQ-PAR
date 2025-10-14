@@ -3,40 +3,54 @@
 
 window.addEventListener("load", async()=>{
     var dismissed = false
-    while(true&&!dismissed){
-        var assetName = document.getElementById("assetName")
-        var scheduledTechs = document.getElementsByClassName("schedResource afDataTable__row--non-hover")
-        var tonyFilteredAppliances = ["fridges", "fridge", "freezer"]
-        var ronsFilteredAppliances = ["cooktop", "oven", "stove", "rangehood"]
-        var marksFilteredAppliances = ["oven"]
-        var pavFilteredAppliances = ["microwave", "micro"]
-        var andrewFilteredAppliances = ["fridges", "fridge", "freezer", "cooktop", "gas"]
-        var mattFilteredAppliances = ["steam oven", "steam",  "cooktop", "gas", "fridges", "fridge", "freezer"]
-        var WAFilteredBrands = ["samsung"]
-        var philFilteredAppliances = ["microwave", "micro", "oven", "gas", "samsung"]//pavFilteredAppliances // microwaves
-        //var trigger = false
-        var allFilteredAppliances = ronsFilteredAppliances.concat(tonyFilteredAppliances, marksFilteredAppliances, pavFilteredAppliances)
-        
-        var tonyRegex = new RegExp( tonyFilteredAppliances.join( "|" ), "i");
-        var ronRegex = new RegExp( ronsFilteredAppliances.join( "|" ), "i");
-        var markRegex = new RegExp( marksFilteredAppliances.join( "|" ), "i");
-        var pavRegex = new RegExp( pavFilteredAppliances.join( "|" ), "i");
-        var maxRegex = new RegExp( allFilteredAppliances.join( "|" ), "i");
-        var philRegex = new RegExp( philFilteredAppliances.join( "|" ), "i");
-        var andrewRegex = new RegExp( andrewFilteredAppliances.join( "|" ), "i");
-        var mattRegex = new RegExp( mattFilteredAppliances.join( "|" ), "i");
-        var waRegex = new RegExp( WAFilteredBrands.join( "|" ), "i");
-        
-        
+    var assetName = document.getElementById("assetName")
+    var scheduledTechs = document.getElementsByClassName("schedResource afDataTable__row--non-hover")
+    var tonyFilteredAppliances = ["fridges", "fridge", "freezer"]
+    var ronsFilteredAppliances = ["cooktop", "oven", "stove", "rangehood", "microwave", "micro"]
+    var marksFilteredAppliances = ["cooktop","oven"]
+    var pavFilteredAppliances = ["microwave", "micro"]
+    var andrewFilteredAppliances = ["fridges", "fridge", "freezer", "cooktop", "gas"]
+    var mattFilteredAppliances = ["steam oven", "steam",  "cooktop", "gas", "fridges", "fridge", "freezer"]
+    var WAFilteredBrands = ["samsung"]
+    var globalFilteredBrands = ["sirius","sirrius", "sirus", "kogan"]
+    var philFilteredAppliances = ["microwave", "micro", "oven", "gas", "samsung"]//pavFilteredAppliances // microwaves
+    //var trigger = false
+    var allFilteredAppliances = ronsFilteredAppliances.concat(tonyFilteredAppliances, marksFilteredAppliances, pavFilteredAppliances)
+    
+    var tonyRegex = new RegExp( tonyFilteredAppliances.join( "|" ), "i");
+    var ronRegex = new RegExp( ronsFilteredAppliances.join( "|" ), "i");
+    var markRegex = new RegExp( marksFilteredAppliances.join( "|" ), "i");
+    var pavRegex = new RegExp( pavFilteredAppliances.join( "|" ), "i");
+    var maxRegex = new RegExp( allFilteredAppliances.join( "|" ), "i");
+    var philRegex = new RegExp( philFilteredAppliances.join( "|" ), "i");
+    var andrewRegex = new RegExp( andrewFilteredAppliances.join( "|" ), "i");
+    var mattRegex = new RegExp( mattFilteredAppliances.join( "|" ), "i");
+    var waRegex = new RegExp( WAFilteredBrands.join( "|" ), "i");
+    var globalRegex = new RegExp( globalFilteredBrands.join( "|" ), "i");
+
+    var areaNoticeDelivered = false
+    mainLoop:
+    while(true){
         //checking technicians
         if(scheduledTechs.length==0){
             await new Promise(r => setTimeout(r, 1000));
             console.log("no techs detected")
+            assetName = document.getElementById("assetName")
+
+            dismissed=false
             continue
         }
         if(!assetName){
             await new Promise(r => setTimeout(r, 1000));
             console.log("asset text box not detected")
+            assetName = document.getElementById("assetName")
+            dismissed=false
+            continue
+        }
+
+        if(dismissed){
+            await new Promise(r => setTimeout(r, 1000));
+            console.log("dismissed")
             continue
         }
         if(!tonyRegex.test(assetName.value)&&assetName.value.length>0){
@@ -53,32 +67,35 @@ window.addEventListener("load", async()=>{
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                         if (confirm(tech.childNodes[1].innerText + " is only able to repair fridges, are you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             console.log("calendar: confirm answer: no")
                             alert("This booking will now be closed.")
                             document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                            assetName = null
+                            continue mainLoop
                         }  
                         
                     }
                     else{                    
                         if (confirm(tech.childNodes[1].innerText + " is only able to repair fridges, are you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             tech.childNodes[9].children[0].click()
-                            console.log("alt path")                        
+                            console.log("alt path")
+                            continue                        
                         }
                     }
                 }
             }
         }
 
-        if(!maxRegex.test(assetName.value)){
+        /*if(!maxRegex.test(assetName.value)){
             await new Promise(r => setTimeout(r, 1000));
             console.log("no problematic appliances detected")
             continue
-        }
+        }*/
         
 
         if(tonyRegex.test(assetName.value)){
@@ -93,28 +110,33 @@ window.addEventListener("load", async()=>{
                     if(
                         !deleted==1 && !(
                             tech.childNodes[1].innerText.includes("Tony") ||
-                            tech.childNodes[1].innerText.includes("Carlos")
+                            tech.childNodes[1].innerText.includes("Carlos")||
+                            tech.childNodes[1].innerText.includes("Peter")
                         )
                     ){
                         console.log("bad tech detected")
                         if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                             if (confirm(tech.childNodes[1].innerText + " is unable to repair fridges. \nAre you sure you want to make this booking?")) {
                                 dismissed=true
-                                break
+                                continue
                             } else {
                                 console.log("calendar: confirm answer: no")
                                 alert("This booking will now be closed.")
                                 document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                                assetName = null
+                                continue mainLoop
+
                             }  
                             
                         }
                         else{                    
                             if (confirm(tech.childNodes[1].innerText + " is unable to repair fridges. \nAre you sure you want to make this booking?")) {
                                 dismissed=true
-                                break
+                                continue
                             } else {
                                 tech.childNodes[9].children[0].click()
-                                console.log("alt path")                        
+                                console.log("alt path")
+                                continue                        
                             }
                         }
                     }
@@ -135,21 +157,24 @@ window.addEventListener("load", async()=>{
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             console.log("calendar: confirm answer: no")
                             alert("This booking will now be closed.")
                             document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                            assetName = null
+                            continue mainLoop
                         }  
                         
                     }
                     else{                    
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             tech.childNodes[9].children[0].click()
-                            console.log("alt path")                        
+                            console.log("alt path")
+                            continue                        
                         }
                     }
                 }
@@ -169,21 +194,24 @@ window.addEventListener("load", async()=>{
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             console.log("calendar: confirm answer: no")
                             alert("This booking will now be closed.")
                             document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                            assetName = null
+                            continue mainLoop
                         }  
                         
                     }
                     else{                    
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             tech.childNodes[9].children[0].click()
-                            console.log("alt path")                        
+                            console.log("alt path")
+                            continue                        
                         }
                     }
                 }
@@ -203,21 +231,24 @@ window.addEventListener("load", async()=>{
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             console.log("calendar: confirm answer: no")
                             alert("This booking will now be closed.")
                             document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                            assetName = null
+                            continue mainLoop
                         }  
                         
                     }
                     else{                    
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             tech.childNodes[9].children[0].click()
-                            console.log("alt path")                        
+                            console.log("alt path")
+                            continue                        
                         }
                     }
                 }
@@ -238,21 +269,24 @@ window.addEventListener("load", async()=>{
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair samsung appliances, microwaves or GAS ovens. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             console.log("calendar: confirm answer: no")
                             alert("This booking will now be closed.")
                             document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                            assetName = null
+                            continue mainLoop
                         }  
                         
                     }
                     else{                    
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair samsung appliances, microwaves or GAS ovens. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             tech.childNodes[9].children[0].click()
-                            console.log("alt path")                        
+                            console.log("alt path")
+                            continue                        
                         }
                     }
                 }
@@ -274,21 +308,24 @@ window.addEventListener("load", async()=>{
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair fridges or GAS cooktops. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             console.log("calendar: confirm answer: no")
                             alert("This booking will now be closed.")
                             document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                            assetName = null
+                            continue mainLoop
                         }  
                         
                     }
                     else{                    
                         if (confirm(tech.childNodes[1].innerText + " is unable to repair fridges or GAS cooktops. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             tech.childNodes[9].children[0].click()
-                            console.log("alt path")                        
+                            console.log("alt path")
+                            continue                        
                         }
                     }
                 }
@@ -311,21 +348,24 @@ window.addEventListener("load", async()=>{
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                         if (confirm(tech.childNodes[1].innerText + " is unable to steam ovens, GAS cooktops or INTEGRATED fridges. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             console.log("calendar: confirm answer: no")
                             alert("This booking will now be closed.")
                             document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                            assetName = null
+                            continue mainLoop
                         }  
                         
                     }
                     else{                    
-                        if (confirm(tech.childNodes[1].innerText + " is unable to repair steam ovens or GAS cooktops. \nAre you sure you want to make this booking?")) {
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair steam ovens, GAS cooktops or INTEGRATED fridges. \nAre you sure you want to make this booking?")) {
                             dismissed=true
-                            break
+                            continue
                         } else {
                             tech.childNodes[9].children[0].click()
-                            console.log("alt path")                        
+                            console.log("alt path")
+                            continue                        
                         }
                     }
                 }
@@ -342,23 +382,76 @@ window.addEventListener("load", async()=>{
                 if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                     if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nNo TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
                         dismissed=true
-                        break
+                        continue
                     } else {
                         console.log("calendar: confirm answer: no")
                         alert("This booking will now be closed.")
                         document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                        assetName = null
+                        continue mainLoop
                     }  
                     
                 }
                 else{                    
                     if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nNo TEchs in WA repair samsung appliances. \nAre you sure you want to make this booking?")) {
                         dismissed=true
-                        break
+                        continue
                     } else {
                         document.querySelectorAll("[id='btnAdvSearch']")[3].click()
                         document.getElementById("btnSelectNone").click()
-                        console.log("alt path")                        
+                        console.log("alt path")
+                        continue                        
                     }
+                }
+            }
+        }
+
+        if(globalRegex.test(assetName.value)){
+            console.log("global filterd appliance detected")
+            if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
+                if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nWe do not reapir sirius or kogan appliances. \nAre you sure you want to make this booking?")) {
+                    dismissed=true
+                    continue
+                } else {
+                    console.log("calendar: confirm answer: no")
+                    alert("This booking will now be closed.")
+                    document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
+                    assetName = null
+                    continue mainLoop
+                }  
+                
+            }
+            else{                    
+                if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nWe do not reapir sirius or kogan appliances. \nAre you sure you want to make this booking?")) {
+                    dismissed=true
+                    continue
+                } else {
+                    document.querySelectorAll("[id='btnAdvSearch']")[3].click()
+                    document.getElementById("btnSelectNone").click()
+                    console.log("alt path")
+                    continue                        
+                }
+            }
+            
+        }
+
+        
+        if(!areaNoticeDelivered){
+            for(let index = 0; index< scheduledTechs.length; index++){
+                var tech = scheduledTechs[index]
+                console.log(tech)
+                var deleted = tech.getAttribute("deleted");
+                console.log(deleted)
+                if(
+                    !deleted==1 && (
+                        tech.childNodes[1].innerText.includes("Benji")||
+                        tech.childNodes[1].innerText.includes("Luiz")||
+                        tech.childNodes[1].innerText.includes("Gee")
+                    )
+                ){
+                    console.log("area tech detected")
+                    alert(tech.childNodes[1].innerText + "'s area changes frequently. Please confirm they are in the correct area on the day you have selected.")
+                    areaNoticeDelivered = true
                 }
             }
         }
@@ -397,7 +490,7 @@ window.addEventListener("load", async()=>{
                       } else {
                         
                       }
-                    break
+                    continue
                 }
 
             }
@@ -427,7 +520,7 @@ let applianceCheckFunc = async function(filteredAppliances, assetName, techName)
                 if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
                     if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                         dismissed=true
-                        break
+                        continue
                     } else {
                         console.log("calendar: confirm answer: no")
                         alert("This booking will now be closed.")
@@ -438,10 +531,11 @@ let applianceCheckFunc = async function(filteredAppliances, assetName, techName)
                 else{                    
                     if (confirm(tech.childNodes[1].innerText + " is unable to repair the selected appliance. \nAre you sure you want to make this booking?")) {
                         dismissed=true
-                        break
+                        continue
                     } else {
                         tech.childNodes[9].children[0].click()
-                        console.log("alt path")                        
+                        console.log("alt path")
+                        continue                        
                     }
                 }
             }
