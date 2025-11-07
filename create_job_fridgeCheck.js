@@ -346,7 +346,7 @@ window.addEventListener("load", async()=>{
                 ){
                     console.log("bad tech detected")
                     if(window.location == "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL"){
-                        if (confirm(tech.childNodes[1].innerText + " is unable to steam ovens, GAS cooktops or INTEGRATED fridges. \nAre you sure you want to make this booking?")) {
+                        if (confirm(tech.childNodes[1].innerText + " is unable to steam ovens, GAS cooktops or fridges. \nAre you sure you want to make this booking?")) {
                             dismissed=true
                             continue
                         } else {
@@ -359,7 +359,7 @@ window.addEventListener("load", async()=>{
                         
                     }
                     else{                    
-                        if (confirm(tech.childNodes[1].innerText + " is unable to repair steam ovens, GAS cooktops or INTEGRATED fridges. \nAre you sure you want to make this booking?")) {
+                        if (confirm(tech.childNodes[1].innerText + " is unable to repair steam ovens, GAS cooktops or fridges. \nAre you sure you want to make this booking?")) {
                             dismissed=true
                             continue
                         } else {

@@ -53,7 +53,7 @@ window.addEventListener("load", async()=>{
             //premium - wa
             ["Ozgur Aytemur", 0, 0, -1], ["Phill Poustie", 3, 3, -1], 
             //seq - qld
-            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],["Andrew Burton", 5, 3, -1],
+            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],["Andrew Burton", 5, 3, -1],["Kobe Wang",3, 3, -1]
             //alpha - nsw
             ["David Miles", 5, 3, -1], ["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
             ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 
