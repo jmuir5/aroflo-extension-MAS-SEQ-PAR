@@ -1,4 +1,4 @@
-window.addEventListener('load', async() => {
+window.addEventListener('load', async() => { //removed from manifest
     let taskType = document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText
     let accountRegex = new RegExp( "account", "i");
     if(accountRegex.test(taskType)){
@@ -21,3 +21,11 @@ window.addEventListener('load', async() => {
     }
 
 })
+
+/*to re-add to manifest: add the following entry:
+{
+      "js": ["task_account_tech_reminder.js"],
+      "matches": [
+        "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?viewexist=*"
+      ]
+    },*/

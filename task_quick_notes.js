@@ -1,294 +1,79 @@
+//import SendEmailFunction from "./functions/sendEmail";
+//import SendTextFunction from "./functions/sendText";
+
+
 //enquirey buttons, cancel buttons, assign button
 window.addEventListener('load', async() => {
+    const { default: SendTextFunction } = await import(
+        chrome.runtime.getURL("/functions/sendText.js")
+    );
+    const { default: SendEmailFunction } = await import(
+            chrome.runtime.getURL("/functions/sendEmail.js")
+    );
     console.log("quick notes loaded")
-    
-    //archive part 2 execution
-    console.log("checking flag")
-    chrome.storage.sync.get("archiveFlag", async ({ archiveFlag }) => {
-        chrome.storage.sync.get("autoArchiveTag", async ({ autoArchiveTag }) => {
-
-            if(archiveFlag>0){
-                console.log("flag good")
-
-                chrome.storage.sync.set({ archiveFlag: archiveFlag-1})
-                document.getElementById("archive_btn").click()
-            }
-        })
-    })
-
-
-    
-    while(!document.getElementsByClassName("afNoteWidget__header margin-top--2")[0]||!document.getElementsByClassName("pageViewTask__signature")[0]){
-        await new Promise(r => setTimeout(r, 10));
-    }
-    const noteBar = document.getElementsByClassName("afNoteWidget__header margin-top--2")[0]
-    //common cust enquirey buttons buttons
-    var quickNotesDiv = document.createElement('DIV')
-    var quickActionsDiv = document.createElement('DIV')
-
-
-    var templateButton = document.createElement('BUTTON')
-    templateButton.type="button"
-    templateButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
-    
-    var feesChargesButton = templateButton.cloneNode()
-    feesChargesButton.appendChild(document.createTextNode("Fees & Charges"))
-    feesChargesButton.id = "feesChargesButton"
-
-
-    var custEtaButton = templateButton.cloneNode()
-    custEtaButton.appendChild(document.createTextNode("ETA"))
-    custEtaButton.id="custEtaButton"
-    
-    var custCompButton = templateButton.cloneNode()
-    custCompButton.appendChild(document.createTextNode("Complaints"))
-    custCompButton.id="custCompButton"
-
-    var custReschedButton = templateButton.cloneNode()
-    custReschedButton.appendChild(document.createTextNode("Rescheduling"))
-    custReschedButton.id="custReschedButton"
-
-    var emailBouncedButton = templateButton.cloneNode()
-    emailBouncedButton.appendChild(document.createTextNode("Email Bounced"))
-    emailBouncedButton.id="emailBouncedButton"
-
-    var allPtsRcvdButton = templateButton.cloneNode()
-    allPtsRcvdButton.appendChild(document.createTextNode("Notify Parts received"))
-    allPtsRcvdButton.id="allPtsRcvdButton"
-
-    var emailDSSPartsButton = templateButton.cloneNode()
-    emailDSSPartsButton.appendChild(document.createTextNode("PP enquirey DSS"))
-    emailDSSPartsButton.id="emailDSSPartsButton"
-    
-    
-    //confContainerDiv.after(custContainerDiv)
-    noteBar.children[0].after(quickActionsDiv)
-    noteBar.children[0].after(quickNotesDiv)
-
-    quickNotesDiv.appendChild(document.createTextNode("Quick Notes: "))
-    quickNotesDiv.appendChild(custEtaButton)
-    quickNotesDiv.appendChild(feesChargesButton)
-    quickNotesDiv.appendChild(custCompButton)
-    quickNotesDiv.appendChild(custReschedButton)
-    quickActionsDiv.appendChild(document.createTextNode("Quick actions: "))
-
-    quickActionsDiv.appendChild(emailBouncedButton)
-    quickActionsDiv.appendChild(allPtsRcvdButton)
-    quickActionsDiv.appendChild(emailDSSPartsButton)
-
-    // fit parts job type only//if(document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText.includes("Fit Parts")){}
-    
-    var custFunction = function(text){
-        document.getElementById("btnAddNoteText").click()
-        document.getElementById("thisnote").value = text
-        
-        //document.getElementById("btnAddNote").click()
-    }
-
-    var partsFunction = async function(){
-        if (confirm("Have you read all the notes on the job?") == true) {
-            if (confirm("Has a date been selected?") == true) {
-                let tennanted = document.getElementsByClassName("afDataTable__cell--non-numeric")[23].innerHTML.includes("btnSendSMS afBtn af-info afIconBtn afBtn--small")
-                var clientTextID = "1397"
-                if(tennanted) clientTextID = "1402"
-                var tennantTextID = "1397"
-
-                
-                //client sms
-                document.getElementById("btnSendSms-0").click()
-                while (!document.getElementById("btnEmailTemplate")) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for sms template button")
-                }
-                document.getElementById("btnEmailTemplate").click()
-                
-                var table =document.getElementsByClassName("ui-jqgrid-btable")
-                while(true){
-                    while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for templates to load")
-                    }
-                    
-                    if(document.getElementById(clientTextID)){
-                        document.getElementById(clientTextID).click()
-                        document.getElementById("btnSelect").click()
-                        break
-                    }
-                    else {
-                        if(document.getElementById("1233")){
-                            document.getElementById("1233").click()
-                            document.getElementById("btnSelect").click()
-                            return
-                        }
-                        else document.getElementsByClassName("af-pg-button")[2].click()
-                        
-                    }
-                    await new Promise(r => setTimeout(r, 10))
-                }
-                while (document.getElementById("message_value").value.length<100) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for sms template to load")
-                }
-        
-                document.getElementById("btnSendSMSmessage").click()
-                document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[0].click()
-                while(document.getElementById("ui-dialog-title-1")){
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for sms dialogue to close")
-                }
-
-                if(tennanted){
-                    //TENNANT SMS
-                    document.getElementById("btnSendSms-1").click()
-                    while (!document.getElementById("btnEmailTemplate")) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for sms template button")
-                    }
-                    document.getElementById("btnEmailTemplate").click()
-                    
-                    var table =document.getElementsByClassName("ui-jqgrid-btable")
-                    while(true){
-                        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for templates to load")
-                        }
-                        
-                        if(document.getElementById(tennantTextID)){
-                            document.getElementById(tennantTextID).click()
-                            document.getElementById("btnSelect").click()
-                            break
-                        }
-                        else {
-                            if(document.getElementById("1233")){
-                                document.getElementById("1233").click()
-                                document.getElementById("btnSelect").click()
-                                return
-                            }
-                            else document.getElementsByClassName("af-pg-button")[2].click()
-                            
-                        }
-                        await new Promise(r => setTimeout(r, 10))
-                    }
-                    while (document.getElementById("message_value").value.length<100) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for sms template to load")
-                    }
-            
-                    document.getElementById("btnSendSMSmessage").click()
-                    document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[0].click()
-                    while(document.getElementById("ui-dialog-title-1")){
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for sms dialogue to close")
-                    }
-                }
-
-                document.getElementById("customiseLayout").click()
-        
-                while (!document.getElementById("TrackEmailYesNo")) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for category close")
-                }
-        
-                document.getElementById("TrackEmailYesNo").click()
-                document.getElementById("btnSearchEmailTemplates").click()
-        
-                var table =document.getElementsByClassName("ui-jqgrid-btable")
-        
-                while(true){
-                    while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for templates to load")
-                    }
-                    if(document.getElementById("1398")){
-                        document.getElementById("1398").click()
-                        document.getElementById("btnSelect").click()
-                        break
-                    }
-                    else {
-                        if(document.getElementById("1051")){
-                            document.getElementById("1051").click()
-                            document.getElementById("btnSelect").click()
-                            return
-                        }
-                        else document.getElementsByClassName("af-pg-button")[2].click()
-                        
-                    }
-        
-                    await new Promise(r => setTimeout(r, 10))
-                }
-        
-                while (!document.getElementById("ToSubject").value.includes("Tentative")) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for load")
-                }
-        
-                await new Promise(r => setTimeout(r, 500));
-                if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
-                if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
-                if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
-                if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
-                console.log("done2")
-                while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for send")
-                }
-                //document.getElementsByClassName("ui-button-text")[2].click()
-                
-        
-                document.getElementById("update_btn").click()
-            } 
-        }
-          
-        //document.getElementById("update_btn").click()
-    }
 
     var emailBouncedFunction = async function(){
         if(confirm("Send customer email bounced text?")){
             var templateId = "1432"
-            document.getElementById("btnSendSms-0").click()
-            while (!document.getElementById("btnEmailTemplate")) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for sms template button")
-            }
-            document.getElementById("btnEmailTemplate").click()
-            
-            var table =document.getElementsByClassName("ui-jqgrid-btable")
-            while(true){
-                while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for templates to load")
-                }
-                
-                if(document.getElementById(templateId)){
-                    document.getElementById(templateId).click()
-                    document.getElementById("btnSelect").click()
-                    break
-                }
-                else {
-                    if(document.getElementById("1233")){
-                        document.getElementById("1233").click()
-                        document.getElementById("btnSelect").click()
-                        return
-                    }
-                    else document.getElementsByClassName("af-pg-button")[2].click()
-                    
-                }
-                await new Promise(r => setTimeout(r, 10))
-            }
-            while (document.getElementById("message_value").value.length<100) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for sms template to load")
-            }
-            document.getElementById("btnSendSMSmessage").click()
-            document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[0].click()
-            while(document.getElementById("ui-dialog-title-1")){
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for sms dialogue to close")
-            }
-            await new Promise(r => setTimeout(r, 1000));
-            document.getElementsByClassName("afBtn afBtn--small afBtn__fill af-primary btnRefreshNotes headerItemSpacing")[0].click()
+            var smsButton = document.getElementById("btnSendSms-0")
+            await SendTextFunction(templateId, smsButton, ()=>{
+
+            })
         }
     }
+
+    var requestEtaFunction = async function(){
+        try {
+            document.getElementsByClassName("schedule-item-date")[0].innerText
+            if(confirm("request ETA from technician?")){
+                var templateId = "1514"
+                var smsButton = document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small").length-1]
+                await SendTextFunction(templateId, smsButton, ()=>{
+                    
+                })
+            }
+        } catch (error) {
+            alert("Unable to find technician scheduled for this job. please confirm schedule and reload page.")
+        }
+        /*if(!){
+            
+        }
+        else{
+            
+        }*/
+    }
+
+    var jobAddedFunction = async function(){
+        if(confirm("Send customer email bounced text?")){
+            var templateId = "1432"
+            var smsButton = document.getElementById("btnSendSms-0")
+            await SendTextFunction(templateId, smsButton)
+        }
+    }
+
+    
+    var partsFunction = async function(){
+        if (confirm("Have you read all the notes on the job?") == true) {
+            if (confirm("Has a date been selected?") == true) {
+                let tennanted = document.getElementsByClassName("afDataTable__cell--non-numeric")[23].innerHTML.includes("btnSendSMS afBtn af-info afIconBtn afBtn--small")
+                var smsBtn = document.getElementById("btnSendSms-0")
+                if(tennanted) {
+                    smsBtn = document.getElementById("btnSendSms-1")
+                    await SendTextFunction("1397", smsBtn, async ()=>{})
+                } 
+                else{
+                    await SendTextFunction("1397", smsBtn, async ()=>{})
+                    await SendEmailFunction("1398", document.getElementById("customiseLayout"), ()=>{})
+                }
+                await new Promise(r => setTimeout(r, 1000));
+                document.getElementsByClassName("afBtn afBtn--small afBtn__fill af-primary btnRefreshNotes headerItemSpacing")[0].click()
+
+            } 
+        }
+            
+        //document.getElementById("update_btn").click()
+    }
+
 
     var partEnqDSSFunction = async function(){
         //miele bosch asko fisher and paykell, lebherr, vzug
@@ -369,75 +154,35 @@ window.addEventListener('load', async() => {
         }
 
         document.getElementById("btnSearchEmailTemplates").click()
-
-        var table = document.getElementsByClassName("ui-jqgrid-btable")
-
-        while(true){
-            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
+        await SendEmailFunction(emailTemplateID, document.getElementById("customiseLayout"), async ()=>{
+            document.getElementById("FromEmail").value = "administration@masterappliances.com.au"
+            if(smegFlag){ document.getElementById("ToArea").value = "spareparts@smeg.com.au"}
+            else{ document.getElementById("ToArea").value = "trade@dougsmithspares.com.au"}
+            document.getElementsByClassName("afBtn afBtn__fill af-primary afBtn--small afBtn--text-icon ui-button-text-icon-secondary")[1].dispatchEvent(new MouseEvent('mouseover', { 'bubbles': true }));
+            document.getElementsByClassName("afBtnMenu__menuItem")[15].click()
+            document.getElementsByClassName("ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix")
+            while (!document.getElementById("ui-dialog-title-attaDocs")) {
                 await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for templates to load")
+                console.log("waiting for task documents window to load")
             }
-            if(document.getElementById(emailTemplateID)){
-                document.getElementById(emailTemplateID).click()
-                document.getElementById("btnSelect").click()
-                break
+            let docWindow = document.getElementById("ui-dialog-title-attaDocs").parentElement.parentElement
+            while (docWindow.getElementsByClassName("jqgfirstrow").length<1) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for task head row to load")
             }
-            else {
-                if(document.getElementById("1051")){
-                    document.getElementById("1051").click()
-                    document.getElementById("btnSelect").click()
-                    return
-                }
-                else document.getElementsByClassName("af-pg-button")[2].click()
-                
+            var headRow = docWindow.getElementsByClassName("jqgfirstrow")[0]
+            while (headRow.parentElement.children.length<2) {
+                await new Promise(r => setTimeout(r, 10));
+                console.log("waiting for task documents to load")
             }
+            for (let index = 0; index < headRow.parentElement.children.length; index++) {
+                headRow.parentElement.children[index].click()
+            } 
+            docWindow.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[0].click()
+            console.log("done with extras")
+        })
 
-            await new Promise(r => setTimeout(r, 10))
-        }
-
-        while (!document.getElementById("ToSubject").value.includes("Inquiry")) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for load")
-        }
-
-        await new Promise(r => setTimeout(r, 500));FromEmail
-        document.getElementById("FromEmail").value = "administration@masterappliances.com.au"
-        if(smegFlag){ document.getElementById("ToArea").value = "spareparts@smeg.com.au"}
-        else{ document.getElementById("ToArea").value = "trade@dougsmithspares.com.au"}
-
-
-        if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
-        if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
-        if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
-        if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
-        console.log("done2")
-
-        document.getElementsByClassName("afBtn afBtn__fill af-primary afBtn--small afBtn--text-icon ui-button-text-icon-secondary")[1].dispatchEvent(new MouseEvent('mouseover', { 'bubbles': true }));
-        document.getElementsByClassName("afBtnMenu__menuItem")[15].click()
-
-        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for task documents to load")
-        }
-        var headRow = document.getElementsByClassName("jqgfirstrow")[0]
-        while (headRow.parentElement.children.length<2) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for task documents to load")
-        }
-        for (let index = 0; index < headRow.parentElement.children.length; index++) {
-            headRow.parentElement.children[index].click()
-        } 
-
-        document.getElementsByClassName("ui-dialog-titlebar-close ui-corner-all")[1].click()
-
-
-
-
-        while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for send")
-        }
-        await new Promise(r => setTimeout(r, 1000));
+        
         document.getElementsByClassName("afBtn afBtn--small afBtn__fill af-primary btnRefreshNotes headerItemSpacing")[0].click()
 
         //document.getElementsByClassName("ui-button-text")[2].click()
@@ -446,18 +191,99 @@ window.addEventListener('load', async() => {
         //document.getElementById("update_btn").click()
     }
 
+    
+    //archive part 2 execution
+    console.log("checking flag")
+    chrome.storage.sync.get("archiveFlag", async ({ archiveFlag }) => {
+        chrome.storage.sync.get("autoArchiveTag", async ({ autoArchiveTag }) => {
 
-    custEtaButton.addEventListener("click", function(){custFunction("cust called for part ETA, email sent to supplier/forwarded to spare parts/forwarded to technician/cust was informed of"+
-        " expected delivery date")})
+            if(archiveFlag>0){
+                console.log("flag good")
+
+                chrome.storage.sync.set({ archiveFlag: archiveFlag-1})
+                document.getElementById("archive_btn").click()
+            }
+        })
+    })
+
+
+    
+    while(!document.getElementsByClassName("afNoteWidget__header margin-top--2")[0]||!document.getElementsByClassName("pageViewTask__signature")[0]){
+        await new Promise(r => setTimeout(r, 10));
+    }
+    const noteBar = document.getElementsByClassName("afNoteWidget__header margin-top--2")[0]
+    //common cust enquirey buttons buttons
+    var quickNotesDiv = document.createElement('DIV')
+    var quickActionsDiv = document.createElement('DIV')
+
+
+    var templateButton = document.createElement('BUTTON')
+    templateButton.type="button"
+    templateButton.classList = "afBtn afBtn--small afBtn__fill af-primary margin-right--1 headerItemSpacing"
+    
+    var feesChargesButton = templateButton.cloneNode()
+    feesChargesButton.appendChild(document.createTextNode("Fees & Charges"))
+    feesChargesButton.id = "feesChargesButton"
+    
+    var custCompButton = templateButton.cloneNode()
+    custCompButton.appendChild(document.createTextNode("Complaints"))
+    custCompButton.id="custCompButton"
+
+    var custReschedButton = templateButton.cloneNode()
+    custReschedButton.appendChild(document.createTextNode("Rescheduling"))
+    custReschedButton.id="custReschedButton"
+
+    var custEtaButton = templateButton.cloneNode()
+    custEtaButton.appendChild(document.createTextNode("ETA"))
+    custEtaButton.id="custEtaButton"
+
+    var emailBouncedButton = templateButton.cloneNode()
+    emailBouncedButton.appendChild(document.createTextNode("Email Bounced"))
+    emailBouncedButton.id="emailBouncedButton"
+
+    var allPtsRcvdButton = templateButton.cloneNode()
+    allPtsRcvdButton.appendChild(document.createTextNode("Notify Parts received"))
+    allPtsRcvdButton.id="allPtsRcvdButton"
+
+    var emailDSSPartsButton = templateButton.cloneNode()
+    emailDSSPartsButton.appendChild(document.createTextNode("PP enquirey DSS"))
+    emailDSSPartsButton.id="emailDSSPartsButton"
+    
+    
+    //confContainerDiv.after(custContainerDiv)
+    noteBar.children[0].after(quickActionsDiv)
+    noteBar.children[0].after(quickNotesDiv)
+
+    quickNotesDiv.appendChild(document.createTextNode("Quick Notes: "))
+    quickNotesDiv.appendChild(feesChargesButton)
+    quickNotesDiv.appendChild(custCompButton)
+    quickNotesDiv.appendChild(custReschedButton)
+
+    quickActionsDiv.appendChild(document.createTextNode("Quick actions: "))
+    quickActionsDiv.appendChild(custEtaButton)
+    quickActionsDiv.appendChild(emailBouncedButton)
+    quickActionsDiv.appendChild(allPtsRcvdButton)
+    quickActionsDiv.appendChild(emailDSSPartsButton)
+
+    // fit parts job type only//if(document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText.includes("Fit Parts")){}
+    
+    var custFunction = function(text){
+        document.getElementById("btnAddNoteText").click()
+        document.getElementById("thisnote").value = text
+        
+        //document.getElementById("btnAddNote").click()
+    }
+
+
+    
     feesChargesButton.addEventListener("click", function(){custFunction("Fees & Charges explained to customer for non warranty issues")})
     custCompButton.addEventListener("click", function(){custFunction("cust called to complain, customer had valid problems/rambled incoherently/had their expectations adjusted/should be "+
         "relegated to the mental asylum")})
     custReschedButton.addEventListener("click", function(){custFunction("cust called to reschedule from XXX to XXX. Reason: XXX")})
     
+    custEtaButton.addEventListener("click", function(){requestEtaFunction()})
     emailBouncedButton.addEventListener("click", function(){emailBouncedFunction()})
-
     allPtsRcvdButton.addEventListener("click", function(){partsFunction()})
-
     emailDSSPartsButton.addEventListener("click", function(){partEnqDSSFunction()})
 
 
@@ -563,7 +389,6 @@ window.addEventListener('load', async() => {
             chrome.storage.sync.set({ CancelTag: jobNumber})
             document.getElementById("schedule-item-1").click()
             while(true){
-                
                 chrome.storage.sync.get("CancelTag", async ({ CancelTag }) => {jobNumber=CancelTag})
                 if(jobNumber==0){
                     console.log("archiving job")
@@ -574,130 +399,17 @@ window.addEventListener('load', async() => {
                         checkboxes[i].children[9].children[0].children[0].click()
                     }
                     document.getElementById("selectedTaskStatus").value=3
-                    //send text
-                    var branch = document.getElementsByClassName("afDataTable__cell--non-numeric ownerEditMode")[0].innerText
-                    var branchNumber = ""
-                    var from = ""
-                    switch(branch){
-                        case "MAS > Master Appliance Service":
-                            branchNumber = "(02) 8445 4000"
-                            from = "MasterAppli"
-                            break
-                        case "MAS > Premium Appliance Repair": 
-                            branchNumber = "1300 614 730"
-                            from = "PremiumAppl"
-                            break
-                        case "MAS > SEQ Appliance Repair": 
-                            branchNumber = "(07) 3096 0580"
-                            from = "SEQApplianc"
-                            break
-                        case "MAS > Alpha Appliance Repair":
-                            branchNumber = "(02) 9420 2622"
-                            from = "AlphaApplia"
-                        default: "error"
-                    }
-                    document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[0].click()
-                    while (!document.getElementById("btnEmailTemplate")) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for sms template button")
-                    }
-                    document.getElementById("btnEmailTemplate").click()
                     
-                    var table =document.getElementsByClassName("ui-jqgrid-btable")
-                    while(true){
-                        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for templates to load")
-                        }
-                        if(document.getElementById("1353")){
-                            document.getElementById("1353").click()
-                            document.getElementById("btnSelect").click()
-                            break
-                        }
-                        else {
-                            if(document.getElementById("1233")){
-                                document.getElementById("1233").click()
-                                document.getElementById("btnSelect").click()
-                                return
-                            }
-                            else document.getElementsByClassName("af-pg-button")[2].click()
-                            
-                        }
-
-                        await new Promise(r => setTimeout(r, 10))
-                    }
-                    while (document.getElementById("message_value").value.length<100) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for sms template to load")
-                    }
-                    document.getElementById("from_value").value= from
-                    document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch*', branch.replace("MAS > ", ""))
-                    document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*branch number*', branchNumber)
-
-                    document.getElementById("btnSendSMSmessage").click()
-                    document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
-                    
+                    let smsButton = document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[0]
+                    await SendTextFunction("1353", smsButton, async ()=>{})
                     //email code
-                    document.getElementById("customiseLayout").click()
-
-                    while (!document.getElementById("TrackEmailYesNo")) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for category close")
-                    }
-                    let emailTag = "1425"
-                    document.getElementById("TrackEmailYesNo").click()
-                    document.getElementById("btnSearchEmailTemplates").click()
-
-                    var table =document.getElementsByClassName("ui-jqgrid-btable")
-
-                    while(true){
-                        while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                            await new Promise(r => setTimeout(r, 10));
-                            console.log("waiting for templates to load")
-                        }
-                        if(document.getElementById(emailTag)){
-                            document.getElementById(emailTag).click()
-                            document.getElementById("btnSelect").click()
-                            if (emailTag == "1051") return
-                            break
-                        }
-                        else {
-                            if(document.getElementById("1051")){
-                                document.getElementById("1051").click()
-                                document.getElementById("btnSelect").click()
-                                return
-                            }
-                            else document.getElementsByClassName("af-pg-button")[2].click()
-                            
-                        }
-
-                        await new Promise(r => setTimeout(r, 10))
-                    }
-
-                    while (!document.getElementById("ToSubject").value.includes("Job Cancelled")) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for load")
-                    }
-
-                    await new Promise(r => setTimeout(r, 500));
-                    if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
-                    if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
-                    if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
-                    if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("done2")
-                    while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for send")
-                    }
-
-
-                    document.getElementById("update_btn").click()
+                    await SendEmailFunction("1425", document.getElementById("customiseLayout"), async()=>{})
                     break
                 }
                 await new Promise(r => setTimeout(r, 10));
-                
             }
+            document.getElementById("update_btn").click()
+            
         }
 
 
@@ -758,8 +470,8 @@ window.addEventListener('load', async() => {
     extraButtonSpace.appendChild(assignContainerDiv)
    
 
-    cancelContainerDiv.appendChild(assignLabel)
-    cancelContainerDiv.appendChild(assignButton)
+    //cancelContainerDiv.appendChild(assignLabel)
+    //cancelContainerDiv.appendChild(assignButton)
 
     assignButton.addEventListener("click", async function(event){
         var techlist = []

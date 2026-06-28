@@ -24,22 +24,22 @@ window.addEventListener("load", async()=>{
             if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
         }
         if(tonyRegex.test(document.getElementById("assetName").value)){
-            if(listOfTechs.includes("Tony")&& listOfTechs.includes("Tony")){
-                listOfTechs = ["Carlos", "Tony"]
+            if(listOfTechs.includes("Tony Scalone")&& listOfTechs.includes("Peter Traish")){
+                listOfTechs = ["Tony Scalone", "Peter Traish"]
             }
-            else if(listOfTechs.includes("Carlos")){
-                listOfTechs = ["Carlos"]
+            else if(listOfTechs.includes("Carlos Moreno")){
+                listOfTechs = ["Carlos Moreno"]
             }
-            else if(listOfTechs.includes("Tony")){
-                listOfTechs = ["Tony"]
+            else if(listOfTechs.includes("Tony Scalone")){
+                listOfTechs = ["Tony Scalone"]
             }
-            else if(listOfTechs.includes("Carlos")){
-                listOfTechs = ["Carlos"]
+            else if(listOfTechs.includes("Peter Traish")){
+                listOfTechs = ["Peter Traish"]
             }
         }
         else{
-            if(listOfTechs.includes("Tony")||listOfTechs.includes("Carlos")){
-                listOfTechs =  listOfTechs.filter(item => item !== "Tony" && item !== "Carlos")
+            if(listOfTechs.includes("Tony Scalone")||listOfTechs.includes("Carlos Moreno")){
+                listOfTechs =  listOfTechs.filter(item => item !== "Tony Scalone" && item !== "Carlos Moreno")
             }
         }
         console.log(listOfTechs)
@@ -67,7 +67,7 @@ window.addEventListener("load", async()=>{
             console.log("one techs found")
             for (let i = 0; i < table.length; i++) {
 
-                if (listOfTechs.includes(table[i].children[4].innerText)) {
+                if (listOfTechs.includes(table[i].children[5].innerText+" "+table[i].children[6].innerText)) {
                     table[i].click()
                     table[i].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].click()
 
@@ -87,7 +87,7 @@ window.addEventListener("load", async()=>{
                 if(table.length==2 || index>=table.length){
                     break
                 }
-                else if (listOfTechs.includes(table[index].children[4].innerText)) {
+                else if (listOfTechs.includes(table[index].children[5].innerText+" "+table[index].children[6].innerText)) {
                     index += 1
                 } else {
                     table[index].remove()
@@ -243,6 +243,7 @@ window.addEventListener("load", async()=>{
 
 
     while(true){
+        console.log("last loop?")
         if(document.getElementById("Name")&&!onClickSet){
             onClickSet = true
             mapButton.disabled = false

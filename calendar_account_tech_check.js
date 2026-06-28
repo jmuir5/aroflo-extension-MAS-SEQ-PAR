@@ -1,3 +1,5 @@
+//remove from manifest
+
 let approvedTechnicians = ["Eduardo", "Doug", "Luiz", "Vini", "Otavio", "Sam", "Leo", "Pavel", "Mark", "Arpan", "Ron", "Tony", "David", "Dylan", "Corey"]
 let approvedTechRegex = new RegExp( approvedTechnicians.join( "|" ), "i");
 
@@ -44,3 +46,9 @@ window.addEventListener('load', async() => {
         await new Promise(r => setTimeout(r, 1000))
     }
 })
+
+/*to readd to manifest:
+{
+      "js": ["calendar_account_tech_check.js"],
+      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"]
+    },*/

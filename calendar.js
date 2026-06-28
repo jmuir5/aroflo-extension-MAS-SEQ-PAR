@@ -34,7 +34,6 @@ window.addEventListener("load", async()=>{
         }
         if(day == "Wednesday"){
             Peter = ["Peter Traish", 4, 2, -1]
-            Carlos = ["Carlos Moreno", 0, 0, -1]
         }
         if(day == "Thursday"){
             Peter = ["Peter Traish", 4, 2, -1]
@@ -44,24 +43,25 @@ window.addEventListener("load", async()=>{
            
         }
         
-        console.log(frame)
+        //console.log(frame)
         var dict = [
             //mas - nsw
-            Peter, ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 5, 3, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 2, -1],
+            Peter, ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 5, 3, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 3, -1],
             ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],Binod,
-            Carlos, ["Adrian Miszkurka", 3, 3, -1],
+            Carlos, ["Adrian Miszkurka", 3, 3, -1], ["Alex Yazi", 5, 3, -1],
             //premium - wa
-            ["Ozgur Aytemur", 0, 0, -1], ["Phill Poustie", 3, 3, -1], 
+            ["Ozgur Aytemur", 0, 0, -1], ["Phill Poustie", 4, 4, -1], 
             //seq - qld
-            ["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],["Andrew Burton", 5, 3, -1],["Kobe Wang",3, 3, -1],
+            ["Andrew Burton", 5, 3, -1],["Mark Mason",5, 3, -1],["Dimitar Milosevski", 6, 2, -1],["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],
             //alpha - nsw
             ["David Miles", 5, 3, -1], ["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
             ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 
             ["Shane Van Der Hoek", 0, 0, -1], ["Darryl Diamond", 0, 0, -1],["James Campbell", 0, 0, -1], ["Corey Roberts", 0, 0, -1],
             //bunnies - nsw
-            ["Rory Bebington", 0, 0, -1],["Ashley Dyson", 0, 0, -1],["Ronald Jakacki", 0, 0, -1],["Timothy Jesus", 0, 0, -1],["Tony King", 0, 0, -1],
-            ["Daniel Nigro", 0, 0, -1],["Felipe Collor", 0, 0, -1],["Luan Viana", 0, 0, -1],
-            
+            ["Rory Bebington", 4, 4, -1],["Ashley Dyson", 4, 4, -1],["Ronald Jakacki", 4, 4, -1],["Timothy Jesus", 4, 4, -1],["Tony King", 4, 4, -1],
+            ["Daniel Nigro", 4, 4, -1],["Felipe Collor", 4, 4, -1],["Luan Viana", 4, 4, -1],["Santosh Paudel", 4, 4, -1],
+            //Capital - ACT
+            ["Tony Maybanks", 5, 3, -1],
             //office staff - NSW
             ["Adam Rogers", 0, 0, -1],["Chris Muir", 0, 0, -1],["Elke Paynter", 0, 0, -1],["Jane Bernaldo", 0, 0, -1],["Jessica Schauwecker", 0, 0, -1],
             ["Kim Choo", 0, 0, -1],["Mark Jamieson", 0, 0, -1],["Ryan Irlam", 0, 0, -1],["Veena Etcell", 0, 0, -1],
@@ -128,10 +128,11 @@ window.addEventListener("load", async()=>{
             }
             else{
                 for (let j = 0; j < jobs[i].childNodes.length; j++) {
-                    console.log(jobs[i].childNodes[j].style.backgroundColor)
-                    if(jobs[i].childNodes[j].style.backgroundColor == "rgb(255, 153, 0)" ){
+                    if(jobs[i].childNodes[j].style.backgroundColor == "rgb(255, 153, 0)"||jobs[i].childNodes[j].style.backgroundColor == "#ff9900" ){
                         globalTotalJobs-=1
+
                         if(jobs[i].childNodes[j].innerText.includes("@@@:")){
+                            console.log("found jobs changer symbol")
                             let amModifier = jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[0]
                             let pmModifier = jobs[i].childNodes[j].innerText.split("@@@:")[1].split("/")[1]
                             if(amModifier!="?"){
@@ -179,9 +180,9 @@ window.addEventListener("load", async()=>{
             
             
         }
-        console.log(frame)
-        console.log(uniqueJobs)
-        console.log(uniqueJobs.length)
+        //console.log(frame)
+        //console.log(uniqueJobs)
+        //console.log(uniqueJobs.length)
 
         var techlist = document.getElementsByClassName("fc-resourceName fc-col-res ui-widget-header")
         if (techlist.length==0) {
@@ -302,8 +303,8 @@ window.addEventListener("load", async()=>{
                     if (partsPercent==partsTarget)partsText.style.color ="green"
                     else if(partsPercent<partsTarget)partsText.style.color ="blue"
                     else partsText.style.color ="red"
-                    console.log("percent = "+partsPercent.toString())
-                    console.log("target = "+partsTarget.toString())
+                    //console.log("percent = "+partsPercent.toString())
+                    //console.log("target = "+partsTarget.toString())
 
                     totalText.innerText= "TOTAL:"+(frame[i][0]+frame[i][1]+frame[i][2])+"/"+totalJobs
                     totalText.style.marginTop = "0px"

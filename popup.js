@@ -1,6 +1,7 @@
 import suburbTable from "./suburbTable.js"
 import techLocations from "./techTable.js"
-import sendBookingText from "./sendBookingText.js"
+import ContactClient from "./functions/ContactClient.js"
+
 //import {importData, techLocations} from "./bulkimport.js"
 let importBtn = document.getElementById("importBtn")
 var emailSmsBtn = document.getElementById("emailSmsBtn")
@@ -29,6 +30,9 @@ var techBox = document.getElementById("techBox")
 
 var massArchiveBtn = document.getElementById("massArchiveBtn")
 var massArchiveResetBtn = document.getElementById("massArchiveResetBtn")
+
+let contactSrc = chrome.runtime.getURL("./functions/contactClient.js");
+let contactClient = await import(contactSrc);
 
 
 var input = []
@@ -210,8 +214,16 @@ function importData(techLocations, index23) {
         //set description
         document.getElementById("tdDefault").click()
         var description = ""
-        for (let i = 12; i < inputtag.length; i++) {
-            if(inputtag[i]) description += "\<p\>" + inputtag[i] + "\<\/p\>"
+        if(inputtag[12]=="Yes"||inputtag[12]=="No"){
+            description += "\<p\>\<strong\>Is your Washing Machine / Dryer stacked or Wall Mounted? " + inputtag[12] + "\<\/strong\>\<\/p\>"
+            for (let i = 13; i < inputtag.length; i++) {
+                if(inputtag[i]) description += "\<p\>" + inputtag[i] + "\<\/p\>"
+            }
+        }
+        else{
+            for (let i = 12; i < inputtag.length; i++) {
+                if(inputtag[i]) description += "\<p\>" + inputtag[i] + "\<\/p\>"
+            }
         }
         console.log(description.trim())
         document.getElementById("description").value = description
@@ -402,171 +414,7 @@ function importData(techLocations, index23) {
                 if(node){node.parentElement.classList.add("ui-state-highlight")} 
 
                 document.getElementById("mapButton").click()
-                //document.getElementsByClassName("btnAddUsers")[0].click()
-                
-                /*if(document.getElementsByClassName("af-truncate--text")[0].innerText!="Alpha Appliance Repair"){
-                    var listOfTechs = []
-                    for (const tech in techLocations) {
-                        if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
-                    }
-                    console.log(listOfTechs)
-                    
-                    var tables = document.getElementsByClassName("ui-jqgrid-btable")
-
-                    while (tables[tables.length-1].children[0].children.length <= 1) {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("waiting for asign to load")
-                    }
-                    var table = tables[tables.length-1].children[0].children
-                    if (listOfTechs.length == 1) {
-                        console.log("one techs found")
-                        for (let i = 0; i < table.length; i++) {
-
-                            if (listOfTechs.includes(table[i].children[4].innerText)) {
-                                table[i].click()
-                                table[i].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].click()
-
-
-                                break
-                            }
-                        }
-                    } else if (listOfTechs.length > 1) {
-                        console.log("multiple techs found")
-                        var index = 1
-                        console.log(table.length > listOfTechs.length + 1)
-                        console.log(table.length)
-                        console.log(listOfTechs.length + 1)
-                        var mapSkip = false
-                        while (true) {
-                            if(table.length==2 || index>=table.length){
-                                break
-                            }
-                            else if (listOfTechs.includes(table[index].children[4].innerText)) {
-                                index += 1
-                            } else {
-                                table[index].remove()
-                            }
-                            
-            
-                        }
-                        if(table.length == 2){
-                            console.log("trimmed down to 1 in area")
-            
-                            table[1].click()
-                            table[1].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].click()
-                            mapSkip = true
-                        }
-            
-                        if(!mapSkip){
-                            //map popup code block
-                            var loc = document.getElementById("tblIMSMain")
-                            loc.appendChild(latitudeClone)
-                            loc.appendChild(longitudeClone)
-                            loc.appendChild(mapViewBtnClone)
-                            mapViewBtnClone.click()
-                            var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
-                            mapBox.style.height = '660px'
-                            mapBox.style.width = '620px'
-                            mapBox.children[0].children[0].innerText = 'Map'
-                            mapBox.children[1].children[0].children[0].children[0].children[0].remove()
-                            var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
-                            mapArea.style.height = '600px'
-                            mapArea.style.width = '600px'
-            
-                            var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-                            var initX = techTableBox.style.left
-                            var initY = techTableBox.style.top
-                            mapBox.style.top = techTableBox.style.top
-                            techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
-                            mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
-                            while(true){
-                                try{
-                                    var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
-                                    var minusButton = mapButtons.children[12]
-                                    break
-                                }
-                                catch(error){
-                                    await new Promise(r => setTimeout(r, 10));
-                                    console.log("failed to set map buttons")
-                                }
-                            }
-                            document.getElementsByClassName("gm-style-iw-a")[0].remove()
-                            while(true){
-                                try{
-                                    minusButton = minusButton.children[0].children[2].children[0].children[2]
-                                    break
-                                }
-                                catch (error){
-                                    console.log("minus button has no children, reseting minus button")
-                                    await new Promise(r => setTimeout(r, 10));
-                                    minusButton = mapButtons.children[12]
-                                }
-                            }
-            
-                            for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
-            
-                            loc.removeChild(latitudeClone)
-                            loc.removeChild(longitudeClone)
-                            loc.removeChild(mapViewBtnClone)
-                        }
-                        
-                        //end map popup code block
-                    }
-                    else { 
-                        console.log("no techs found") 
-                        //map popup code block
-                        var loc = document.getElementById("tblIMSMain")
-                        loc.appendChild(latitudeClone)
-                        loc.appendChild(longitudeClone)
-                        loc.appendChild(mapViewBtnClone)
-                        mapViewBtnClone.click()
-                        var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
-                        mapBox.style.height = '660px'
-                        mapBox.style.width = '620px'
-                        mapBox.children[0].children[0].innerText = 'Map'
-                        mapBox.children[1].children[0].children[0].children[0].children[0].remove()
-                        var mapArea = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0]
-                        mapArea.style.height = '600px'
-                        mapArea.style.width = '600px'
-            
-                        var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-                        var initX = techTableBox.style.left
-                        var initY = techTableBox.style.top
-                        mapBox.style.top = techTableBox.style.top
-                        techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
-                        mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
-                        while(true){
-                            try{
-                                var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
-                                var minusButton = mapButtons.children[12]
-                                document.getElementsByClassName("gm-style-iw-a")[0].remove()
-                                break
-                            }
-                            catch(error){
-                                await new Promise(r => setTimeout(r, 10));
-                                console.log("failed to set map buttons")
-                            }
-                        }
-                        
-                        
-                        while(true){
-                            try{
-                                minusButton = minusButton.children[0].children[2].children[0].children[2]
-                                break
-                            }
-                            catch (error){
-                                console.log("minus button has no children, reseting minus button")
-                                await new Promise(r => setTimeout(r, 10));
-                                minusButton = mapButtons.children[12]
-                            }
-                        }
-                        
-
-                        for(i=0;i<10;i++)minusButton.click()//mapButtons[13].children[0].children[2].children[0].children[2].click()
-                        
-                        //end map popup code block
-                    }
-                }*/
+               
                 while (document.getElementsByClassName("schedStartTime vd_required vd_time  afTextfield__input afTextfield__input--small ui-timepicker-input").length == 0) {
                     await new Promise(r => setTimeout(r, 10));
                     console.log("waiting for technician entry")
@@ -582,33 +430,30 @@ function importData(techLocations, index23) {
             }
             var sundayLabel = document.getElementsByClassName("ui-datepicker-week-end")[0]
             simulateMouseClick(sundayLabel)
-            schedLoop:
-            while (true) {
-                try{
-                    while (document.getElementsByClassName("schedStartTime vd_required vd_time  afTextfield__input afTextfield__input--small ui-timepicker-input").length == 0 || !document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
-                        await new Promise(r => setTimeout(r, 10));
-                        console.log("sleeping")
-                        if (document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-today ui") && !document.getElementById("ui-dialog-title-dlgSchedDetails")) return
-                    }
-                    if (document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
-                        switch (inputtag[11]) {
-                            case "AM":
-                                document.getElementById("amButton").click()
-                                break
-                            case "PM":
-                                document.getElementById("pmButton").click()
-                                break
-                            default:
-                                document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value = "unconfirmed"
-                                break
-                        }
-                        //await new Promise(r => setTimeout(r, 10));
-                    }
-                }
-                catch(error){
+            try{
+                while (document.getElementsByClassName("schedStartTime vd_required vd_time  afTextfield__input afTextfield__input--small ui-timepicker-input").length == 0 || !document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
                     await new Promise(r => setTimeout(r, 10));
-                    console.log("failed to click button")
+                    console.log("sleeping")
+                    if (document.getElementsByClassName("afBtn afBtn__fill af-primary fc-button-today ui") && !document.getElementById("ui-dialog-title-dlgSchedDetails")) return
                 }
+                if (document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value == "") {
+                    switch (inputtag[11]) {
+                        case "AM":
+                            document.getElementById("amButton").click()
+                            break
+                        case "PM":
+                            document.getElementById("pmButton").click()
+                            break
+                        default:
+                            //document.getElementsByClassName("schedNote afTextfield__input afTextfield__input--small vd_length")[0].value = "unconfirmed"
+                            break
+                    }
+                    //await new Promise(r => setTimeout(r, 10));
+                }
+            }
+            catch(error){
+                await new Promise(r => setTimeout(r, 10));
+                console.log("failed to click button")
             }
         }
     });
@@ -629,304 +474,6 @@ var emailSmsPasser = async function(flag){
 emailSmsBtn.addEventListener("click", function(){emailSmsPasser(0)})
 emailBtn.addEventListener("click", function(){emailSmsPasser(1)})
 smsBtn.addEventListener("click", function(){emailSmsPasser(2)})
-
-
-//export default importData;
-
-async function ContactClient(flag) {
-    if (flag==0||flag==2){
-        var branch = document.getElementsByClassName("afDataTable__cell--non-numeric ownerEditMode")[0].innerText
-        var branchNumber = ""
-        var from = ""
-        switch(branch){
-            case "MAS > Master Appliance Service":
-                branchNumber = "(02) 8445 4000"
-                from = "MasterAppli"
-                break
-            case "MAS > Premium Appliance Repair": 
-                branchNumber = "1300 614 730"
-                from = "PremiumAppl"
-                break
-            case "MAS > SEQ Appliance Repair": 
-                branchNumber = "(07) 3096 0580"
-                from = "SEQApplianc"
-                break
-            case "MAS > Alpha Appliance Repair":
-                branchNumber = "(02) 9420 2622"
-                from = "AlphaApplia"
-            default: "error"
-        }
-        /*var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
-        var branchNumber = ""
-        switch(branch){
-            case "Master Appliance Service":
-                branchNumber = "(02) 8445 4000"
-                break
-            case "Premium Appliance Repair": 
-                branchNumber = "1300 614 730"
-                break
-            case "SEQ Appliance Repair": 
-                branchNumber = "(07) 3096 0580"
-                break
-            case "Alpha Appliance Repair": 
-                branchNumber = "(02) 9420 2622"
-                break
-            default: "error"
-        }*/
-        var method = ""
-        if(document.getElementsByTagName("select")[2].value=="Online Booking"){
-            method = "online "
-        }
-        document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[0].click()
-        while (!document.getElementById("btnEmailTemplate")) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for sms template button")
-        }
-        document.getElementById("btnEmailTemplate").click()
-        
-        var table =document.getElementsByClassName("ui-jqgrid-btable")
-        while(true){
-            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for templates to load")
-            }
-            if(document.getElementById("1232")){
-                document.getElementById("1232").click()
-                document.getElementById("btnSelect").click()
-                break
-            }
-            else {
-                if(document.getElementById("1233")){
-                    document.getElementById("1233").click()
-                    document.getElementById("btnSelect").click()
-                    return
-                }
-                else document.getElementsByClassName("af-pg-button")[2].click()
-                
-            }
-
-            await new Promise(r => setTimeout(r, 10))
-        }
-        while (document.getElementById("message_value").value.length<100) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for sms template to load")
-        }
-        document.getElementById("message_value").value= document.getElementById("message_value").value.replaceAll('*method*', method)
-        document.getElementById("from_value").value= from
-
-
-        document.getElementById("btnSendSMSmessage").click()
-        document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
-        if(document.getElementById("locationLink").children.length>1){
-            document.getElementsByClassName("btnSendSMS afBtn af-info afIconBtn afBtn--small")[1].click()
-            while (!document.getElementById("btnEmailTemplate")) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for sms template button")
-            }
-            document.getElementById("btnEmailTemplate").click()
-            
-            var table =document.getElementsByClassName("ui-jqgrid-btable")
-            while(true){
-                while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                    await new Promise(r => setTimeout(r, 10));
-                    console.log("waiting for templates to load")
-                }
-                if(document.getElementById("1292")){
-                    document.getElementById("1292").click()
-                    document.getElementById("btnSelect").click()
-                    break
-                }
-                else {
-                    if(document.getElementById("1233")){
-                        document.getElementById("1233").click()
-                        document.getElementById("btnSelect").click()
-                        return
-                    }
-                    else document.getElementsByClassName("af-pg-button")[2].click()
-                    
-                }
-
-                await new Promise(r => setTimeout(r, 10))
-            }
-            while (document.getElementById("message_value").value.length<100) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for sms template to load")
-            }
-            document.getElementById("from_value").value= from
-
-            document.getElementById("btnSendSMSmessage").click()
-            document.getElementById("btnSendSMSmessage").parentElement.parentElement.parentElement.getElementsByClassName("ui-icon ui-icon-closethick")[0].click()
-        }
-
-    }
-    if (flag==0||flag==1){//email code
-        console.log("emailing client")
-
-        
-        let emailTag = "1430"
-
-        var time = document.getElementsByClassName("schedule-item-date")[0].innerText
-        var branch = document.getElementsByClassName("af-truncate--text")[0].innerText
-        var source = "Online Booking"
-        var branchIndex = 1
-        if (branch == "Master Appliance Service") branchIndex = 2
-        if (document.getElementsByTagName("Select")[branchIndex]) source = document.getElementsByTagName("Select")[branchIndex].children[document.getElementsByTagName("Select")[branchIndex].selectedIndex].value
-        /*if (time.includes("8:30 AM")||time.includes("7:30 AM")) time = "AM"
-        else if (time.includes("12:30 PM")) time = "PM"
-        else time = "Any"*/
-        var alphaEarlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert"]
-        if( document.getElementsByClassName("afDataTable__cell--non-numeric afDataTable__sub-header padding-top--2")[1].innerText == "Warranty - Internal"){
-            emailTag = "1386"
-        }
-
-
-        /*switch (true) {
-            case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("John Sleap"))):
-                emailTag = "1054"
-                break;
-            case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("Gee Cruz"))&& ((time == "AM"))):
-                emailTag = "1206"
-                break;
-            case ((branch == "Master Appliance Service") && (document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes("Gee Cruz"))&& ((time == "Any"))):
-                emailTag = "1207"
-                break;
-                
-            case ((branch == "Master Appliance Service") && (time == "AM") && source == "Online Booking"):
-                emailTag = "1037"
-                break;
-            case ((branch == "Master Appliance Service") && (time == "AM") && source != "Online Booking"):
-                emailTag = "1186"
-                break;
-            case ((branch == "Master Appliance Service") && (time == "PM" && source == "Online Booking")):
-                emailTag = "1038"
-                break;
-            case ((branch == "Master Appliance Service") && (time == "PM" && source != "Online Booking")):
-                emailTag = "1187"
-                break;
-            case ((branch == "Master Appliance Service") && (time == "Any")):
-                emailTag = "1036"
-                break;
-            case ((branch == "Premium Appliance Repair") && (time == "AM" && source == "Online Booking")):
-                emailTag = "1043"
-                break;
-            case ((branch == "Premium Appliance Repair") && (time == "AM" && source != "Online Booking")):
-                emailTag = "1188"
-                break;
-            case ((branch == "Premium Appliance Repair") && (time == "PM" && source == "Online Booking")):
-                emailTag = "1044"
-                break;
-            case ((branch == "Premium Appliance Repair") && (time == "PM" && source != "Online Booking")):
-                emailTag = "1189"
-                break;
-            case ((branch == "Premium Appliance Repair") && (time == "Any")):
-                emailTag = "1042"
-                break;
-            case ((branch == "SEQ Appliance Repair") && (time == "AM" && source == "Online Booking")):
-                emailTag = "1040"
-                break;
-            case ((branch == "SEQ Appliance Repair") && (time == "AM" && source != "Online Booking")):
-                emailTag = "1190"
-                break;
-            case ((branch == "SEQ Appliance Repair") && (time == "PM" && source == "Online Booking")):
-                emailTag = "1041"
-                break;
-            case ((branch == "SEQ Appliance Repair") && (time == "PM" && source != "Online Booking")):
-                emailTag = "1191"
-                break;
-            case ((branch == "SEQ Appliance Repair") && (time == "Any")):
-                emailTag = "1039"
-                break;
-            case ((branch == "Alpha Appliance Repair") && (time == "AM") && alphaEarlyStarters.some(item=>document.getElementsByClassName("schedule-item-date")[0].parentElement.innerHTML.includes(item))):
-                emailTag = "1394"
-                break;
-            case ((branch == "Alpha Appliance Repair") && (time == "AM")):
-                emailTag = "1237"
-                break;
-            case ((branch == "Alpha Appliance Repair") && (time == "PM")):
-                emailTag = "1238"
-                break;
-            case ((branch == "Alpha Appliance Repair") && (time == "Any")):
-                emailTag = "1236"
-                break;
-        }*/
-
-
-
-
-        document.getElementById("customiseLayout").click()
-
-        while (!document.getElementById("TrackEmailYesNo")) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for category close")
-        }
-        //if(emailTag=="1036"||emailTag=="1037"||emailTag=="1038")document.getElementById("forwardRepliesTo").value = "Master Appliance Service <service@masterappliances.com.au>"
-
-        document.getElementById("TrackEmailYesNo").click()
-        document.getElementById("btnSearchEmailTemplates").click()
-
-        var table =document.getElementsByClassName("ui-jqgrid-btable")
-
-        while(true){
-            while (!document.getElementsByClassName("jqgfirstrow")[0]) {
-                await new Promise(r => setTimeout(r, 10));
-                console.log("waiting for templates to load")
-            }
-            if(document.getElementById(emailTag)){
-                document.getElementById(emailTag).click()
-                document.getElementById("btnSelect").click()
-                if (emailTag == "1051") return
-                break
-            }
-            else {
-                if(document.getElementById("1051")){
-                    document.getElementById("1051").click()
-                    document.getElementById("btnSelect").click()
-                    return
-                }
-                else document.getElementsByClassName("af-pg-button")[2].click()
-                
-            }
-
-            await new Promise(r => setTimeout(r, 10))
-        }
-
-        while (!document.getElementById("ToSubject").value.includes("Service Booking")) {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for load")
-        }
-
-        await new Promise(r => setTimeout(r, 500));
-        if(document.getElementById("TrackEmailYesNo").checked)document.getElementById("TrackEmailYesNo").click()
-        if(document.getElementById("RequestReadReceipt").checked)document.getElementById("RequestReadReceipt").click()
-        if(!document.getElementById("allowReplyImports").checked)document.getElementById("allowReplyImports").click()
-        if(document.getElementById("trackDeliveryStatus").checked)document.getElementById("trackDeliveryStatus").click()
-        await new Promise(r => setTimeout(r, 10));
-        console.log("done2")
-        while (document.getElementsByClassName("afToast__text")[0].innerHTML!='Email successfully sent to recipient') {
-            await new Promise(r => setTimeout(r, 10));
-            console.log("waiting for send")
-        }
-        //document.getElementsByClassName("ui-button-text")[2].click()
-        /*chrome.storage.sync.get("createTag", async ({ createTag }) => {
-            console.log(createTag)
-            if (createTag > 0) {
-                var newtag = createTag - 1
-                chrome.storage.sync.set({ createTag: newtag });
-                window.close()
-            }
-            else {
-                window.location = "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK"
-            }
-        })*/
-    
-    
-    }
-    await new Promise(r => setTimeout(r, 1000));
-    document.getElementsByClassName("afBtn afBtn--small afBtn__fill af-primary btnRefreshNotes headerItemSpacing")[0].click()
-}
-
-
-
 
 //approve invoices 
 invoiceBtn.addEventListener("click", async () => {
@@ -1340,7 +887,8 @@ massArchiveResetBtn.addEventListener("click", async () => {
 */
 
 //legacy - mass sms sender
-/*smsBtn1.addEventListener("click", async () => {
+/*
+smsBtn1.addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     window.close()
@@ -1440,7 +988,7 @@ async function sendTexts() {
     for (let i = 0; i < jobNumbers.length; i++) {
         phoneEntry.value = phoneNumbers[i]
         //textEntry.value = "To " + names[i]+"\n"+branch+" JN "+jobNumbers[i]+ ". Pls call "+branchNumber+" to CONFIRM or CANCEL the time of your booking for "+when+". Do not reply via sms, thanks."
-        textEntry.value = "To " + names[i] + ",\nThis is your reminder that you have a " + branch + " technician attending " + when + ". \nPls call " + branchNumber + " with ref: " + jobNumbers[i] + " to cancel if the service is no longer required. \nDo not reply via sms, thanks."
+        textEntry.value = "Hi " + names[i] + ",\nYour job  with SEQ Appliance Repair needs to be rescheduled.\nPlease call 07 3096 0580 with ref: " + jobNumbers[i] + "for more information and to change this booking. to cancel if the service is no longer required. \nDo not reply via sms, thanks."
         sendBtn.click()
         while (!document.getElementsByClassName("btnAnchor btnOverlayOk ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")[0]) {
             await new Promise(r => setTimeout(r, 10));

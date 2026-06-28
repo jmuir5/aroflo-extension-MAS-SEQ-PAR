@@ -1,4 +1,7 @@
-var earlyStarters = ["David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert", "Gee Cruz", "Matt Gillard", "Sandy Adhikari", "Benji Le Her", "John Sleap"]
+var earlyStarters = [
+    "David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert", "Gee Cruz", "Matt Gillard", 
+    "Sandy Adhikari", "Benji Le Her", "John Sleap", "Dimitar Milosevski", "Tony Maybanks", "Andrew Burton"
+]
 
 
 //code for adding am/pm/any buttons
@@ -29,9 +32,6 @@ window.addEventListener('load', async() => {
     pmButton.classList.add("pmButton")
     anyButton.classList.add("anyButton")
     var setTimeFunc = async function(time, node){
-        var branch = 0
-
-        var branchTemplate = ""
         var start = ""
         var end = ""
         switch(time){
@@ -48,7 +48,6 @@ window.addEventListener('load', async() => {
                 end = "5:00pm"
                 break
         }
-        var status = "confirmed"
         var techlist = []
         
         
@@ -63,36 +62,31 @@ window.addEventListener('load', async() => {
             }
         }
         //set time for all technicians
-        if(document.getElementsByClassName("schedResources afDataTable afDataTable--compact"))
-        if(document.getElementById("_Cust299")) { //mas
-            branch = document.getElementById("_Cust299")
-            branchTemplate = "1342"
-        }
-        else if(document.getElementById("_Cust300")){ //premium
-            branch = document.getElementById("_Cust300")
-            branchTemplate = "1343"
-        } 
-        else if(document.getElementById("_Cust301")){ //seq
-            branch = document.getElementById("_Cust301")
-            branchTemplate = "1344"
-        } 
-        else if(document.getElementById("_Cust???")){ //bunnies todo
-            branch = document.getElementById("_Cust???")
-            branchTemplate = "1345"
-        }
         for(let i = 0; i < selectedTechs.length; i++){
             if(selectedTechs[i].getAttribute("deleted")==1)continue
-            techlist+= selectedTechs[i].children[1].children[0].innerText
+            techlist.push(selectedTechs[i].children[1].children[0].innerText)
             selectedTechs[i].children[2].children[0].value=start
             console.log("contains gee :"+earlyStarters.some(item=>techlist.includes(item)))//includes("Gee Cruz"))
             console.log("time :"+time)
             if(earlyStarters.some(item=>techlist.includes(item)) && time == "AM") selectedTechs[i].children[2].children[0].value="7:30am"
             
             selectedTechs[i].children[3].children[0].value=end
-            if(branch){
-                if(branch.value == "Online Booking") status = "unconfirmed"
+            
+        }
+        if(techlist.length>1){
+            for(let i = 0; i < techlist.length; i++){
+                //if(selectedTechs[i].getAttribute("deleted")==1)continue
+                let techListCopy = techlist.slice()
+                let thistech = selectedTechs[i].children[1].children[0].innerText
+                const index = techListCopy.indexOf(thistech);
+                if (index > -1) { // only splice array when item is found
+                    techListCopy.splice(index, 1); // 2nd parameter means remove one item only
+                }
+                let schedNote = "with " + (techListCopy.join(", "))
+                if(!selectedTechs[i].children[4].children[0].value.includes(schedNote)){
+                    selectedTechs[i].children[4].children[0].value = schedNote
+                }
             }
-            selectedTechs[i].children[4].children[0].value=status
         }
         //assign tech
         if(document.getElementById("btnAssignResources")){
@@ -118,17 +112,11 @@ window.addEventListener('load', async() => {
         }
 
     }
-
-    //amButton.addEventListener("click", function(){setTimeFunc("AM", )})
-    //pmButton.addEventListener("click", function(){setTimeFunc("PM", 0)})
-    //anyButton.addEventListener("click", function(){setTimeFunc("ANY", 0)})
     anyButton.disabled = true
 
     var indexCounter = 0
     while(true){
         //code for adding am/pm/any buttons
-        //if (document.getElementsByClassName("imsMultiSchedule__settings afPageBox--contrast")[0]&&!document.getElementById("amButton")) {
-
         if (document.getElementsByClassName("imsMultiSchedule__settings afPageBox--contrast").length>0) {
             for(let i = 0; i<document.getElementsByClassName("imsMultiSchedule__settings afPageBox--contrast").length; i++){
                 let schedBlock = document.getElementsByClassName("imsMultiSchedule__settings afPageBox--contrast")[i]
@@ -144,16 +132,6 @@ window.addEventListener('load', async() => {
                     
                 }
             }
-
-            
-
-            //const schedBlock = document.getElementsByClassName("imsMultiSchedule__settings afPageBox--contrast")[0]
-
-           
-            
-
-            
-
         }
         if(document.getElementById("givennames")&&document.getElementById("surname")&&capitalFlag==0){
             console.log("success names")

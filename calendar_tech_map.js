@@ -10,6 +10,7 @@ window.addEventListener("load", async()=>{
         const waMap = "https://www.google.com/maps/d/viewer?mid=1fCOzq_4GQHeH-FRPfXLC7OjmWVJw81E&usp=sharing"
         const qldMap = "https://www.google.com/maps/d/viewer?mid=1CHaIKj6r5rSRxXMRKHoGs2ks4bNDVMQ&usp=sharing"
         const alphaMap = "https://www.google.com/maps/d/viewer?mid=1MGPL27yi4PpaQXo5IdsVB1BNpq5BcAE&usp=sharing"
+        const capitalMap = "https://www.google.com/maps/d/viewer?mid=1fuDhIrlakZKGi4WCqEReVAtnT8rX1uk&usp=sharing"
 
         const showMapButton = document.createElement('BUTTON')
 
@@ -31,6 +32,10 @@ window.addEventListener("load", async()=>{
                     break
                 case branch.includes("Alpha Appliance Repair"):
                     link = alphaMap
+                    break
+                case branch.includes("Capital Appliance Service"):
+                    link = capitalMap
+                    break
             }
             window.open(link, '_blank')
 

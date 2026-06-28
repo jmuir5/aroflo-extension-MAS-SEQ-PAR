@@ -636,3 +636,116 @@ moved gee i guess?
 
 1.1007
 - added kobe to calendar, added several qld postcodes to list
+
+1.1008
+- updated kobe's areas
+- removed tech search from popup
+
+1.1009
+- removed "confirmed" text from the am/pm time selectors
+
+1.1010
+- fixed bug in job import that came from removing "confirmed" text from the am/pm time selectors
+
+1.1011 
+- added stacked appliance check
+- did some other stuff i think, i forgot
+
+1.1012
+- removed "x tech's area changes frequently" popup
+- removed account job restricted technician popups
+
+1.1013
+- tech location search trims input
+- job importer changes description for stacked appliances
+
+1.1014
+- added alex to calendar
+
+1.1015
+- updated sandies area
+- improved dryer detection messaging in importer
+- added business unit detection to prevent popups for bunnies
+
+1.1016 
+- added am/pm job counts for bunneys techs
+- updated sandies area to add marylands
+
+1.1017
+- fixed problem with booking reminder text message function. 
+
+1.1018
+- removed assign button 
+- added Dimitar Milosevski to calendar
+- swapped luiz + eds areas
+
+1.1019
+- added box hill to sandys area
+- fixed bug in text messages
+- unified instances of contact client, created a functions folder
+
+1.1020
+- updated dimitar to 5/3 jobs, added to early starters list
+
+1.1021
+- updated am/pm buttons to add "with x" when multiple techs selected
+
+1.1022
+- removed "unconfirmed" text from a nieche edge case when impoirting jobs
+- removed eta quick note button
+- added eta quick action button ( texts technician notifying them that the cust wants an eta)
+- fixed error in phil's appliance check script
+- added "open in map" button to calender search toolbar
+
+1.1023
+- removed carlos's wednesday restriction
+- added dimitar's qld areas tot he tech table
+
+1.1024
+- added tony in act to calendar
+
+1.1025
+- added mark manson in qld to calendar
+
+1.1026
+- added added last names for all technicians in the system and appropriate support for tech tables, searching and autoallocation. 
+
+1.1027
+- added support for capital appliance service map
+- fixed bug in technician auto assign
+
+1.1028
+- separated out send text and send email as their own functions
+- updated contact client flow to support new text message flow from aroflo
+
+1.1029
+- fixed bug in booking email + text flow
+- updated cancel flow to use send text + send email functions
+- updated parts received flow to use send text + send email functions
+- updated part prepayment flow to use send email function
+
+1.1030 
+- attempted to fix bug in consistantly sending emails.
+- fixed email bounced button
+
+1.1030
+- removed mosman and cremorne from luiz area
+
+1.1031
+- added tony maybanks to early starters list
+- fixed bug in text sending function
+
+1.1032
+- added dishdrawer blocking for techs
+- refined phil's fridge check on lg dishwashers
+- made text message function more reliable, though slightly slower. *2
+
+1.1033
+- updated mark + dimitar areas in qld
+- updated tony's area in act
+
+1.1034
+- added support for separate warranty text message in contact client message
+
+1.1035
+- added andrew to early starters list

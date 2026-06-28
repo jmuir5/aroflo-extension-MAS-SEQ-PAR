@@ -84,6 +84,21 @@ window.addEventListener("load", async()=>{
             }
         }
     }
+    let showOnMap = async function (target) {
+        let slug = "https://www.google.com/maps/place/"
+        let location = target.replace(" ", "+");
+        let state = "" 
+        for (const postcode in suburbTable) {
+                if (suburbTable[postcode].includes(target.toUpperCase())) {
+                    pc = parseInt(postcode, 10)
+                    if (pc>=2000 && pc <=2999) state = "+NSW"
+                    else if (pc>=4000 && pc <=4999) state = "+QLD"
+                    else if (pc>=6000 && pc <=6999) state = "+WA"
+                    break;
+                }
+            }
+        window.open(slug + location + state, '_blank').focus();
+    }
 
     //end functiopn declerations
 
@@ -101,6 +116,7 @@ window.addEventListener("load", async()=>{
         let scrollRightBtn = document.createElement('BUTTON')
         let searchBtn = document.createElement('BUTTON')
         let clearBtn = document.createElement('BUTTON')
+        let showOnMapBtn = document.createElement('BUTTON')
 
         let searchBox = document.createElement('INPUT')
 
@@ -117,14 +133,17 @@ window.addEventListener("load", async()=>{
         searchBtn.id = 'searchBtn'
         searchBtn.classList = "afBtn afBtn__fill af-primary afBtn--small qbNoClose handCursor highlight"
         searchBtn.title = "Search for Location"
-
         searchBtn.appendChild(document.createTextNode("🔍"))
 
         clearBtn.id = 'clearBtn'
         clearBtn.classList = "afBtn afBtn__fill af-primary afBtn--small qbNoClose handCursor highlight"
         clearBtn.title = "Clear Highlighting"
-
         clearBtn.appendChild(document.createTextNode("🧹"))
+
+        showOnMapBtn.id = 'showOnMapBtn'
+        showOnMapBtn.classList = "afBtn afBtn__fill af-primary afBtn--small qbNoClose handCursor highlight"
+        showOnMapBtn.title = "Search in google maps"
+        showOnMapBtn.appendChild(document.createTextNode("🗺️"))
 
         searchBox.id = 'searchBox'
         searchBox.type = "text"
@@ -139,6 +158,7 @@ window.addEventListener("load", async()=>{
         searchToolbarBox.appendChild(scrollLeftBtn)
         searchToolbarBox.appendChild(searchBox)
         searchToolbarBox.appendChild(searchBtn)
+        searchToolbarBox.appendChild(showOnMapBtn)
         searchToolbarBox.appendChild(clearBtn)
         searchToolbarBox.appendChild(scrollRightBtn)
 
@@ -152,7 +172,8 @@ window.addEventListener("load", async()=>{
         scrollLeftBtn.addEventListener("click", function(){scrollLeftFunct()})
         scrollRightBtn.addEventListener("click", function(){scrollRightFunct()})
         clearBtn.addEventListener("click", function(){clearHighlighting()})
-        searchBtn.addEventListener("click", function(){searchLocation(searchBox.value)})
+        searchBtn.addEventListener("click", function(){searchLocation(searchBox.value.trim())})
+        showOnMapBtn.addEventListener("click", function(){showOnMap(searchBox.value.trim())})
         searchBox.addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault()
