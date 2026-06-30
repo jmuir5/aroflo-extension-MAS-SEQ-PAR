@@ -749,3 +749,6 @@ moved gee i guess?
 
 1.1035
 - added andrew to early starters list
+
+1.1036
+- added calendar to technician autoselect

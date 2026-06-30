@@ -32,7 +32,8 @@
     },
     {
       "js": ["calendar.js"],
-      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"]
+      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"],
+      "all_frames": true
     },
     {
       "js": ["calendar2.js"],
@@ -52,11 +53,13 @@
     },
     {
       "js": ["calendar_extra_tech_buttons.js"],
-      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"]
+      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"],
+      "all_frames": true
     },
     {
       "js": ["calendar_search_toolbar.js"],
-      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"]
+      "matches": ["https://office.aroflo.com/ims/Site/Calendar/*"],
+      "all_frames": true
     },
     {
       "js": ["freezenotes.js"],

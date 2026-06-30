@@ -15,7 +15,34 @@ window.addEventListener("load", async()=>{
     var tonyFilteredAppliances = ["fridges", "fridge", "freezer"]
     var tonyRegex = new RegExp( tonyFilteredAppliances.join( "|" ), "i");
     var otherStateTechs =  ["Phil", "Ozgur", "Matt"]
-        
+
+    var showCalendarFunc = async function(){
+        //calendar
+                document.getElementById("btnAssignResources").click()
+                var calendarBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
+                calendarBox.getElementsByClassName("ui-dialog-title")[0].innerText = "Calendar"
+                calendarBox.style.height = '660px'
+                calendarBox.style.width = '620px'
+                var calendarRoot = calendarBox.getElementsByClassName("afContainerImstree")[0].parentElement
+                calendarBox.getElementsByClassName("afContainerImstree")[0].remove()
+                var ifrm = document.createElement("iframe");
+                ifrm.id = "calendarIframe"
+                ifrm.setAttribute("src", "https://office.aroflo.com/ims/Site/Calendar/index.cfm?viewfullcalendar=1&tid=IMS.CAL");
+                ifrm.style.width = "600px";
+                ifrm.style.height = "600px";
+                document.getElementsByClassName("imsMultiSchedule__schedule")[0]
+                var schedbox = document.getElementsByClassName("imsMultiSchedule__schedule")[0]
+                var rect = schedbox.getBoundingClientRect()
+                var top = rect.top
+                console.log(schedbox)
+                console.log(rect)
+                console.log(top)
+                calendarBox.style.top = Math.floor(document.getElementsByClassName("imsMultiSchedule__schedule")[0].getBoundingClientRect().top)+window.scrollY + "px"
+                calendarBox.style.left = Math.floor(document.getElementsByClassName("imsMultiSchedule__schedule")[0].getBoundingClientRect().left)-parseInt(calendarBox.style.width)+"px"
+
+                calendarRoot.appendChild(ifrm);
+                //calendarBox.style.top = String(parseInt(initY)+660)+'px'
+    }
     
     var showMapFunc = async function(){
         document.getElementsByClassName("btnAddUsers")[0].click()
@@ -111,6 +138,7 @@ window.addEventListener("load", async()=>{
                 loc.appendChild(mapViewBtnClone)
                 mapViewBtnClone.click()
                 var mapBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
+                console.log(mapBox)
                 mapBox.style.height = '660px'
                 mapBox.style.width = '620px'
                 mapBox.children[0].children[0].innerText = 'Map'
@@ -119,12 +147,36 @@ window.addEventListener("load", async()=>{
                 mapArea.style.height = '600px'
                 mapArea.style.width = '600px'
 
+                
+
                 var techTableBox = table[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
                 var initX = techTableBox.style.left
                 var initY = techTableBox.style.top
+
+                //calendar
+                document.getElementById("calendarPopButton").click()
+                var calendarBox = document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable")[document.getElementsByClassName("ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable").length-1]
+                var ifrm = document.getElementById("calendarIframe")
+                console.log(calendarBox)
+                //calendarBox.style.top = String(parseInt(initY)+660)+'px'
+                
+                
+                
+                
                 mapBox.style.top = techTableBox.style.top
-                techTableBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)/2))+'px'
-                mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)/2))+'px'
+                calendarBox.style.top = techTableBox.style.top
+                calendarBox.style.left = String(parseInt(initX)-(parseInt(techTableBox.style.width)))+'px'
+                mapBox.style.left = String(parseInt(initX)+(parseInt(techTableBox.style.width)))+'px'
+
+
+
+                while (!ifrm.contentDocument.getElementById("searchBox")) {
+                    await new Promise(r => setTimeout(r, 10));
+                    console.log("waiting for searchbox")
+                }
+                ifrm.contentDocument.getElementById("searchBox").value = postcode
+                ifrm.contentDocument.getElementById("searchBtn").click()
+
                 while(true){
                     try{
                         var mapButtons = mapBox.children[1].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[2]
@@ -238,7 +290,14 @@ window.addEventListener("load", async()=>{
     mapButton.disabled = "true"
     mapButton.addEventListener("click", function(){showMapFunc()})
 
+    var calendarPopButton = document.createElement('BUTTON')
+    var calendarText = document.createTextNode("Pop calendar")
+    calendarPopButton.appendChild(calendarText)
+    calendarPopButton.type="button"
+    calendarPopButton.id="calendarPopButton"
+    calendarPopButton.addEventListener("click", function(){showCalendarFunc()})
 
+    buttonBlock.prepend(calendarPopButton)
     buttonBlock.prepend(mapButton)
 
 
@@ -248,6 +307,21 @@ window.addEventListener("load", async()=>{
             onClickSet = true
             mapButton.disabled = false
             document.getElementById("btnOptSaveOrganisation").addEventListener("click", async () => {
+                postcode = document.getElementById("postcode").value
+                latitudeClone =document.getElementById("gpslat").cloneNode(true)
+                longitudeClone =document.getElementById("gpslong").cloneNode(true)
+                var buttons = document.getElementsByClassName("afBtn afBtn__fill afBtn--small af-primary")
+                for(i=0;i<buttons.length;i++){
+                    if(buttons[i].innerHTML=='View on Map'){
+                        mapViewBtnClone = buttons[i].cloneNode(true)
+                    }
+                }
+            })
+        }
+        if(document.getElementById("SiteContact")&&!onClickSet){
+            onClickSet = true
+            mapButton.disabled = false
+            document.getElementById("btnOptSaveLocation").addEventListener("click", async () => {
                 postcode = document.getElementById("postcode").value
                 latitudeClone =document.getElementById("gpslat").cloneNode(true)
                 longitudeClone =document.getElementById("gpslong").cloneNode(true)

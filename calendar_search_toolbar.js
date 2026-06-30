@@ -16,9 +16,18 @@ window.addEventListener("load", async()=>{
             console.log("waiting for calendar selector")
             await new Promise(r => setTimeout(r, 10));
         }
+
+        const viewportWidth = window.innerWidth
+        const scrollPos = window.scrollX
+        var scrollToPos = scrollPos - viewportWidth
+
+        if (scrollToPos<0){
+            scrollToPos = 0
+        }
+
         var innerBox = document.getElementsByClassName("fc-view fc-view-basicDayByResource fc-grid")[0]
-        innerBox.scrollLeft = 0
-        window.scrollTo(0, 0)
+        innerBox.scrollLeft = scrollToPos
+        window.scrollTo(scrollToPos, 0)
     }
     
     let scrollRightFunct= async function() {
@@ -28,8 +37,16 @@ window.addEventListener("load", async()=>{
         }
         var innerBox = document.getElementsByClassName("fc-view fc-view-basicDayByResource fc-grid")[0]
         var calbox = document.getElementById("calBox")
+        const viewportWidth = window.innerWidth
+        const scrollPos = window.scrollX
+        var scrollToPos = scrollPos + viewportWidth
+
+        if (scrollToPos>calbox.scrollWidth){
+            scrollToPos = calbox.scrollWidth
+        }
+        
         innerBox.scrollLeft = innerBox.scrollWidth
-        window.scrollTo(calbox.scrollWidth, 0)
+        window.scrollTo(scrollToPos, 0)
     }
 
     let scrollToTarget= async function(target) {
