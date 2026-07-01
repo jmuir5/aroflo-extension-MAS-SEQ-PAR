@@ -89,7 +89,7 @@ window.addEventListener('load', async() => {
             }
         }
         //assign tech
-        if(document.getElementById("btnAssignResources")){
+        /*if(document.getElementById("btnAssignResources")){
             document.getElementById("btnAssignResources").click()
             while(document.getElementsByClassName("ui-jqgrid-btable")[0].children[0].children.length<=1){
                 await new Promise(r => setTimeout(r, 10));
@@ -109,7 +109,7 @@ window.addEventListener('load', async() => {
                 }
             }
             document.getElementById("btnSelect").click()
-        }
+        }*/
 
     }
     anyButton.disabled = true

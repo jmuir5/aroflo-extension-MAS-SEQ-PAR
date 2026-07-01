@@ -1,7 +1,7 @@
 {
   "name": "Enhancement Suite - MAS/PAR/SEQ",
   "description": "speed up importing emails, send emails from client page, and other enhancements",
-  "version": "1.1035",
+  "version": "1.1036",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -121,7 +121,7 @@
     {
       "js": ["create_job_techMap.js"],
       "matches": [
-        "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&tid=IMS.CRT.TSK"
+        "https://office.aroflo.com/ims/Site/Service/workrequest/index.cfm?new=1&*"
       ]
     }
   ]
