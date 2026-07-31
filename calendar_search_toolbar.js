@@ -102,7 +102,7 @@ window.addEventListener("load", async()=>{
         }
     }
     let showOnMap = async function (target) {
-        let slug = "https://www.google.com/maps/place/"
+        let slug = "https://www.google.com/maps/search/"
         let location = target.replace(" ", "+");
         let state = "" 
         for (const postcode in suburbTable) {

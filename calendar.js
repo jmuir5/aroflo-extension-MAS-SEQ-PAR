@@ -46,7 +46,7 @@ window.addEventListener("load", async()=>{
         //console.log(frame)
         var dict = [
             //mas - nsw
-            Peter, ["Leo Oh", 3, 3, -1], ["Sandy Adhikari", 5, 3, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 3, -1],
+            Peter, ["Leo Oh", 4, 2, -1], ["Sandy Adhikari", 5, 3, -1], ["Eduardo Chiovato", 5, 3, -1], ["John Sleap", 4, 0, -1], ["Benji Le Her", 5, 3, -1],
             ["Otavio Palharini", 4, 4, -1], ["Gee Cruz", 5, 3, -1], ["Vini Moura", 4, 4, -1],["Nitesh Dhital", 0, 0, -1],["Arpan Bhandari", 4, 4, -1],Binod,
             Carlos, ["Adrian Miszkurka", 3, 3, -1], ["Alex Yazi", 5, 3, -1],
             //premium - wa
@@ -61,7 +61,7 @@ window.addEventListener("load", async()=>{
             ["Rory Bebington", 4, 4, -1],["Ashley Dyson", 4, 4, -1],["Ronald Jakacki", 4, 4, -1],["Timothy Jesus", 4, 4, -1],["Tony King", 4, 4, -1],
             ["Daniel Nigro", 4, 4, -1],["Felipe Collor", 4, 4, -1],["Luan Viana", 4, 4, -1],["Santosh Paudel", 4, 4, -1],
             //Capital - ACT
-            ["Tony Maybanks", 5, 3, -1],
+            ["Tony Maybanks", 6, 2, -1],
             //office staff - NSW
             ["Adam Rogers", 0, 0, -1],["Chris Muir", 0, 0, -1],["Elke Paynter", 0, 0, -1],["Jane Bernaldo", 0, 0, -1],["Jessica Schauwecker", 0, 0, -1],
             ["Kim Choo", 0, 0, -1],["Mark Jamieson", 0, 0, -1],["Ryan Irlam", 0, 0, -1],["Veena Etcell", 0, 0, -1],

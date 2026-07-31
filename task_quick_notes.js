@@ -396,7 +396,7 @@ window.addEventListener('load', async() => {
                 
                     const checkboxes = document.getElementsByClassName("afDataTable__row--hover trCompliance af-warn lTR")
                     for(let i=0;i<checkboxes.length;i++){
-                        checkboxes[i].children[9].children[0].children[0].click()
+                        checkboxes[i].children[8].children[0].children[0].click()
                     }
                     document.getElementById("selectedTaskStatus").value=3
                     
@@ -434,7 +434,7 @@ window.addEventListener('load', async() => {
                 
                     const checkboxes = document.getElementsByClassName("afDataTable__row--hover trCompliance af-warn lTR")
                     for(let i=0;i<checkboxes.length;i++){
-                        checkboxes[i].children[9].children[0].children[0].click()
+                        checkboxes[i].children[8].children[0].children[0].click()
                     }
                     document.getElementById("selectedTaskStatus").value=3
                     
@@ -547,7 +547,7 @@ window.addEventListener('load', async() => {
         
             const checkboxes = document.getElementsByClassName("afDataTable__row--hover trCompliance af-warn lTR")
             for(let i=0;i<checkboxes.length;i++){
-                checkboxes[i].children[9].children[0].children[0].click()
+                checkboxes[i].children[8].children[0].children[0].click()
             }
             document.getElementById("selectedTaskStatus").value=3
             document.getElementById("update_btn").click()

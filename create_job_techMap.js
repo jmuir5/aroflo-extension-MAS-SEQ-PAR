@@ -96,7 +96,11 @@ window.addEventListener("load", async()=>{
         }
         calendarBox.getElementsByClassName("ui-dialog-title")[0].innerText = "Calendar"
 
-        //ifrm.contentDocument.getElementsByClassName("afHeader--js afHeader aroflo-line ")[0].textContent = '';
+        var topBarElements = ifrm.contentDocument.getElementsByClassName("afHeader--js afHeader aroflo-line ")[0].children
+        for (let node of topBarElements){
+            node.style.display = 'none';
+        }
+
         ifrm.contentDocument.getElementsByClassName("afBtnGroup")[4].style.display = 'none';
         ifrm.contentDocument.getElementsByClassName("afBtnGroup")[3].style.display = 'none';
         ifrm.contentDocument.getElementsByClassName("afBtnGroup")[2].style.display = 'none';
@@ -126,6 +130,11 @@ window.addEventListener("load", async()=>{
         wrapper.appendChild(target);                    
         wrapper.appendChild(overlay);
 
+        var headerBars = ifrm.contentDocument.getElementsByClassName("fc-head-col-resource fc-last")
+        for (let bar of headerBars){
+            bar.style.position = "relative"
+            bar.style.zIndex = "11"
+        }
 
         if(postcode==""){
             getPostcodeFromAddress()
@@ -205,6 +214,7 @@ window.addEventListener("load", async()=>{
             //getPostcodeFromAddress()
         }
         document.getElementsByClassName("btnAddUsers")[0].click()
+        document.getElementById("calendarPopButton").click()
         var listOfTechs = []
         for (const tech in techLocations) {
             if (techLocations[tech].includes(postcode)) listOfTechs.push(tech)
@@ -297,7 +307,6 @@ window.addEventListener("load", async()=>{
             if(!mapSkip){
                 mapFunc()
             }
-            document.getElementById("calendarPopButton").click()
             var calendarBox = document.createElement('DIV')
             calendarBox.style.width = "0px"
             var mapBox = document.createElement('DIV')

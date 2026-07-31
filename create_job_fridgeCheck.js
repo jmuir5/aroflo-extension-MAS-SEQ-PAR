@@ -537,8 +537,7 @@ window.addEventListener("load", async()=>{
                     //console.log(deleted)
                     if(
                         !deleted==1 && (
-                            tech.childNodes[1].innerText.includes("Gee") ||
-                            tech.childNodes[1].innerText.includes("Sam") 
+                            true 
                         )
                     ){
                         console.log("bad tech detected")

@@ -752,3 +752,20 @@ moved gee i guess?
 
 1.1036
 - added calendar to technician autoselect
+
+1.1037
+- updated leos jobs to 4/2
+
+1.1038
+- techtables for leo and eduardo updated
+
+1.1039
+- updated tony (act) jobs to 6/2
+
+1.1040
+- fixed bug in cancel job function
+
+1.1041
+- fixed corresponding bug in archive job function
+- removed otavio and luiz's areas due to them being flippy floppy
+- removed dimitar's area due to injury
