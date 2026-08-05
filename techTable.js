@@ -24,8 +24,23 @@ const techLocations = {
     "2261",
     "2263",
   ],
-  /*"Luiz Santana": [
-    "2084",
+  "Luiz Santana": [
+    // north shore
+    "2060",
+    "2061",
+    "2062",
+    "2063",
+    "2064",
+    "2065",
+    "2066",
+    "2067",
+    "2068",
+    "2069",
+    "2088", 
+    "2089",
+    "2090",
+    //northern beaches
+    /*"2084",
     "2085",
     "2086",
     "2087",
@@ -44,8 +59,8 @@ const techLocations = {
     "2105",
     "2106",
     "2107",
-    "2108",
-  ],*/
+    "2108",*/
+  ],
   "Sandy Adhikari": [
     "2073",
     "2074",
@@ -457,8 +472,9 @@ const techLocations = {
     "2107",
     "2108",
   ],
-  "Eduardo Chiovato": [ //normal area - north shore
-    "2060",
+  "Eduardo Chiovato": [ //normal area - north shore 
+    // on leave
+    /*"2060",
     "2061",
     "2062",
     "2063",
@@ -480,7 +496,7 @@ const techLocations = {
     "2088", 
     "2089",
     "2090",
-    "2120"
+    "2120"*/
   ],
   "Sam Hornsey":[
     "2000",

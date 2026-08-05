@@ -769,3 +769,7 @@ moved gee i guess?
 - fixed corresponding bug in archive job function
 - removed otavio and luiz's areas due to them being flippy floppy
 - removed dimitar's area due to injury
+
+1.1042
+- updated calendar map popup code to support north and south maps at the same time
+- updated luiz areas for the north shore
