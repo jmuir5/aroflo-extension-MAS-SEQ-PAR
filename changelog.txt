@@ -773,3 +773,35 @@ moved gee i guess?
 1.1042
 - updated calendar map popup code to support north and south maps at the same time
 - updated luiz areas for the north shore
+
+1.1043
+- readded eduardo
+- added aaron pena to calendar
+
+1.1044
+- calendar ug fix- updated aarons jobs
+
+1.1045 
+- calendar bug fix
+
+1.1046
+- calendar bug fix 2
+- updated alex to 7:30 start
+
+1.1047
+- calendar bug fix 3
+
+1.1048
+- added William
+
+1.1049
+- added william's areas, updated tech table and suburb tables
+
+1.1050
+- fixed importer in response to aroflo change
+
+1.1051
+- fixed importer better
+
+1.1052
+- fixed importer better again

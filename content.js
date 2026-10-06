@@ -1,6 +1,6 @@
 var earlyStarters = [
     "David Miles", "Dylan Miles", "Corey Roberts", "Ron Richards", "Luiz Santana", "Douglas Herbert", "Gee Cruz", "Matt Gillard", 
-    "Sandy Adhikari", "Benji Le Her", "John Sleap", "Dimitar Milosevski", "Tony Maybanks", "Andrew Burton"
+    "Sandy Adhikari", "Benji Le Her", "John Sleap", "Dimitar Milosevski", "Tony Maybanks", "Andrew Burton", "Alex Yazi", "William Watt",
 ]
 
 

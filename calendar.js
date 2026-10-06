@@ -22,7 +22,7 @@ window.addEventListener("load", async()=>{
             //console.log("nothing to do")
         }
 
-        var day =document.getElementsByTagName("h2")[4].childNodes[0].textContent.split(",")[0]//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973")[0].parentElement.childNodes[0].textContent.split(",")[0]        
+        var day =document.getElementsByTagName("h2")[0].childNodes[0].textContent.split(",")[0]//document.getElementsByClassName("walkme-icon-root-Launcher-39973 walkme-not-embed walkme-launcher-container walkme-launcher-container-id-39973")[0].parentElement.childNodes[0].textContent.split(",")[0]        
         var Peter = ["Peter Traish", 4, 4, -1]
         var Binod = ["Binod Timilsina", 0,0,-1]
         var Carlos = ["Carlos Moreno", 5, 3, -1]
@@ -52,9 +52,9 @@ window.addEventListener("load", async()=>{
             //premium - wa
             ["Ozgur Aytemur", 0, 0, -1], ["Phill Poustie", 4, 4, -1], 
             //seq - qld
-            ["Andrew Burton", 5, 3, -1],["Mark Mason",5, 3, -1],["Dimitar Milosevski", 6, 2, -1],["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 7, 1, -1],
+            ["Andrew Burton", 5, 3, -1],["William Watt",5, 3, -1],["Mark Mason",5, 3, -1],["Dimitar Milosevski", 6, 2, -1],["Dart Carvalho", 0, 0, -1], ["Matt Gillard", 0, 0, -1],
             //alpha - nsw
-            ["David Miles", 5, 3, -1], ["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
+            ["David Miles", 5, 3, -1], ["Aaron Pena", 5, 3, -1],["Dylan Miles", 5, 3, -1], ["Tony Scalone", 4, 4, -1], ["Ron Richards", 5, 3, -1], ["Pavel Guba", 5, 3, -1], 
             ["Luiz Santana", 5, 3, -1], ["Mark Reardon", 4, 4, -1], ["Sam Hornsey", 5, 3, -1], ["Douglas Herbert", 5, 3, -1], 
             ["Shane Van Der Hoek", 0, 0, -1], ["Darryl Diamond", 0, 0, -1],["James Campbell", 0, 0, -1], ["Corey Roberts", 0, 0, -1],
             //bunnies - nsw
@@ -334,7 +334,7 @@ window.addEventListener("load", async()=>{
                 }
             }
         }
-        var dateText = document.getElementsByTagName("h2")[4].childNodes[0].textContent
+        var dateText = document.getElementsByTagName("h2")[0].childNodes[0].textContent
         var dateTextReconstructed = dateText.split(",")[0]+","+dateText.split(",")[1]+","+dateText.split(",")[2]
         if(baseDayString!=dateTextReconstructed){
             //currentDay = day
@@ -343,7 +343,7 @@ window.addEventListener("load", async()=>{
         } 
         globalTotalJobs = uniqueJobs.length
         if (currentTotal!= globalTotalJobs){
-            document.getElementsByTagName("h2")[4].childNodes[0].textContent =baseDayString+", Total: "+globalTotalJobs.toString() //+"/"+globalMaxJobs.toString()
+            document.getElementsByTagName("h2")[0].childNodes[0].textContent =baseDayString+", Total: "+globalTotalJobs.toString() //+"/"+globalMaxJobs.toString()
             currentTotal = globalTotalJobs
         }
         
